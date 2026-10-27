@@ -1,0 +1,16 @@
+{
+  "name": "nyc-history-explorer",
+  "version": "0.1.0",
+  "description": "Discover the documented history of New York City buildings, one address at a time.",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test test/unit.test.mjs",
+    "test:live": "node --test test/live.test.mjs",
+    "snapshot": "node scripts/snapshot.mjs",
+    "pilot": "node scripts/pilot-check.mjs"
+  },
+  "license": "MIT"
+}

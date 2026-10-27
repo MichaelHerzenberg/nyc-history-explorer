@@ -1,0 +1,2056 @@
+{
+ "schema_version": 1,
+ "generated_at": "2026-10-27T03:14:17.867Z",
+ "title": "Empire State Building",
+ "address": "350 Fifth Avenue",
+ "identity": {
+  "bin": "1015862",
+  "bbl": "1008350041",
+  "pluto_bbl": "1008350041",
+  "borough": "1",
+  "block": "835",
+  "lot": "41",
+  "lat": 40.7485585551575,
+  "lng": -73.98597876025572,
+  "condo": false,
+  "wikidata": "https://www.wikidata.org/entity/Q9188",
+  "wikipedia": "https://en.wikipedia.org/wiki/Empire_State_Building"
+ },
+ "geometry": {
+  "type": "MultiPolygon",
+  "coordinates": [
+   [
+    [
+     [
+      -73.98608527878,
+      40.748921498021
+     ],
+     [
+      -73.98482339139,
+      40.74839078918
+     ],
+     [
+      -73.984909832216,
+      40.748271913883
+     ],
+     [
+      -73.985031089296,
+      40.74810515772
+     ],
+     [
+      -73.985157291953,
+      40.747931600537
+     ],
+     [
+      -73.98648794223,
+      40.748491226399
+     ],
+     [
+      -73.986469871701,
+      40.748516078254
+     ],
+     [
+      -73.986682947706,
+      40.748605687253
+     ],
+     [
+      -73.98655560005,
+      40.748780826345
+     ],
+     [
+      -73.98635802669,
+      40.748697735913
+     ],
+     [
+      -73.986345130771,
+      40.748715469858
+     ],
+     [
+      -73.98632962892,
+      40.748708950154
+     ],
+     [
+      -73.986312563843,
+      40.748732419825
+     ],
+     [
+      -73.986154048034,
+      40.748950418863
+     ],
+     [
+      -73.98608527878,
+      40.748921498021
+     ]
+    ]
+   ]
+  ]
+ },
+ "match_log": [
+  {
+   "step": "BIN → BBL",
+   "source": "footprints",
+   "detail": "Footprint lists tax lot 1008350041"
+  }
+ ],
+ "addresses": [
+  {
+   "address": "350 Fifth Avenue",
+   "normalized": "350 5 AVENUE",
+   "sources": [
+    "lpc_buildings",
+    "dob_jobs",
+    "acris"
+   ]
+  },
+  {
+   "address": "338 Fifth Avenue",
+   "normalized": "338 5 AVENUE",
+   "sources": [
+    "pluto",
+    "lpc_designations",
+    "acris"
+   ]
+  },
+  {
+   "address": "336 Fifth Avenue",
+   "normalized": "336 5 AVENUE",
+   "sources": [
+    "acris"
+   ]
+  },
+  {
+   "address": "338-50 Fifth Avenue",
+   "normalized": "338-50 5 AVENUE",
+   "sources": [
+    "acris"
+   ]
+  },
+  {
+   "address": "338-350 Fifth Avenue",
+   "normalized": "338-350 5 AVENUE",
+   "sources": [
+    "acris"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "key": "built",
+   "label": "Built",
+   "value": "1929 - 1931",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27",
+     "note": "1929 - 1931"
+    },
+    {
+     "source": "footprints",
+     "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?bin=1015862",
+     "note": "1931"
+    },
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
+     "note": "1931"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "opened May 1, 1931"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "inception May 8, 1931"
+    }
+   ]
+  },
+  {
+   "key": "architect",
+   "label": "Architect",
+   "value": "Shreve, Lamb & Harmon [William Lamb]",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "Shreve, Lamb & Harmon"
+    }
+   ]
+  },
+  {
+   "key": "developer",
+   "label": "Original owner / developer",
+   "value": "John J. Raskob (General Motors)",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    }
+   ]
+  },
+  {
+   "key": "style",
+   "label": "Style",
+   "value": "Art Deco, Modernist",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    }
+   ]
+  },
+  {
+   "key": "materials",
+   "label": "Materials",
+   "value": "Brick, Indiana Limestone, Granite, Cast Stone, Metal",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    }
+   ]
+  },
+  {
+   "key": "original_use",
+   "label": "Original use",
+   "value": "Commercial, offices",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    }
+   ]
+  },
+  {
+   "key": "type",
+   "label": "Building type",
+   "value": "Office Building",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27"
+    }
+   ]
+  },
+  {
+   "key": "engineer",
+   "label": "Structural engineer",
+   "value": "Homer G. Balcom",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188"
+    }
+   ]
+  },
+  {
+   "key": "floors",
+   "label": "Floors",
+   "value": "102",
+   "cite": [
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
+    }
+   ]
+  },
+  {
+   "key": "class",
+   "label": "Current tax class",
+   "value": "Office building (O4)",
+   "cite": [
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
+    }
+   ]
+  },
+  {
+   "key": "area",
+   "label": "Floor area",
+   "value": "2,812,739 sq ft",
+   "cite": [
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
+    }
+   ]
+  },
+  {
+   "key": "owner",
+   "label": "Owner of record (tax roll)",
+   "value": "ESRT EMPIRE STATE BUILDING, L.L.C.",
+   "cite": [
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
+    }
+   ]
+  },
+  {
+   "key": "height",
+   "label": "Roof height",
+   "value": "1239 ft",
+   "cite": [
+    {
+     "source": "footprints",
+     "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?bin=1015862"
+    }
+   ]
+  },
+  {
+   "key": "landmark",
+   "label": "Landmark status",
+   "value": "Interior Landmark, Individual Landmark",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200"
+    }
+   ]
+  },
+  {
+   "key": "nrhp",
+   "label": "National Register no.",
+   "value": "82001192",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188"
+    }
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1929-01-01",
+   "precision": "year",
+   "date_label": "1929 - 1931",
+   "category": "construction",
+   "certainty": "documented",
+   "title": "Empire State Building built",
+   "detail": "Architect: Shreve, Lamb & Harmon [William Lamb]. Original owner/developer: John J. Raskob (General Motors).",
+   "cite": [
+    {
+     "source": "lpc_buildings",
+     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27",
+     "note": "1929 - 1931"
+    },
+    {
+     "source": "footprints",
+     "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?bin=1015862",
+     "note": "1931"
+    },
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
+     "note": "1931"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "opened May 1, 1931"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "inception May 8, 1931"
+    }
+   ]
+  },
+  {
+   "date": "1930-01-22",
+   "precision": "day",
+   "date_label": "January 22, 1930",
+   "category": "construction",
+   "certainty": "reported",
+   "title": "Groundbreaking ceremony",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "groundbreaking ceremony"
+    }
+   ]
+  },
+  {
+   "date": "1930-03-17",
+   "precision": "day",
+   "date_label": "March 17, 1930",
+   "category": "construction",
+   "certainty": "reported",
+   "title": "Construction began",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "construction"
+    }
+   ]
+  },
+  {
+   "date": "1931-05-01",
+   "precision": "day",
+   "date_label": "May 1, 1931",
+   "category": "construction",
+   "certainty": "reported",
+   "title": "Opening ceremony",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "opening ceremony"
+    }
+   ]
+  },
+  {
+   "date": "1945-07-28",
+   "precision": "day",
+   "date_label": "July 28, 1945",
+   "category": "event",
+   "certainty": "reported",
+   "title": "Aviation accident",
+   "detail": "Listed as a significant event on Wikidata. Check the linked item for details and references.",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "aviation accident"
+    }
+   ]
+  },
+  {
+   "date": "1973-08-14",
+   "precision": "day",
+   "date_label": "August 14, 1973",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building Co to Us Postal Service.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1580008524658",
+     "note": "Document FT_1580008524658"
+    }
+   ]
+  },
+  {
+   "date": "1979-09-11",
+   "precision": "day",
+   "date_label": "September 11, 1979",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "LPC public hearing (Interior Landmark)",
+   "detail": "",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02001"
+    }
+   ]
+  },
+  {
+   "date": "1979-09-11",
+   "precision": "day",
+   "date_label": "September 11, 1979",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "LPC public hearing (Individual Landmark)",
+   "detail": "",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02000"
+    }
+   ]
+  },
+  {
+   "date": "1979-12-11",
+   "precision": "day",
+   "date_label": "December 11, 1979",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "LPC public hearing (Interior Landmark)",
+   "detail": "",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02001"
+    }
+   ]
+  },
+  {
+   "date": "1979-12-11",
+   "precision": "day",
+   "date_label": "December 11, 1979",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "LPC public hearing (Individual Landmark)",
+   "detail": "",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02000"
+    }
+   ]
+  },
+  {
+   "date": "1981-05-19",
+   "precision": "day",
+   "date_label": "May 19, 1981",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "Designated a New York City Interior Landmark",
+   "detail": "LPC designation LP-02001.",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02001"
+    },
+    {
+     "source": "lpc_report",
+     "url": "https://s-media.nyc.gov/agencies/lpc/lp/2001.pdf",
+     "note": "LP-02001"
+    }
+   ]
+  },
+  {
+   "date": "1981-05-19",
+   "precision": "day",
+   "date_label": "May 19, 1981",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "Designated a New York City Individual Landmark",
+   "detail": "LPC designation LP-02000.",
+   "cite": [
+    {
+     "source": "lpc_designations",
+     "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+     "note": "LP-02000"
+    },
+    {
+     "source": "lpc_report",
+     "url": "https://s-media.nyc.gov/agencies/lpc/lp/2000.pdf",
+     "note": "LP-02000"
+    },
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "New York City Landmark"
+    }
+   ]
+  },
+  {
+   "date": "1982-07-02",
+   "precision": "day",
+   "date_label": "July 2, 1982",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "Landmark designation recorded with the City Register",
+   "detail": "ACRIS document FT_1530000011453.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1530000011453",
+     "note": "Document FT_1530000011453"
+    }
+   ]
+  },
+  {
+   "date": "1982-07-02",
+   "precision": "day",
+   "date_label": "July 2, 1982",
+   "category": "landmark",
+   "certainty": "documented",
+   "title": "Landmark designation recorded with the City Register",
+   "detail": "ACRIS document FT_1540000011454.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1540000011454",
+     "note": "Document FT_1540000011454"
+    }
+   ]
+  },
+  {
+   "date": "1982-09-27",
+   "precision": "day",
+   "date_label": "September 27, 1982",
+   "category": "landmark",
+   "certainty": "reported",
+   "title": "Listed: New York State Register of Historic Places listed place",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "New York State Register of Historic Places listed place"
+    }
+   ]
+  },
+  {
+   "date": "1982-11-17",
+   "precision": "day",
+   "date_label": "November 17, 1982",
+   "category": "landmark",
+   "certainty": "reported",
+   "title": "Listed: National Register of Historic Places listed place",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "National Register of Historic Places listed place"
+    }
+   ]
+  },
+  {
+   "date": "1986-06-25",
+   "precision": "day",
+   "date_label": "June 25, 1986",
+   "category": "landmark",
+   "certainty": "reported",
+   "title": "Listed: National Historic Landmark",
+   "detail": "",
+   "cite": [
+    {
+     "source": "wikidata",
+     "url": "https://www.wikidata.org/entity/Q9188",
+     "note": "National Historic Landmark"
+    }
+   ]
+  },
+  {
+   "date": "1991-11-27",
+   "precision": "day",
+   "date_label": "November 27, 1991",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Prudential Ins Co Americ to E.G. Holding Co Inc.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1210000386321",
+     "note": "Document FT_1210000386321"
+    }
+   ]
+  },
+  {
+   "date": "1993-02-10",
+   "precision": "day",
+   "date_label": "February 10, 1993",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Propose to built new interior and new plumbing work, minor demolition work is involve., propose work does not change existing use group but it will increase number of people, therefore the existing c.o. will be amended. Status: Signed Off. Estimated cost $973000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=100582898&passdocnumber=01",
+     "note": "Job 100582898"
+    }
+   ]
+  },
+  {
+   "date": "1993-03-26",
+   "precision": "day",
+   "date_label": "March 26, 1993",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Propose to combine 1st flr store & creat e a new mez level in the cel a a. and convenience stair on the 1st, mez and cel area. install new partitions, ceiling and doors on the 1st, mez & cel level. Status: Permit Issued - Entire Job/Work. Estimated cost $245000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=100597882&passdocnumber=01",
+     "note": "Job 100597882"
+    }
+   ]
+  },
+  {
+   "date": "1993-10-27",
+   "precision": "day",
+   "date_label": "October 27, 1993",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Ns 1991 American Trust to Ns 1999 American Company.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1850000447485",
+     "note": "Document FT_1850000447485"
+    }
+   ]
+  },
+  {
+   "date": "1994-06-28",
+   "precision": "day",
+   "date_label": "June 28, 1994",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Ns 1999 American Company , Nominee For; Ns 1991 American Trust to Trump Empire State Partners.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1520004330052",
+     "note": "Document FT_1520004330052"
+    }
+   ]
+  },
+  {
+   "date": "1995-11-30",
+   "precision": "day",
+   "date_label": "November 30, 1995",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "No work to be done on this application. new theater u.g.8 on the basement (concourse) level. Status: Signed Off. Estimated cost $1000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=101165089&passdocnumber=01",
+     "note": "Job 101165089"
+    }
+   ]
+  },
+  {
+   "date": "1996-07-12",
+   "precision": "day",
+   "date_label": "July 12, 1996",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "No work to be done on this application. change use of 21st floor to offices, u.g.6. Status: Signed Off. Estimated cost $1000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=101348285&passdocnumber=01",
+     "note": "Job 101348285"
+    }
+   ]
+  },
+  {
+   "date": "2002-04-15",
+   "precision": "day",
+   "date_label": "April 15, 2002",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Ns 1999 American Company to Trump Empire State Partners.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1110008359611",
+     "note": "Document FT_1110008359611"
+    }
+   ]
+  },
+  {
+   "date": "2002-04-17",
+   "precision": "day",
+   "date_label": "April 17, 2002",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Trump Empire State Partners to Empire State Land Associates L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1140008359614",
+     "note": "Document FT_1140008359614"
+    }
+   ]
+  },
+  {
+   "date": "2004-04-01",
+   "precision": "day",
+   "date_label": "April 1, 2004",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Renovate second floor per plan. there will also be minor work on the 3rd, 4th & 5th floors associated with the installation of a chiller. Status: Permit Issued - Entire Job/Work. Estimated cost $3210000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=103747518&passdocnumber=01",
+     "note": "Job 103747518"
+    }
+   ]
+  },
+  {
+   "date": "2004-08-13",
+   "precision": "day",
+   "date_label": "August 13, 2004",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Memorandum Of Lease recorded (part of the lot)",
+   "detail": "From Empire State Building Company L.L.C. to Icbc Corporation.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2004082301415001",
+     "note": "Document 2004082301415001"
+    }
+   ]
+  },
+  {
+   "date": "2005-09-22",
+   "precision": "day",
+   "date_label": "September 22, 2005",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Change use of 80th floor to exhibitionspace and retail sales. all work to be filed under separate alt.2applications. please no work being done. Status: Permit Issued - Entire Job/Work. Estimated cost $100.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=104240778&passdocnumber=01",
+     "note": "Job 104240778"
+    }
+   ]
+  },
+  {
+   "date": "2007-09-01",
+   "precision": "day",
+   "date_label": "September 1, 2007",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Memorandum Of Lease recorded (part of the lot)",
+   "detail": "From Empire State Building Company, Llc to Icbc-Ny, L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2008022800402001",
+     "note": "Document 2008022800402001"
+    }
+   ]
+  },
+  {
+   "date": "2009-06-26",
+   "precision": "day",
+   "date_label": "June 26, 2009",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Status: Permit Issued - Entire Job/Work. Estimated cost $200000.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120088341&passdocnumber=01",
+     "note": "Job 120088341"
+    }
+   ]
+  },
+  {
+   "date": "2011-01-01",
+   "precision": "year",
+   "date_label": "2011",
+   "category": "alteration",
+   "certainty": "recorded",
+   "title": "Major alteration (tax-lot record)",
+   "detail": "City Planning records a major alteration in this year; the records do not say what changed.",
+   "cite": [
+    {
+     "source": "pluto",
+     "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
+    }
+   ]
+  },
+  {
+   "date": "2011-01-18",
+   "precision": "day",
+   "date_label": "January 18, 2011",
+   "category": "alteration",
+   "certainty": "documented",
+   "title": "Major alteration filed (Alteration Type 1)",
+   "detail": "Work on floor should include sub,cel,mez, 001 thru 005,018 thru 20,28,36,65 80, 59 Status: Permit Issued - Entire Job/Work. Estimated cost $463400.00.",
+   "cite": [
+    {
+     "source": "dob_jobs",
+     "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120581502&passdocnumber=01",
+     "note": "Job 120581502"
+    }
+   ]
+  },
+  {
+   "date": "2011-07-26",
+   "precision": "day",
+   "date_label": "July 26, 2011",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building Associates L.L.C. to Empire State Building Company L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090009",
+     "note": "Document 2011080600090009"
+    }
+   ]
+  },
+  {
+   "date": "2011-07-26",
+   "precision": "day",
+   "date_label": "July 26, 2011",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Memorandum Of Lease recorded",
+   "detail": "From Empire State Building Company L.L.C. to Esb Observatory Llc.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090013",
+     "note": "Document 2011080600090013"
+    }
+   ]
+  },
+  {
+   "date": "2012-04-05",
+   "precision": "day",
+   "date_label": "April 5, 2012",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building Associates L.L.C. to Empire State Building Company L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012041600990001",
+     "note": "Document 2012041600990001"
+    }
+   ]
+  },
+  {
+   "date": "2012-07-09",
+   "precision": "day",
+   "date_label": "July 9, 2012",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building  Associates L.L.C. to Empire State Building  Company L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012072100035001",
+     "note": "Document 2012072100035001"
+    }
+   ]
+  },
+  {
+   "date": "2012-08-20",
+   "precision": "day",
+   "date_label": "August 20, 2012",
+   "category": "occupancy",
+   "certainty": "documented",
+   "title": "5 temporary certificates of occupancy issued",
+   "detail": "Between August 20, 2012 and August 29, 2013, for job 120088341.",
+   "cite": [
+    {
+     "source": "dob_co",
+     "url": "https://data.cityofnewyork.us/resource/bs8b-p36w.json?%24select=job_number%2Cjob_type%2Cc_o_issue_date%2Cissue_type%2Cfiling_status_raw&%24where=bin%3D%271015862%27+OR+bin_number%3D%271015862%27&%24limit=1000",
+     "note": "Job 120088341"
+    }
+   ]
+  },
+  {
+   "date": "2012-09-19",
+   "precision": "day",
+   "date_label": "September 19, 2012",
+   "category": "occupancy",
+   "certainty": "documented",
+   "title": "42 temporary certificates of occupancy issued",
+   "detail": "Between September 19, 2012 and February 5, 2021, for job 120581502.",
+   "cite": [
+    {
+     "source": "dob_co",
+     "url": "https://data.cityofnewyork.us/resource/bs8b-p36w.json?%24select=job_number%2Cjob_type%2Cc_o_issue_date%2Cissue_type%2Cfiling_status_raw&%24where=bin%3D%271015862%27+OR+bin_number%3D%271015862%27&%24limit=1000",
+     "note": "Job 120581502"
+    }
+   ]
+  },
+  {
+   "date": "2013-02-26",
+   "precision": "day",
+   "date_label": "February 26, 2013",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building Associates L.L.C. to Empire State Building Company  L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013031201548001",
+     "note": "Document 2013031201548001"
+    }
+   ]
+  },
+  {
+   "date": "2013-08-26",
+   "precision": "day",
+   "date_label": "August 26, 2013",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Lease recorded",
+   "detail": "From Empire State Building Associates L.L.C. to Empire State Building Company L.L.C.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013091000735001",
+     "note": "Document 2013091000735001"
+    }
+   ]
+  },
+  {
+   "date": "2013-10-07",
+   "precision": "day",
+   "date_label": "October 7, 2013",
+   "category": "ownership",
+   "certainty": "documented",
+   "title": "Deed recorded",
+   "detail": "From Empire State Land Associates L.L.C. to Esrt Empire State Building, L.L.C. for $111,045,119.",
+   "cite": [
+    {
+     "source": "acris",
+     "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013100700087001",
+     "note": "Document 2013100700087001"
+    }
+   ]
+  }
+ ],
+ "conflicts": [],
+ "gaps": [
+  "No new-building permit appears in DOB data. DOB’s searchable job records for this building begin in 1990; older permits (including the original construction permit) survive only as scanned papers in DOB’s Building Information System and the Municipal Archives.",
+  "Online property records (ACRIS) for this lot start in 1971. ACRIS indexes Manhattan documents back to 1966; older deeds are on microfilm at the City Register.",
+  "Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated."
+ ],
+ "dob": {
+  "totals": {
+   "jobs": 2610,
+   "violations": 691,
+   "ecb": 241,
+   "complaints": 141,
+   "certificates_of_occupancy": 47
+  },
+  "first_filing": "1990-05-03",
+  "by_decade": [
+   {
+    "decade": 1980,
+    "jobs": 0,
+    "violations": 31,
+    "ecb": 3,
+    "complaints": 0
+   },
+   {
+    "decade": 1990,
+    "jobs": 275,
+    "violations": 23,
+    "ecb": 77,
+    "complaints": 15
+   },
+   {
+    "decade": 2000,
+    "jobs": 647,
+    "violations": 388,
+    "ecb": 94,
+    "complaints": 32
+   },
+   {
+    "decade": 2010,
+    "jobs": 1165,
+    "violations": 239,
+    "ecb": 65,
+    "complaints": 79
+   },
+   {
+    "decade": 2020,
+    "jobs": 523,
+    "violations": 10,
+    "ecb": 2,
+    "complaints": 15
+   }
+  ]
+ },
+ "ownership": {
+  "deeds": [
+   {
+    "date": "1973-08-14",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "FT_1580008524658",
+    "from": [
+     "Empire State Building Co"
+    ],
+    "to": [
+     "Us Postal Service"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1580008524658",
+    "scope": "entire lot"
+   },
+   {
+    "date": "1991-11-27",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "FT_1210000386321",
+    "from": [
+     "Prudential Ins Co Americ"
+    ],
+    "to": [
+     "E.G. Holding Co Inc"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1210000386321",
+    "scope": "entire lot"
+   },
+   {
+    "date": "1993-10-27",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "FT_1850000447485",
+    "from": [
+     "Ns 1991 American Trust"
+    ],
+    "to": [
+     "Ns 1999 American Company"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1850000447485",
+    "scope": "entire lot"
+   },
+   {
+    "date": "1994-06-28",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "FT_1520004330052",
+    "from": [
+     "Ns 1999 American Company , Nominee For",
+     "Ns 1991 American Trust"
+    ],
+    "to": [
+     "Trump Empire State Partners"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1520004330052",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2002-04-15",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "FT_1110008359611",
+    "from": [
+     "Ns 1999 American Company"
+    ],
+    "to": [
+     "Trump Empire State Partners"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1110008359611",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2002-04-17",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "FT_1140008359614",
+    "from": [
+     "Trump Empire State Partners"
+    ],
+    "to": [
+     "Empire State Land Associates L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1140008359614",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2004-08-13",
+    "doc_type": "MLEA",
+    "doc_type_label": "Memorandum Of Lease",
+    "document_id": "2004082301415001",
+    "from": [
+     "Empire State Building Company L.L.C."
+    ],
+    "to": [
+     "Icbc Corporation"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2004082301415001",
+    "scope": "part of the lot"
+   },
+   {
+    "date": "2007-09-01",
+    "doc_type": "MLEA",
+    "doc_type_label": "Memorandum Of Lease",
+    "document_id": "2008022800402001",
+    "from": [
+     "Empire State Building Company, Llc"
+    ],
+    "to": [
+     "Icbc-Ny, L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2008022800402001",
+    "scope": "part of the lot"
+   },
+   {
+    "date": "2011-07-26",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "2011080600090009",
+    "from": [
+     "Empire State Building Associates L.L.C."
+    ],
+    "to": [
+     "Empire State Building Company L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090009",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2011-07-26",
+    "doc_type": "MLEA",
+    "doc_type_label": "Memorandum Of Lease",
+    "document_id": "2011080600090013",
+    "from": [
+     "Empire State Building Company L.L.C."
+    ],
+    "to": [
+     "Esb Observatory Llc"
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090013",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2012-04-05",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "2012041600990001",
+    "from": [
+     "Empire State Building Associates L.L.C."
+    ],
+    "to": [
+     "Empire State Building Company L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012041600990001",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2012-07-09",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "2012072100035001",
+    "from": [
+     "Empire State Building  Associates L.L.C."
+    ],
+    "to": [
+     "Empire State Building  Company L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012072100035001",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2013-02-26",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "2013031201548001",
+    "from": [
+     "Empire State Building Associates L.L.C."
+    ],
+    "to": [
+     "Empire State Building Company  L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013031201548001",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2013-08-26",
+    "doc_type": "LEAS",
+    "doc_type_label": "Lease",
+    "document_id": "2013091000735001",
+    "from": [
+     "Empire State Building Associates L.L.C."
+    ],
+    "to": [
+     "Empire State Building Company L.L.C."
+    ],
+    "amount": null,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013091000735001",
+    "scope": "entire lot"
+   },
+   {
+    "date": "2013-10-07",
+    "doc_type": "DEED",
+    "doc_type_label": "Deed",
+    "document_id": "2013100700087001",
+    "from": [
+     "Empire State Land Associates L.L.C."
+    ],
+    "to": [
+     "Esrt Empire State Building, L.L.C."
+    ],
+    "amount": 111045119,
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013100700087001",
+    "scope": "entire lot"
+   }
+  ],
+  "documents_by_class": {
+   "MORTGAGES & INSTRUMENTS": 83,
+   "OTHER DOCUMENTS": 43,
+   "DEEDS AND OTHER CONVEYANCES": 15
+  },
+  "earliest_document": "1971-04-01",
+  "total_documents": 141,
+  "lot": "Borough 1, Block 835, Lot 41"
+ },
+ "media": [
+  {
+   "title": "Empire State Building (aerial view)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/500px-Empire_State_Building_%28aerial_view%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/1/10/Empire_State_Building_%28aerial_view%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_(aerial_view).jpg",
+   "date": "25 September 2017, 15:02",
+   "year": 2017,
+   "historic": false,
+   "description": "This image has been extracted from another file",
+   "artist": "Sam Valadi",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "lead"
+  },
+  {
+   "title": "Empire State Building 86th floor",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Empire_State_Building_86th_floor.jpg/500px-Empire_State_Building_86th_floor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/4/48/Empire_State_Building_86th_floor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_86th_floor.jpg",
+   "date": "2019-09-20 11:02:26",
+   "year": 2019,
+   "historic": false,
+   "description": "Empire State Building 86th floor observation deck.",
+   "artist": "James Petts",
+   "license": "CC BY-SA 2.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "group": "lead"
+  },
+  {
+   "title": "Empire State Building from Rockefeller Center (51197886181) (cropped)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Empire_State_Building_from_Rockefeller_Center_%2851197886181%29_%28cropped%29.jpg/500px-Empire_State_Building_from_Rockefeller_Center_%2851197886181%29_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/6/67/Empire_State_Building_from_Rockefeller_Center_%2851197886181%29_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_from_Rockefeller_Center_(51197886181)_(cropped).jpg",
+   "date": "11 September 2019, 00:11",
+   "year": 2019,
+   "historic": false,
+   "description": "Manhattan, New York",
+   "artist": "Domenico Convertini from Zurich, Schweiz",
+   "license": "CC BY-SA 2.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "group": "lead"
+  },
+  {
+   "title": "Empire State Building exterior (cropped)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Empire_State_Building_exterior_%28cropped%29.jpg/500px-Empire_State_Building_exterior_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/7/76/Empire_State_Building_exterior_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_exterior_(cropped).jpg",
+   "date": "c 1931 May 18.",
+   "year": 1931,
+   "historic": true,
+   "description": "Empire State Building, New York City.",
+   "artist": "Unknown author Unknown author",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Empire State Building (NBY 4279)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Empire_State_Building_%28NBY_4279%29.jpg/500px-Empire_State_Building_%28NBY_4279%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Empire_State_Building_%28NBY_4279%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_(NBY_4279).jpg",
+   "date": "1932",
+   "year": 1932,
+   "historic": true,
+   "description": "Empire State Building",
+   "artist": "Unknown author Unknown author",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "883-885 SECOND AVENUE MAIN ELEVATIONS - United Nations Vicinity Area Study, Second Avenue, East Forty-first, East Forty-third, East Forty-fourth, East Forty-eighty, and East HABS NY,31-NEYO,152-13",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/883-885_SECOND_AVENUE_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study%2C_Second_Avenue%2C_East_Forty-first%2C_East_Forty-third%2C_East_Forty-fourth%2C_East_Forty-eighty%2C_and_East_HABS_NY%2C31-NEYO%2C152-13.tif/lossy-page1-500px-thumbnail.tif.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/2/28/883-885_SECOND_AVENUE_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study%2C_Second_Avenue%2C_East_Forty-first%2C_East_Forty-third%2C_East_Forty-fourth%2C_East_Forty-eighty%2C_and_East_HABS_NY%2C31-NEYO%2C152-13.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:883-885_SECOND_AVENUE_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study,_Second_Avenue,_East_Forty-first,_East_Forty-third,_East_Forty-fourth,_East_Forty-eighty,_and_East_HABS_NY,31-NEYO,152-13.tif",
+   "date": "Documentation compiled after 1933",
+   "year": 1933,
+   "historic": true,
+   "description": "",
+   "artist": null,
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "883-893 SECOND AVENUE PERSPECTIVE VIEW OF MAIN ELEVATIONS - United Nations Vicinity Area Study, Second Avenue, East Forty-first, East Forty-third, East Forty-fourth, East Forty HABS NY,31-NEYO,152-16",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/883-893_SECOND_AVENUE_PERSPECTIVE_VIEW_OF_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study%2C_Second_Avenue%2C_East_Forty-first%2C_East_Forty-third%2C_East_Forty-fourth%2C_East_Forty_HABS_NY%2C31-NEYO%2C152-16.tif/lossy-page1-500px-thumbnail.tif.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/3/39/883-893_SECOND_AVENUE_PERSPECTIVE_VIEW_OF_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study%2C_Second_Avenue%2C_East_Forty-first%2C_East_Forty-third%2C_East_Forty-fourth%2C_East_Forty_HABS_NY%2C31-NEYO%2C152-16.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:883-893_SECOND_AVENUE_PERSPECTIVE_VIEW_OF_MAIN_ELEVATIONS_-_United_Nations_Vicinity_Area_Study,_Second_Avenue,_East_Forty-first,_East_Forty-third,_East_Forty-fourth,_East_Forty_HABS_NY,31-NEYO,152-16.tif",
+   "date": "Documentation compiled after 1933",
+   "year": 1933,
+   "historic": true,
+   "description": "",
+   "artist": null,
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Armstrong prototype FM transmitter 1935",
+   "thumb": "https://upload.wikimedia.org/wikipedia/commons/8/86/Armstrong_prototype_FM_transmitter_1935.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/8/86/Armstrong_prototype_FM_transmitter_1935.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Armstrong_prototype_FM_transmitter_1935.jpg",
+   "date": "1935-07",
+   "year": 1935,
+   "historic": true,
+   "description": "The first prototype FM ( frequency modulation ) transmitter, invented and built by Edwin Armstrong at the Empire State Building . Licensed as experimental station W2XDG, beginning June 2, 1934 Armstrong used it for a series of extensive sec",
+   "artist": "Unknown author Unknown author",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Empire State Building, New York City 1940 978",
+   "thumb": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Empire_State_Building%2C_New_York_City_1940_978.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Empire_State_Building%2C_New_York_City_1940_978.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building,_New_York_City_1940_978.jpeg",
+   "date": "1940",
+   "year": 1940,
+   "historic": true,
+   "description": "",
+   "artist": "Victor Perelli",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Debris on flight deck of USS Franklin (CV-13) in April 1945",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Debris_on_flight_deck_of_USS_Franklin_%28CV-13%29_in_April_1945.jpg/500px-Debris_on_flight_deck_of_USS_Franklin_%28CV-13%29_in_April_1945.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Debris_on_flight_deck_of_USS_Franklin_%28CV-13%29_in_April_1945.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Debris_on_flight_deck_of_USS_Franklin_(CV-13)_in_April_1945.jpg",
+   "date": "1945-04-28",
+   "year": 1945,
+   "historic": true,
+   "description": "View of a burned-out aircraft engine and other debris on the ruined after flight deck of the U.S. Navy aircraft carrier USS Franklin (CV-13), taken as she arrived at the New York Navy Yard for repairs. Note Manhattan Island with the Empire ",
+   "artist": "U.S. Navy",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "De heren Hans Martin van de KLM en Fisher kijken uit over New York vanaf het Emp, Bestanddeelnr 254-2287",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2287.jpg/500px-De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2287.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/5/5f/De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2287.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp,_Bestanddeelnr_254-2287.jpg",
+   "date": "1946",
+   "year": 1946,
+   "historic": true,
+   "description": "Collectie / Archief : Fotocollectie Van de Poll Reportage / Serie : [ onbekend ] Beschrijving : De heren Hans Martin van de KLM en Fisher kijken uit over New York vanaf het Empire State Building Datum : 1946 Locatie : New York (stad), VS Tr",
+   "artist": "Willem van de Poll",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "group": "historic"
+  },
+  {
+   "title": "De heren Hans Martin van de KLM en Fisher kijken uit over New York vanaf het Emp, Bestanddeelnr 254-2286",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2286.jpg/500px-De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2286.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/8/85/De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp%2C_Bestanddeelnr_254-2286.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:De_heren_Hans_Martin_van_de_KLM_en_Fisher_kijken_uit_over_New_York_vanaf_het_Emp,_Bestanddeelnr_254-2286.jpg",
+   "date": "1946",
+   "year": 1946,
+   "historic": true,
+   "description": "Collectie / Archief : Fotocollectie Van de Poll Reportage / Serie : [ onbekend ] Beschrijving : De heren Hans Martin van de KLM en Fisher kijken uit over New York vanaf het Empire State Building Datum : 1946 Locatie : New York (stad), VS Tr",
+   "artist": "Willem van de Poll",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "group": "historic"
+  },
+  {
+   "title": "Eversharp, Inc., Empire State Building, New York City. LOC gsc.5a12634",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12634.jpg/500px-Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12634.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/5/53/Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12634.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Eversharp,_Inc.,_Empire_State_Building,_New_York_City._LOC_gsc.5a12634.jpg",
+   "date": "1946",
+   "year": 1946,
+   "historic": true,
+   "description": "Title: Eversharp, Inc., Empire State Building, New York City. Abstract/medium: Gottscho-Schleisner Collection (Library of Congress) Physical description: 1 negative :",
+   "artist": "Gottscho-Schleisner Collection",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Eversharp, Inc., Empire State Building, New York City. LOC gsc.5a12635",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12635.jpg/500px-Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12635.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/0/00/Eversharp%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a12635.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Eversharp,_Inc.,_Empire_State_Building,_New_York_City._LOC_gsc.5a12635.jpg",
+   "date": "1946",
+   "year": 1946,
+   "historic": true,
+   "description": "Title: Eversharp, Inc., Empire State Building, New York City. Abstract/medium: Gottscho-Schleisner Collection (Library of Congress) Physical description: 1 negative :",
+   "artist": "Gottscho-Schleisner Collection",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Empire State Building (NBY 4917)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Empire_State_Building_%28NBY_4917%29.jpg/500px-Empire_State_Building_%28NBY_4917%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Empire_State_Building_%28NBY_4917%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_(NBY_4917).jpg",
+   "date": "1951",
+   "year": 1951,
+   "historic": true,
+   "description": "Empire State Building",
+   "artist": "Unknown author Unknown author",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Modern Globe, Inc., Empire State Building, New York City. LOC gsc.5a22066",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Modern_Globe%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a22066.jpg/500px-Modern_Globe%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a22066.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Modern_Globe%2C_Inc.%2C_Empire_State_Building%2C_New_York_City._LOC_gsc.5a22066.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Modern_Globe,_Inc.,_Empire_State_Building,_New_York_City._LOC_gsc.5a22066.jpg",
+   "date": "1953",
+   "year": 1953,
+   "historic": true,
+   "description": "Title: Modern Globe, Inc., Empire State Building, New York City. Abstract/medium: Gottscho-Schleisner Collection (Library of Congress) Physical description: 1 negative :",
+   "artist": "Gottscho-Schleisner Collection",
+   "license": "Public domain",
+   "license_url": null,
+   "group": "historic"
+  },
+  {
+   "title": "Empire State Building (seen from Fifth Av. in 1962)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Empire_State_Building_%28seen_from_Fifth_Av._in_1962%29.jpg/500px-Empire_State_Building_%28seen_from_Fifth_Av._in_1962%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Empire_State_Building_%28seen_from_Fifth_Av._in_1962%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_(seen_from_Fifth_Av._in_1962).jpg",
+   "date": "1962-09-06",
+   "year": 1962,
+   "historic": true,
+   "description": "The Empire State Building, seen from the north on Fifth Avenue. It is on Fifth Avenue, between 33rd and 34th Streets in New York City. It was built in 1930-1931, and is 102 stories high. It was the tallest building in the world until the No",
+   "artist": "Roger Wollstadt (roger4336)",
+   "license": "CC BY-SA 2.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "group": "historic"
+  },
+  {
+   "title": "Midtown Manhattan from Lackawanna Ferry (1964) (4604146088)",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Midtown_Manhattan_from_Lackawanna_Ferry_%281964%29_%284604146088%29.jpg/500px-Midtown_Manhattan_from_Lackawanna_Ferry_%281964%29_%284604146088%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "full": "https://upload.wikimedia.org/wikipedia/commons/7/77/Midtown_Manhattan_from_Lackawanna_Ferry_%281964%29_%284604146088%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "page": "https://commons.wikimedia.org/wiki/File:Midtown_Manhattan_from_Lackawanna_Ferry_(1964)_(4604146088).jpg",
+   "date": "1964-06-15",
+   "year": 1964,
+   "historic": true,
+   "description": "Midtown Manhattan, from the Lackawanna (Erie-Lackawanna) ferry from Hoboken terminal to Barclay Street in Lower Manhattan. This photo was taken in 1964. The Empire State Building is in the center, and the PanAm Building (now MetLife Buildin",
+   "artist": "Roger W from Sarasota, Florida, U.S.A.",
+   "license": "CC BY-SA 2.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "group": "historic"
+  }
+ ],
+ "reports": [
+  {
+   "label": "Interior Landmark report LP-02001",
+   "url": "https://s-media.nyc.gov/agencies/lpc/lp/2001.pdf"
+  },
+  {
+   "label": "Individual Landmark report LP-02000",
+   "url": "https://s-media.nyc.gov/agencies/lpc/lp/2000.pdf"
+  }
+ ],
+ "research_links": [
+  {
+   "group": "Newspapers",
+   "label": "Historic newspapers mentioning “Empire State Building”",
+   "url": "https://www.loc.gov/collections/chronicling-america/?q=%22Empire+State+Building%22&dates=1924%2F1963",
+   "note": "Library of Congress, Chronicling America (public domain papers to 1963)"
+  },
+  {
+   "group": "Newspapers",
+   "label": "Historic newspapers mentioning “350 Fifth Avenue”",
+   "url": "https://www.loc.gov/collections/chronicling-america/?q=%22350+Fifth+Avenue%22&dates=1924%2F1963",
+   "note": "Address searches also catch ads and notices"
+  },
+  {
+   "group": "Photos & documents",
+   "label": "NYPL Digital Collections",
+   "url": "https://digitalcollections.nypl.org/search/index?keywords=Empire+State+Building",
+   "note": "Photographs, maps and prints; many are public domain"
+  },
+  {
+   "group": "Background",
+   "label": "Wikipedia article",
+   "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+   "note": "Community-written summary with its own references"
+  },
+  {
+   "group": "Background",
+   "label": "Wikidata item Q9188",
+   "url": "https://www.wikidata.org/entity/Q9188",
+   "note": "Structured facts and identifiers"
+  },
+  {
+   "group": "Photos & documents",
+   "label": "All images on Wikimedia Commons",
+   "url": "https://commons.wikimedia.org/wiki/Category:Empire_State_Building",
+   "note": "Freely licensed images"
+  },
+  {
+   "group": "City records",
+   "label": "DOB Building Information System",
+   "url": "https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=1015862",
+   "note": "Full DOB file, including scanned older certificates of occupancy"
+  },
+  {
+   "group": "City records",
+   "label": "ACRIS document search",
+   "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/BBL",
+   "note": "Enter Borough 1, Block 835, Lot 41"
+  },
+  {
+   "group": "City records",
+   "label": "ZoLa zoning & lot map",
+   "url": "https://zola.planning.nyc.gov/l/lot/1/835/41",
+   "note": "Zoning, lot lines, landmark boundaries"
+  }
+ ],
+ "sources": {
+  "geosearch": {
+   "label": "NYC GeoSearch (City address directory, PAD)",
+   "publisher": "NYC Dept. of City Planning",
+   "url": "https://geosearch.planninglabs.nyc/",
+   "license": "Free public API (City data)"
+  },
+  "footprints": {
+   "label": "Building Footprints",
+   "publisher": "NYC Office of Technology & Innovation",
+   "url": "https://data.cityofnewyork.us/d/5zhs-2jue",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "pluto": {
+   "label": "PLUTO tax-lot data",
+   "publisher": "NYC Dept. of City Planning",
+   "url": "https://data.cityofnewyork.us/d/64uk-42ks",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)",
+   "caution": "City Planning notes that “year built” is often estimated."
+  },
+  "lpc_buildings": {
+   "label": "LPC Landmark & Historic District Building Database",
+   "publisher": "NYC Landmarks Preservation Commission",
+   "url": "https://data.cityofnewyork.us/d/gpmc-yuvp",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "lpc_designations": {
+   "label": "LPC Designated and Calendared Buildings and Sites",
+   "publisher": "NYC Landmarks Preservation Commission",
+   "url": "https://data.cityofnewyork.us/d/ncre-qhxs",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "lpc_report": {
+   "label": "LPC designation report",
+   "publisher": "NYC Landmarks Preservation Commission",
+   "url": "https://www.nyc.gov/site/lpc/designations/designation-reports.page",
+   "license": "Public government record"
+  },
+  "dob_jobs": {
+   "label": "DOB Job Application Filings (BIS)",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/ic3t-wcy2",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "dob_now": {
+   "label": "DOB NOW: Build job filings",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/w9ak-ipjd",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "dob_co": {
+   "label": "DOB Certificates of Occupancy",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/bs8b-p36w",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "dob_violations": {
+   "label": "DOB Violations",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/3h2n-5cm9",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "ecb_violations": {
+   "label": "DOB ECB Violations",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/6bgk-3dad",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "dob_complaints": {
+   "label": "DOB Complaints Received",
+   "publisher": "NYC Dept. of Buildings",
+   "url": "https://data.cityofnewyork.us/d/eabe-havv",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "acris": {
+   "label": "ACRIS property records (City Register)",
+   "publisher": "NYC Dept. of Finance",
+   "url": "https://data.cityofnewyork.us/d/bnx9-e6tj",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)"
+  },
+  "wikidata": {
+   "label": "Wikidata",
+   "publisher": "Wikimedia community",
+   "url": "https://www.wikidata.org/",
+   "license": "CC0 public domain",
+   "caution": "Community-edited: useful leads, but not an official record."
+  },
+  "commons": {
+   "label": "Wikimedia Commons",
+   "publisher": "Wikimedia community",
+   "url": "https://commons.wikimedia.org/",
+   "license": "Per-image licence shown with each photo"
+  }
+ },
+ "source_status": [
+  {
+   "key": "footprint",
+   "source": "footprints",
+   "label": "Building Footprints",
+   "ok": true,
+   "count": 1,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.413Z"
+  },
+  {
+   "key": "pluto",
+   "source": "pluto",
+   "label": "PLUTO tax-lot data",
+   "ok": true,
+   "count": 1,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.756Z"
+  },
+  {
+   "key": "lpc_buildings",
+   "source": "lpc_buildings",
+   "label": "LPC Landmark & Historic District Building Database",
+   "ok": true,
+   "count": 1,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.756Z"
+  },
+  {
+   "key": "lpc_designations",
+   "source": "lpc_designations",
+   "label": "LPC Designated and Calendared Buildings and Sites",
+   "ok": true,
+   "count": 2,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.758Z"
+  },
+  {
+   "key": "dob_jobs_all",
+   "source": "dob_jobs",
+   "label": "DOB Job Application Filings (BIS)",
+   "ok": true,
+   "count": 2850,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.759Z"
+  },
+  {
+   "key": "dob_now_jobs",
+   "source": "dob_now",
+   "label": "DOB NOW: Build job filings",
+   "ok": true,
+   "count": 696,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.761Z"
+  },
+  {
+   "key": "dob_co",
+   "source": "dob_co",
+   "label": "DOB Certificates of Occupancy",
+   "ok": true,
+   "count": 47,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.761Z"
+  },
+  {
+   "key": "dob_violations",
+   "source": "dob_violations",
+   "label": "DOB Violations",
+   "ok": true,
+   "count": 691,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.762Z"
+  },
+  {
+   "key": "ecb_violations",
+   "source": "ecb_violations",
+   "label": "DOB ECB Violations",
+   "ok": true,
+   "count": 241,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.764Z"
+  },
+  {
+   "key": "dob_complaints",
+   "source": "dob_complaints",
+   "label": "DOB Complaints Received",
+   "ok": true,
+   "count": 141,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.766Z"
+  },
+  {
+   "key": "acris",
+   "source": "acris",
+   "label": "ACRIS property records (City Register)",
+   "ok": true,
+   "count": 141,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.768Z"
+  },
+  {
+   "key": "wikidata",
+   "source": "wikidata",
+   "label": "Wikidata",
+   "ok": true,
+   "count": 1,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:12.769Z"
+  },
+  {
+   "key": "commons",
+   "source": "commons",
+   "label": "Wikimedia Commons",
+   "ok": true,
+   "count": 18,
+   "error": null,
+   "retrieved_at": "2026-10-27T03:14:17.263Z"
+  }
+ ],
+ "narrative": {
+  "paragraphs": [
+   {
+    "heading": "Origins",
+    "sentences": [
+     {
+      "text": "Empire State Building stands at 350 Fifth Avenue, Manhattan.",
+      "refs": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "text": "City records also list it as 338 Fifth Avenue, 336 Fifth Avenue and 338-50 Fifth Avenue.",
+      "refs": [
+       4,
+       5,
+       3
+      ]
+     },
+     {
+      "text": "It was built in 1929–1931, designed by Shreve, Lamb & Harmon [William Lamb], for John J. Raskob (General Motors).",
+      "refs": [
+       6
+      ]
+     },
+     {
+      "text": "Its survey record lists style “Art Deco, Modernist”, materials “Brick, Indiana Limestone, Granite, Cast Stone, Metal” and original use “Commercial, offices”.",
+      "refs": [
+       6
+      ]
+     }
+    ]
+   },
+   {
+    "heading": "Recognition",
+    "sentences": [
+     {
+      "text": "On May 19, 1981, the Landmarks Preservation Commission designated it a New York City Interior Landmark.",
+      "refs": [
+       7,
+       8
+      ]
+     },
+     {
+      "text": "On May 19, 1981, the Landmarks Preservation Commission designated it a New York City Individual Landmark.",
+      "refs": [
+       7,
+       9,
+       10
+      ]
+     },
+     {
+      "text": "Wikidata also records these listings: New York State Register of Historic Places (September 27, 1982), National Register of Historic Places (November 17, 1982) and National Historic Landmark (June 25, 1986).",
+      "refs": [
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "heading": "Notable events (community-reported)",
+    "sentences": [
+     {
+      "text": "Wikidata records these events: groundbreaking ceremony (January 22, 1930), construction began (March 17, 1930), opening ceremony (May 1, 1931) and aviation accident (July 28, 1945). These are leads to verify, not official records.",
+      "refs": [
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "heading": "Later life in the records",
+    "sentences": [
+     {
+      "text": "Department of Buildings data from 1990 onward holds 2,610 job filings, 691 DOB violations, 241 ECB violations and 141 complaints for this building.",
+      "refs": [
+       2,
+       11,
+       12,
+       13
+      ]
+     },
+     {
+      "text": "Of these, 8 are major alterations (changes of use, egress or occupancy); the most recent was filed January 18, 2011.",
+      "refs": [
+       14
+      ]
+     },
+     {
+      "text": "The city tax roll lists ESRT EMPIRE STATE BUILDING, L.L.C. as the current owner of record.",
+      "refs": [
+       15
+      ]
+     },
+     {
+      "text": "ACRIS holds 15 deeds, leases or other conveyances for the lot; the most recent deed, dated October 7, 2013, went to Esrt Empire State Building, L.L.C.",
+      "refs": [
+       16
+      ]
+     }
+    ]
+   }
+  ],
+  "citations": [
+   {
+    "source": "lpc_buildings",
+    "url": "https://data.cityofnewyork.us/d/gpmc-yuvp",
+    "label": "LPC Landmark & Historic District Building Database"
+   },
+   {
+    "source": "dob_jobs",
+    "url": "https://data.cityofnewyork.us/d/ic3t-wcy2",
+    "label": "DOB Job Application Filings (BIS)"
+   },
+   {
+    "source": "acris",
+    "url": "https://data.cityofnewyork.us/d/bnx9-e6tj",
+    "label": "ACRIS property records (City Register)"
+   },
+   {
+    "source": "pluto",
+    "url": "https://data.cityofnewyork.us/d/64uk-42ks",
+    "label": "PLUTO tax-lot data"
+   },
+   {
+    "source": "lpc_designations",
+    "url": "https://data.cityofnewyork.us/d/ncre-qhxs",
+    "label": "LPC Designated and Calendared Buildings and Sites"
+   },
+   {
+    "source": "lpc_buildings",
+    "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27",
+    "label": "LPC Landmark & Historic District Building Database",
+    "note": "1929 - 1931"
+   },
+   {
+    "source": "lpc_designations",
+    "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
+    "label": "LPC Designated and Calendared Buildings and Sites",
+    "note": "LP-02001"
+   },
+   {
+    "source": "lpc_report",
+    "url": "https://s-media.nyc.gov/agencies/lpc/lp/2001.pdf",
+    "label": "LPC designation report",
+    "note": "LP-02001"
+   },
+   {
+    "source": "lpc_report",
+    "url": "https://s-media.nyc.gov/agencies/lpc/lp/2000.pdf",
+    "label": "LPC designation report",
+    "note": "LP-02000"
+   },
+   {
+    "source": "wikidata",
+    "url": "https://www.wikidata.org/entity/Q9188",
+    "label": "Wikidata",
+    "note": "New York City Landmark"
+   },
+   {
+    "source": "dob_violations",
+    "url": "https://data.cityofnewyork.us/d/3h2n-5cm9",
+    "label": "DOB Violations"
+   },
+   {
+    "source": "ecb_violations",
+    "url": "https://data.cityofnewyork.us/d/6bgk-3dad",
+    "label": "DOB ECB Violations"
+   },
+   {
+    "source": "dob_complaints",
+    "url": "https://data.cityofnewyork.us/d/eabe-havv",
+    "label": "DOB Complaints Received"
+   },
+   {
+    "source": "dob_jobs",
+    "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120581502&passdocnumber=01",
+    "label": "DOB Job Application Filings (BIS)",
+    "note": "Job 120581502"
+   },
+   {
+    "source": "pluto",
+    "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
+    "label": "PLUTO tax-lot data"
+   },
+   {
+    "source": "acris",
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013100700087001",
+    "label": "ACRIS property records (City Register)"
+   }
+  ],
+  "method": "Written automatically from the records cited. No AI model was used and nothing beyond the cited sources was added. Wikidata is community-edited."
+ }
+}

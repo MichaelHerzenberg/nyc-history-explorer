@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NYC History Explorer</title>
+  <meta name="description" content="Discover the documented history of New York City buildings, one address at a time.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="NYC History Explorer home">
+      <span class="brand-mark" aria-hidden="true">◧</span>
+      <span class="brand-name">NYC History Explorer</span>
+    </a>
+    <form id="search" class="search" role="search" autocomplete="off">
+      <label for="q" class="sr-only">Street address</label>
+      <input id="q" name="q" type="search" placeholder="Search an address, e.g. 350 Fifth Avenue" aria-autocomplete="list" aria-controls="suggestions">
+      <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      <button type="submit" class="btn">Search</button>
+    </form>
+    <button id="nearme" class="btn btn-quiet" type="button" title="Find buildings near you">
+      <span aria-hidden="true">◎</span> Near me
+    </button>
+  </header>
+
+  <main class="layout">
+    <div id="map" class="map" aria-label="Map of Midtown Manhattan"></div>
+    <aside id="panel" class="panel" aria-live="polite">
+      <div id="panel-body" class="panel-body"></div>
+    </aside>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
