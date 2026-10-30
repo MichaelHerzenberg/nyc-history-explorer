@@ -20,6 +20,18 @@ export const PILOT_WKT =
 
 export const MAP_START = { lat: 40.7527, lng: -73.9840, zoom: 15 };
 
+// NYC aerial photographs (orthoimagery), CC BY 4.0. Years from the City's
+// official metadata: github.com/CityOfNewYork/nyc-geo-metadata (Metadata_AerialImagery.md).
+// The tile address is confirmed in use for 1924 and 1951; if another year
+// fails to load, the map says so.
+export const AERIAL_URL = 'https://maps.nyc.gov/xyz/1.0.0/photo/{year}/{z}/{x}/{y}.png8';
+export const AERIAL_YEARS = [1924, 1951, 1996, 2001, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024];
+export const AERIAL_CREDIT = {
+  1924: 'NYC Dept. of City Planning',
+  1951: 'NYC Dept. of Records, Municipal Archives',
+  default: 'NYS Statewide Digital Orthoimagery Program / NYC OTI',
+};
+
 export const GEOSEARCH = 'https://geosearch.planninglabs.nyc/v2';
 export const SOCRATA = 'https://data.cityofnewyork.us/resource';
 

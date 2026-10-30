@@ -2,7 +2,7 @@
 // All data is fetched live from public sources by the visitor's browser, so
 // the site needs no server or database of its own.
 
-import { MAP_START, PILOT_POLYGON, PILOT_WKT } from './lib/config.js';
+import { MAP_START, PILOT_POLYGON, PILOT_WKT, AERIAL_URL, AERIAL_YEARS, AERIAL_CREDIT } from './lib/config.js';
 import { resolveBuilding } from './lib/identity.js';
 import { gatherRaw, autocomplete, footprintsNear, footprintsInBox, pilotLandmarks, plutoAddresses, searchNewspapers } from './lib/sources.js';
 import { buildProfile } from './lib/profile.js';
@@ -42,6 +42,57 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#9a3b1e';
 L.polygon(PILOT_POLYGON.map(([x, y]) => [y, x]), { color: accent, weight: 2, dashArray: '6 6', fill: false, interactive: false })
   .addTo(map).bindTooltip('Midtown pilot area', { sticky: true });
+
+// ---------------------------------------------------------------- aerial photos by year
+// "Then and now": lay a historical aerial photo over the street map, pick the
+// year with a slider and fade between then and now.
+const aerial = { layer: null, year: null, opacity: 0.85 };
+const AerialControl = L.Control.extend({
+  options: { position: 'topright' },
+  onAdd() {
+    const status = h('div', { class: 'aerial-status', 'aria-live': 'polite' });
+    const yearOut = h('output', { class: 'aerial-year' }, 'Off');
+    const slider = h('input', { type: 'range', min: 0, max: AERIAL_YEARS.length, step: 1, value: 0, 'aria-label': 'Aerial photo year' });
+    const fade = h('input', { type: 'range', min: 10, max: 100, step: 5, value: aerial.opacity * 100, 'aria-label': 'Photo opacity', disabled: true });
+    slider.addEventListener('input', () => {
+      const i = Number(slider.value);
+      fade.disabled = i === 0;
+      setAerial(i === 0 ? null : AERIAL_YEARS[i - 1], status);
+      yearOut.textContent = i === 0 ? 'Off' : String(AERIAL_YEARS[i - 1]);
+    });
+    fade.addEventListener('input', () => {
+      aerial.opacity = Number(fade.value) / 100;
+      aerial.layer?.setOpacity(aerial.opacity);
+    });
+    const box = h('div', { class: 'aerial-control leaflet-bar' },
+      h('div', { class: 'aerial-head' }, h('span', {}, 'Aerial photo'), yearOut),
+      slider,
+      h('div', { class: 'aerial-ticks', 'aria-hidden': 'true' }, h('span', {}, 'Off'), h('span', {}, AERIAL_YEARS[0]), h('span', {}, AERIAL_YEARS[AERIAL_YEARS.length - 1])),
+      h('label', { class: 'aerial-fade' }, 'Fade to today ', fade),
+      status);
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.disableScrollPropagation(box);
+    return box;
+  },
+});
+function setAerial(year, status) {
+  if (aerial.layer) { aerial.layer.remove(); aerial.layer = null; }
+  aerial.year = year;
+  status.textContent = '';
+  if (!year) return;
+  let loaded = 0, failed = 0;
+  aerial.layer = L.tileLayer(AERIAL_URL.replace('{year}', year), {
+    maxZoom: 19, maxNativeZoom: 18, opacity: aerial.opacity,
+    attribution: `${year} aerial photo: ${AERIAL_CREDIT[year] || AERIAL_CREDIT.default} (CC BY 4.0)`,
+  })
+    .on('tileload', () => { loaded++; status.textContent = ''; })
+    .on('tileerror', () => {
+      failed++;
+      if (!loaded && failed >= 4 && aerial.year === year) status.textContent = `The City's ${year} photos didn't load here. Try another year.`;
+    })
+    .addTo(map);
+}
+map.addControl(new AerialControl());
 
 const landmarkLayer = L.layerGroup().addTo(map);
 const footprintLayer = L.layerGroup().addTo(map);
