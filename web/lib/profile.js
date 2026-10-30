@@ -31,6 +31,8 @@ export const SOURCES = {
   licenses: { label: 'DCWP Issued Licenses', publisher: 'NYC Dept. of Consumer and Worker Protection', url: OD(DATASETS.licenses), license: NYC_TERMS, caution: 'Only businesses that need a City licence (shops, electronics, tobacco, etc.).' },
   restaurants: { label: 'DOHMH Restaurant Inspection Results', publisher: 'NYC Dept. of Health and Mental Hygiene', url: OD(DATASETS.restaurants), license: NYC_TERMS, caution: 'Covers recent years only.' },
   nys_corps: { label: 'NYS company filings (office addresses)', publisher: 'New York State Department of State', url: 'https://data.ny.gov/d/2tms-hftb', license: 'Open NY data (data.ny.gov terms of use)', caution: 'Office addresses companies gave the State; a company may move without filing a new address.' },
+  nypd: { label: 'NYPD Complaint Data (murder and non-negligent manslaughter)', publisher: 'New York City Police Department', url: 'https://data.cityofnewyork.us/d/qgea-i56i', license: NYC_TERMS, caution: 'Locations are approximate (often the nearest intersection). Data from 2006.' },
+  fdny: { label: 'FDNY Incidents Responded to by Fire Companies', publisher: 'Fire Department of the City of New York', url: 'https://data.cityofnewyork.us/d/tm6d-hbzd', license: NYC_TERMS, caution: 'No house numbers: covers the whole street within the ZIP code. Data 2013–2025.' },
   acris: { label: 'ACRIS property records (City Register)', publisher: 'NYC Dept. of Finance', url: OD(DATASETS.acrisMaster), license: NYC_TERMS },
 };
 
@@ -242,6 +244,9 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   // ---- ACRIS ownership
   const ownership = summariseACRIS(raw, timeline, gaps, lot, bbl);
 
+  // ---- on the block: murders nearby, fires on this street
+  const incidents = summariseIncidents(raw, timeline);
+
   // ---- photo: at most one, chosen ahead of time from NYPL (scripts/nypl-photos.mjs)
   const media = rows(raw.nypl_photo).map(ph => ({
     title: ph.title, image: ph.image, page: ph.page, date: ph.date, year: Number(String(ph.date || '').slice(0, 4)) || null,
@@ -254,7 +259,8 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   const tenants = summariseTenants(raw, ownership, { name, owner: pluto?.ownername, now });
   tenants.offices = summariseOffices(raw, { now, builtFrom: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year || null });
   gaps.push('Businesses: office tenants come from New York State company filings, whose address records are thin before the 1990s; shops and restaurants from City records. Tenants before that (and companies that never filed this address) are not covered yet. NYPL city directories are the planned source for earlier years.');
-  gaps.push('News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “Dig deeper”.');
+  gaps.push('News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “In the news”.');
+  if (raw.incidents?.ok) gaps.push('On the block: NYPD murder records start in 2006 and FDNY fire records cover 2013–2025; FDNY gives no house numbers, so fires are for the whole street within the ZIP code, not necessarily this building.');
 
   // ---- sources that failed
   const source_status = sourceStatus(raw);
@@ -275,7 +281,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
     geometry: identity.geometry || fp?.the_geom || null,
     match_log: identity.match_log || [],
     addresses, facts, timeline, conflicts, gaps,
-    tenants, dob, ownership, media,
+    tenants, incidents, dob, ownership, media,
     reports,
     research_links: researchLinks({ bin, lot, name, addresses, lat: identity.lat, lng: identity.lng, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
     sources: SOURCES,
@@ -292,6 +298,7 @@ function isMajor(e) {
   if (e.category === 'construction' || e.category === 'demolition') return true;
   if (e.category === 'alteration') return src === 'lpc_buildings' || src === 'pluto';
   if (e.category === 'landmark') return /^(Designated|Included|Landmark status)/.test(e.title);
+  if (e.category === 'event') return src === 'nypd' || src === 'fdny';
   return false;
 }
 
@@ -307,7 +314,7 @@ export function niceName(s) {
     if (/^inc\.?,?$/i.test(w)) return 'Inc.';
     if (!upper) return w;
     // Abbreviations stay in capitals: "P.C.", "N.Y.", "SMP", "HHC" (no vowels), short codes like "AA".
-    const letters = bare.replace(/[^A-Z]/g, '');
+    const letters = /^[A-Z.&]+$/.test(bare) ? bare.replace(/[^A-Z]/g, '') : '';
     if (/^([A-Z]\.)+[A-Z]?\.?$/.test(bare) || (letters.length >= 2 && !/[AEIOUY]/.test(letters)) ||
       (letters.length === 2 && !/^(OF|AT|IN|ON|TO|BY|AN|OR|DE|LA|LE|DU|EL|IS|IT|AS|NO|SO|UP|US|WE|MY|GO|DO|BE)$/.test(letters))) return w;
     return w.charAt(0) + w.slice(1).toLowerCase().replace(/-([a-z])/g, (m, c) => '-' + c.toUpperCase());
@@ -361,6 +368,45 @@ function summariseTenants(raw, ownership, { name, owner, now }) {
   for (const k of current.keys()) past.delete(k);
   const byDate = (a, b) => (b.to || b.from || '').localeCompare(a.to || a.from || '');
   return { current: [...current.values()].sort((a, b) => a.name.localeCompare(b.name)), past: [...past.values()].sort(byDate) };
+}
+
+// Murders within the radius (NYPD) and fires on the street (FDNY). Victim
+// details in the source are deliberately not shown. Notable fires = "all
+// hands working" or a second alarm or higher.
+const NOTABLE_FIRE = /^(75 |22 |33 |44 |55 |66 |77 |88 |110 |2 - |3 - |4 - |5 - )/;
+export function summariseIncidents(raw, timeline) {
+  const inc = raw.incidents;
+  if (!inc?.ok) return null;
+  const murderRows = inc.parts.murders?.ok ? inc.parts.murders.data : null;
+  const fireRows = inc.parts.fires?.ok ? inc.parts.fires.data : null;
+  const murders = (murderRows || []).map(m => {
+    const date = isoDate(m.cmplnt_fr_dt);
+    const where = [m.prem_typ_desc, m.loc_of_occur_desc].filter(x => x && x !== '(null)').map(x => title(x)).join(', ');
+    return { date, where, cite: [cite('nypd', `https://data.cityofnewyork.us/resource/qgea-i56i.json?cmplnt_num=${encodeURIComponent(m.cmplnt_num)}`, `Complaint ${m.cmplnt_num}`)] };
+  });
+  for (const m of murders) {
+    timeline.push({ date: m.date, precision: 'day', date_label: m.date ? formatDate(m.date) : 'Undated', category: 'event', certainty: 'documented',
+      title: `Murder reported within ${inc.radius_m} m`, detail: m.where ? `Place: ${m.where}.` : '', cite: m.cite });
+  }
+  let fires = null;
+  if (fireRows) {
+    const byType = {};
+    for (const f of fireRows) { const t = String(f.incident_type_desc || '').replace(/^\d+\s*-\s*/, ''); byType[t] = (byType[t] || 0) + 1; }
+    const notable = fireRows.filter(f => NOTABLE_FIRE.test(f.highest_level_desc || '')).map(f => ({
+      date: isoDate(f.incident_date_time), type: String(f.incident_type_desc || '').replace(/^\d+\s*-\s*/, ''),
+      level: String(f.highest_level_desc || '').replace(/^\d+\s*-\s*/, ''), use: f.property_use_desc ? String(f.property_use_desc).replace(/^\w+\s*-\s*/, '') : null,
+      cite: [cite('fdny', `https://data.cityofnewyork.us/resource/tm6d-hbzd.json?im_incident_key=${encodeURIComponent(f.im_incident_key)}`, `Incident ${f.im_incident_key}`)],
+    }));
+    for (const f of notable) {
+      timeline.push({ date: f.date, precision: 'day', date_label: f.date ? formatDate(f.date) : 'Undated', category: 'event', certainty: 'documented',
+        title: `${f.level} fire on ${displayAddress(normalizeAddress(`0 ${inc.street}`)).replace(/^0 /, '')} nearby`, detail: `${f.type}${f.use ? ` at a ${f.use.toLowerCase()}` : ''}. FDNY gives no house number, so this may be another building on the street.`, cite: f.cite });
+    }
+    const dates = fireRows.map(f => isoDate(f.incident_date_time)).filter(Boolean).sort();
+    fires = { total: fireRows.length, from: dates[0] || null, to: dates[dates.length - 1] || null, street: inc.street, street_name: displayAddress(normalizeAddress(`0 ${inc.street}`)).replace(/^0 /, ''), zips: inc.zips,
+      by_type: Object.entries(byType).sort((a, b) => b[1] - a[1]), notable,
+      cite: [cite('fdny', `https://data.cityofnewyork.us/resource/tm6d-hbzd.json?$where=${encodeURIComponent(`street_highway='${inc.street}' AND zip_code in (${inc.zips.map(z => `'${z}'`).join(',')}) AND starts_with(incident_type_desc,'1')`)}`, `${inc.street}, ZIP ${inc.zips.join('/')}`)] };
+  }
+  return { radius_m: inc.radius_m, murders: murderRows ? murders : null, fires };
 }
 
 // Companies with offices here (NYS Department of State filings). "Now" = the
@@ -550,12 +596,13 @@ function sourceStatus(raw) {
   const list = [
     ['footprint', 'footprints'], ['pluto', 'pluto'], ['lpc_buildings', 'lpc_buildings'], ['lpc_designations', 'lpc_designations'],
     ['dob_jobs_all', 'dob_jobs'], ['dob_now_jobs', 'dob_now'], ['dob_co', 'dob_co'], ['dob_violations', 'dob_violations'],
-    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['offices', 'nys_corps'], ['licenses', 'licenses'], ['restaurants', 'restaurants'], ['nypl_photo', 'nypl'],
+    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['offices', 'nys_corps'], ['incidents', 'nypd'], ['licenses', 'licenses'], ['restaurants', 'restaurants'], ['nypl_photo', 'nypl'],
   ];
   return list.filter(([k]) => raw[k]).map(([k, src]) => {
     const r = raw[k];
     let count = Array.isArray(r.data) ? r.data.length : null;
     if (k === 'acris') count = rows(r.parts?.master).length;
+    if (k === 'incidents') count = (r.parts?.murders?.data || []).length;
     if (k === 'offices') count = new Set((r.parts?.matched || []).map(x => x.corpid_num)).size;
     return { key: k, source: src, label: SOURCES[src].label, ok: !!r.ok, count, error: r.ok ? null : r.error, retrieved_at: r.retrieved_at };
   });

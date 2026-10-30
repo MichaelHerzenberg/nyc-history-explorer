@@ -284,3 +284,32 @@ test('offices: active + recent = now; dissolved or stale = earlier; c/o and pre-
   assert.deepEqual(o.past.map(x => `${x.name} ${x.from.slice(0, 4)}-${x.to.slice(0, 4)}`), ['Macmillan Publishers Inc. 1993-2014']);
   assert.ok(o.current[0].cite[0].url.includes('corpid_num=2'));
 });
+
+import { fdnyStreet } from '../web/lib/nycLookup.js';
+
+test('FDNY street spelling: numbered avenues become digits', () => {
+  assert.equal(fdnyStreet('FIFTH AVENUE'), '5 AVE');
+  assert.equal(fdnyStreet('WEST 33RD STREET'), 'W 33 ST');
+});
+
+test('on the block: murders listed without victim details; only serious fires reach the timeline', () => {
+  const { identity, raw } = fixture();
+  raw.incidents = { ok: true, radius_m: 150, street: '5 AVE', zips: ['10118', '10001'], parts: {
+    murders: { ok: true, data: [{ cmplnt_num: '1A', cmplnt_fr_dt: '2012-08-24T00:00:00.000', prem_typ_desc: 'STREET', loc_of_occur_desc: 'FRONT OF', vic_age_group: '45-64', vic_sex: 'M', vic_race: 'WHITE' }] },
+    fires: { ok: true, data: [
+      { im_incident_key: 'F1', incident_date_time: '2023-01-26T10:00:00.000', incident_type_desc: '111 - Building fire', highest_level_desc: '75 - All Hands Working', property_use_desc: '500 - Mercantile, business, other' },
+      { im_incident_key: 'F2', incident_date_time: '2019-05-01T10:00:00.000', incident_type_desc: '151 - Outside rubbish, trash or waste fire', highest_level_desc: '11 - First Alarm' },
+      { im_incident_key: 'F3', incident_date_time: '2018-03-01T10:00:00.000', incident_type_desc: '111 - Building fire', highest_level_desc: '22 - Second Alarm' }] } } };
+  const p = buildProfile(identity, raw);
+  assert.equal(p.incidents.murders.length, 1);
+  assert.equal(p.incidents.fires.total, 3);
+  assert.equal(p.incidents.fires.notable.length, 2);
+  assert.equal(p.incidents.fires.street_name, 'Fifth Avenue');
+  const ev = p.timeline.filter(e => e.category === 'event' && e.major).map(e => e.title);
+  assert.deepEqual(ev, ['Murder reported within 150 m', 'Second Alarm fire on Fifth Avenue nearby', 'All Hands Working fire on Fifth Avenue nearby']);
+  assert.ok(p.timeline.find(e => /fire on Fifth Avenue/.test(e.title)).detail.includes('may be another building'));
+  assert.doesNotMatch(JSON.stringify(p.incidents) + JSON.stringify(p.timeline), /45-64|WHITE|vic_/);
+  const block = p.narrative.paragraphs.find(x => x.heading === 'On the block');
+  assert.match(block.sentences[0].text, /1 murder within 150 m since 2006, most recently on August 24, 2012/);
+  assert.match(block.sentences[1].text, /3 fires on Fifth Avenue .* 2 were serious .* the latest on January 26, 2023/);
+});

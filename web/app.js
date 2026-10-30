@@ -391,10 +391,20 @@ function renderProfile(p, raw, warning) {
     newsOut.replaceChildren(h('p', { class: 'src' }, `${r.data.pagination?.of?.toLocaleString?.() ?? results.length} page(s) contain the phrase. These are keyword matches: read each to confirm it is about this building.`),
       h('ul', { class: 'plain' }, results.map(x => h('li', {}, ext(x.url || x.id, x.title || 'Newspaper page'), x.date ? ` · ${x.date}` : ''))));
   } }, `Search old newspapers for “${name || p.address}”`);
-  const news = h('section', { class: 'block' }, h('h2', {}, 'In the news'),
+  const inc = p.incidents;
+  const block = inc ? [h('h3', {}, 'On the block'),
+    inc.murders ? h('p', {}, inc.murders.length
+      ? [`Murders reported within ${inc.radius_m} m since 2006: ${inc.murders.length}.`, h('ul', { class: 'plain' }, inc.murders.map(m => h('li', {}, m.date ? formatDay(m.date) : 'Undated', m.where ? ` · ${m.where}` : '', ' ', h('span', { class: 'src' }, '(', srcLink(m.cite[0]), ')'))))]
+      : `No murders reported within ${inc.radius_m} m since 2006 (NYPD).`) : null,
+    inc.fires ? [h('p', {}, inc.fires.total
+      ? `${inc.fires.total} fires on ${inc.fires.street_name} in ZIP ${inc.fires.zips.join('/')} (${inc.fires.from.slice(0, 4)}–${inc.fires.to.slice(0, 4)}): ${inc.fires.by_type.slice(0, 4).map(([t, n]) => `${n} ${t.toLowerCase()}`).join('; ')}.`
+      : `No fires recorded on ${inc.fires.street_name} in this ZIP code (2013–2025).`, ' ', h('span', { class: 'src' }, '(', srcLink(inc.fires.cite[0]), ')')),
+      inc.fires.notable.length ? h('ul', { class: 'plain' }, inc.fires.notable.map(f => h('li', {}, h('b', {}, `${f.level}`), ` · ${f.date ? formatDay(f.date) : 'Undated'} · ${f.type}${f.use ? `, ${f.use.toLowerCase()}` : ''} `, h('span', { class: 'src' }, '(', srcLink(f.cite[0]), ')')))) : null] : null,
+    h('p', { class: 'src' }, 'FDNY does not publish house numbers, so fires cover the whole street within the ZIP code and may be at other buildings. NYPD locations are approximate.')] : null;
+  const news = h('section', { class: 'block' }, h('h2', {}, 'In the news & on the block'),
     h('p', {}, 'News stories about the building and its block are not gathered automatically yet. Search historic newspapers (to 1963):'),
     h('ul', { class: 'plain' }, p.research_links.filter(l => l.group === 'Newspapers').map(l => h('li', {}, ext(l.url, l.label)))),
-    newsBtn, newsOut);
+    newsBtn, newsOut, block);
 
   // Timeline: highlights by default, every record on request
   const tl = h('ol', { class: 'timeline' });
@@ -472,6 +482,11 @@ function renderProfile(p, raw, warning) {
     (() => { const sv = p.research_links.find(l => l.label === 'Google Street View'); return sv ? h('p', {}, h('a', { class: 'btn btn-quiet sv', href: sv.url, target: '_blank', rel: 'noopener' }, 'Street View ↗')) : null; })(),
     glance, story, photo, businesses, news, timeline, unknowns, records, deeper, how,
   );
+}
+
+function formatDay(iso) {
+  const d = new Date(iso + 'T12:00:00Z');
+  return isNaN(d) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 }
 
 function download(name, obj) {

@@ -7,6 +7,7 @@ import {
   GEOSEARCH, SOCRATA, NYS_SOCRATA, DATASETS, NYS_DATASETS, SOCRATA_APP_TOKEN,
 } from './config.js';
 import { splitBBL, isPlaceholderBIN, normalizeAddress } from './address.js';
+import { geocode, murdersNear, firesOnStreet, fdnyStreet } from './nycLookup.js';
 
 const IS_NODE = typeof window === 'undefined';
 let userAgent = 'NYCHistoryExplorer/0.1 (https://github.com/MichaelHerzenberg/nyc-history-explorer)';
@@ -183,8 +184,9 @@ export async function gatherRaw(id, { onProgress } = {}) {
   })));
   const raw = {};
   names.forEach((n, i) => { raw[n] = results[i]; });
-  // Second step: offices, which needs the ZIP code and addresses found above.
-  raw.offices = await gatherOffices(id, raw);
+  // Second step: offices and block incidents, which need the ZIP code and
+  // addresses found above.
+  [raw.offices, raw.incidents] = await Promise.all([gatherOffices(id, raw), gatherIncidents(id, raw)]);
   return raw;
 }
 
@@ -317,6 +319,34 @@ async function gatherOffices(id, raw) {
   }))));
   out.parts.names = mergeRecords('offices_names', names);
   out.url = addrRec.url;
+  return out;
+}
+
+// Murders within 150 m (NYPD) and fires on the building's street within its
+// ZIP code (FDNY publishes no house numbers), via the owner's nycLookup.js.
+export const INCIDENT_RADIUS_M = 150;
+async function gatherIncidents(id, raw) {
+  const out = { name: 'incidents', ok: true, retrieved_at: new Date().toISOString(), radius_m: INCIDENT_RADIUS_M, parts: {} };
+  if (id.lat == null) { out.ok = false; out.error = 'No location'; return out; }
+  const address = buildingAddresses(id, raw)[0] || normalizeAddress(id.label || '');
+  const zips = new Set([(raw.pluto?.data?.[0]?.zipcode || '').trim()]);
+  let street = address.replace(/^\S+\s+/, '');
+  try {
+    const g = await geocode(`${address}, Manhattan`);
+    if (g?.zip) zips.add(g.zip);
+    if (g?.street) street = g.street;
+  } catch { /* fall back to the tax-lot ZIP */ }
+  zips.delete('');
+  out.street = fdnyStreet(street);
+  out.zips = [...zips];
+  const wrap = async (name, fn) => {
+    try { return { name, ok: true, data: await fn() }; } catch (err) { return { name, ok: false, error: String(err.message || err) }; }
+  };
+  [out.parts.murders, out.parts.fires] = await Promise.all([
+    wrap('murders', () => murdersNear(id.lat, id.lng, INCIDENT_RADIUS_M)),
+    out.zips.length ? wrap('fires', () => firesOnStreet(out.street, out.zips)) : { name: 'fires', ok: false, error: 'No ZIP code' },
+  ]);
+  if (!out.parts.murders.ok && !out.parts.fires.ok) { out.ok = false; out.error = out.parts.murders.error; }
   return out;
 }
 

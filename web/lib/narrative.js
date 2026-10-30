@@ -108,6 +108,24 @@ export function writeNarrative(p) {
   }
   if (biz.length) paragraphs.push({ heading: 'Businesses here', sentences: biz });
 
+  // 4. On the block: murders nearby and serious fires on the street.
+  const blk = [];
+  const inc = p.incidents;
+  if (inc?.murders) {
+    const ms = inc.murders;
+    blk.push(S(ms.length
+      ? `NYPD records ${ms.length} murder${ms.length === 1 ? '' : 's'} within ${inc.radius_m} m since 2006, most recently on ${formatDate(ms[0].date)}.`
+      : `NYPD records no murders within ${inc.radius_m} m since 2006.`, ms.length ? ms.slice(0, 3).flatMap(m => m.cite) : [{ source: 'nypd' }]));
+  }
+  if (inc?.fires) {
+    const f = inc.fires;
+    const n = [...f.notable].sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    blk.push(S(f.total
+      ? `FDNY answered ${f.total} fire${f.total === 1 ? '' : 's'} on ${f.street_name} in this ZIP code between ${f.from.slice(0, 4)} and ${f.to.slice(0, 4)}, most often ${f.by_type[0][0].toLowerCase()}${n.length ? `; ${n.length} ${n.length === 1 ? 'was' : 'were'} serious (all hands or more), the latest on ${formatDate(n[n.length - 1].date)}` : ''}.`
+      : `FDNY records no fires on ${f.street_name} in this ZIP code for 2013–2025.`, [...f.cite, ...n.slice(-2).flatMap(x => x.cite)]));
+  }
+  if (blk.length) paragraphs.push({ heading: 'On the block', sentences: blk });
+
   return {
     paragraphs,
     citations,

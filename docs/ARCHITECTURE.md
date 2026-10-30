@@ -125,3 +125,22 @@ use prohibit automated access, republishing or publicly displaying its content w
 permission, and "unauthorized framing of or linking to the Site". So we don't use it. The photos
 belong to the NYC Municipal Archives; the route is the Archives' own site or permission from
 them (see TODO).
+
+### D13. Headline-first pages (2026-10-30)
+The owner wants a building's headlines, not paperwork: who built it, when and for whom, major
+changes, who occupied it, and notable events. The story now has four parts (Origins, Changes over
+time, Businesses here, On the block). Permit counts, violations, mortgages and deed chains are kept
+but moved to a collapsed "Full records" section, and the timeline shows highlights by default.
+
+### D14. Tenants from three kinds of record
+Offices: New York State Department of State filings (principal-office and chief-executive
+addresses only). Shops and restaurants: City licences and restaurant inspections. Older tenants:
+leases recorded in ACRIS, skipping leases between the owner's own companies. None of these has
+company size, so lists are ordered by length of stay, not importance.
+
+### D15. On the block: murders and fires (owner's lookup)
+`web/lib/nycLookup.js` is the owner's module (murders within a radius from NYPD complaint data;
+fires on the street within the ZIP from FDNY). Fixed in place: numbered avenues for FDNY
+("FIFTH" -> "5"), FDNY's double-spaced spellings, and several ZIP codes per building. Only murders
+and serious fires (all hands or second alarm and up) reach the story and timeline; victim details
+are never shown.

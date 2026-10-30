@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-30T04:31:27.627Z",
+ "generated_at": "2026-10-30T04:36:16.188Z",
  "title": "Empire State Building",
  "address": "350 Fifth Avenue",
  "identity": {
@@ -909,7 +909,8 @@
   "Online property records (ACRIS) for this lot start in 1971. ACRIS indexes Manhattan documents back to 1966; older deeds are on microfilm at the City Register.",
   "No public-domain historical image confidently matched to this building in NYPL Digital Collections (only landmarks in the pilot are searched so far). Try the NYPL link under “Dig deeper”.",
   "Businesses: office tenants come from New York State company filings, whose address records are thin before the 1990s; shops and restaurants from City records. Tenants before that (and companies that never filed this address) are not covered yet. NYPL city directories are the planned source for earlier years.",
-  "News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “Dig deeper”."
+  "News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “In the news”.",
+  "On the block: NYPD murder records start in 2006 and FDNY fire records cover 2013–2025; FDNY gives no house numbers, so fires are for the whole street within the ZIP code, not necessarily this building."
  ],
  "tenants": {
   "current": [
@@ -1012,7 +1013,7 @@
     ]
    },
    {
-    "name": "Linkedin 28TH Floor Coffee Bar",
+    "name": "Linkedin 28th Floor Coffee Bar",
     "kind": "Restaurant / food service",
     "from": null,
     "to": null,
@@ -1026,7 +1027,7 @@
     ]
    },
    {
-    "name": "Linkedin 3RD Floor Cafe",
+    "name": "Linkedin 3rd Floor Cafe",
     "kind": "Restaurant / food service",
     "from": null,
     "to": null,
@@ -2589,7 +2590,7 @@
      ]
     },
     {
-     "name": "Rocket Pharmaceuticals (NY)",
+     "name": "Rocket Pharmaceuticals (ny)",
      "from": "2020-08-05",
      "to": "2026-03-20",
      "active": true,
@@ -3765,7 +3766,7 @@
      ]
     },
     {
-     "name": "LD13, Inc.",
+     "name": "Ld13, Inc.",
      "from": "2023-03-31",
      "to": "2023-03-31",
      "active": true,
@@ -9563,7 +9564,7 @@
      ]
     },
     {
-     "name": "Brand Science 5TH Avenue, Inc.",
+     "name": "Brand Science 5th Avenue, Inc.",
      "from": "2010-03-17",
      "to": "2010-03-17",
      "active": true,
@@ -11999,7 +12000,7 @@
      ]
     },
     {
-     "name": "30TH Floor Realty Corp.",
+     "name": "30th Floor Realty Corp.",
      "from": "2003-08-06",
      "to": "2003-08-06",
      "active": true,
@@ -13903,7 +13904,7 @@
      ]
     },
     {
-     "name": "5TH Avenue Public Relations, LTD.",
+     "name": "5th Avenue Public Relations, LTD.",
      "from": "2000-03-29",
      "to": "2000-03-29",
      "active": false,
@@ -19366,6 +19367,39 @@
    "earliest": "1992-10-21"
   }
  },
+ "incidents": {
+  "radius_m": 150,
+  "murders": [],
+  "fires": {
+   "total": 2,
+   "from": "2017-04-01",
+   "to": "2019-11-29",
+   "street": "5 AVE",
+   "street_name": "Fifth Avenue",
+   "zips": [
+    "10001",
+    "10118"
+   ],
+   "by_type": [
+    [
+     "Trash or rubbish fire, contained",
+     1
+    ],
+    [
+     "Mobile property (vehicle) fire, other",
+     1
+    ]
+   ],
+   "notable": [],
+   "cite": [
+    {
+     "source": "fdny",
+     "url": "https://data.cityofnewyork.us/resource/tm6d-hbzd.json?$where=street_highway%3D'5%20AVE'%20AND%20zip_code%20in%20('10001'%2C'10118')%20AND%20starts_with(incident_type_desc%2C'1')",
+     "note": "5 AVE, ZIP 10001/10118"
+    }
+   ]
+  }
+ },
  "dob": {
   "totals": {
    "jobs": 2610,
@@ -19807,6 +19841,20 @@
    "license": "Open NY data (data.ny.gov terms of use)",
    "caution": "Office addresses companies gave the State; a company may move without filing a new address."
   },
+  "nypd": {
+   "label": "NYPD Complaint Data (murder and non-negligent manslaughter)",
+   "publisher": "New York City Police Department",
+   "url": "https://data.cityofnewyork.us/d/qgea-i56i",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)",
+   "caution": "Locations are approximate (often the nearest intersection). Data from 2006."
+  },
+  "fdny": {
+   "label": "FDNY Incidents Responded to by Fire Companies",
+   "publisher": "Fire Department of the City of New York",
+   "url": "https://data.cityofnewyork.us/d/tm6d-hbzd",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)",
+   "caution": "No house numbers: covers the whole street within the ZIP code. Data 2013–2025."
+  },
   "acris": {
    "label": "ACRIS property records (City Register)",
    "publisher": "NYC Dept. of Finance",
@@ -19822,7 +19870,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:21.827Z"
+   "retrieved_at": "2026-10-30T04:36:08.805Z"
   },
   {
    "key": "pluto",
@@ -19831,7 +19879,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.427Z"
+   "retrieved_at": "2026-10-30T04:36:09.481Z"
   },
   {
    "key": "lpc_buildings",
@@ -19840,7 +19888,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.428Z"
+   "retrieved_at": "2026-10-30T04:36:09.482Z"
   },
   {
    "key": "lpc_designations",
@@ -19849,7 +19897,7 @@
    "ok": true,
    "count": 2,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.429Z"
+   "retrieved_at": "2026-10-30T04:36:09.482Z"
   },
   {
    "key": "dob_jobs_all",
@@ -19858,7 +19906,7 @@
    "ok": true,
    "count": 2850,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.430Z"
+   "retrieved_at": "2026-10-30T04:36:09.484Z"
   },
   {
    "key": "dob_now_jobs",
@@ -19867,7 +19915,7 @@
    "ok": true,
    "count": 696,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.431Z"
+   "retrieved_at": "2026-10-30T04:36:09.484Z"
   },
   {
    "key": "dob_co",
@@ -19876,7 +19924,7 @@
    "ok": true,
    "count": 47,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.432Z"
+   "retrieved_at": "2026-10-30T04:36:09.485Z"
   },
   {
    "key": "dob_violations",
@@ -19885,7 +19933,7 @@
    "ok": true,
    "count": 691,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.432Z"
+   "retrieved_at": "2026-10-30T04:36:09.485Z"
   },
   {
    "key": "ecb_violations",
@@ -19894,7 +19942,7 @@
    "ok": true,
    "count": 241,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.433Z"
+   "retrieved_at": "2026-10-30T04:36:09.486Z"
   },
   {
    "key": "dob_complaints",
@@ -19903,7 +19951,7 @@
    "ok": true,
    "count": 142,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.433Z"
+   "retrieved_at": "2026-10-30T04:36:09.486Z"
   },
   {
    "key": "acris",
@@ -19912,7 +19960,7 @@
    "ok": true,
    "count": 141,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.434Z"
+   "retrieved_at": "2026-10-30T04:36:09.487Z"
   },
   {
    "key": "offices",
@@ -19921,7 +19969,16 @@
    "ok": true,
    "count": 1297,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:24.969Z"
+   "retrieved_at": "2026-10-30T04:36:14.203Z"
+  },
+  {
+   "key": "incidents",
+   "source": "nypd",
+   "label": "NYPD Complaint Data (murder and non-negligent manslaughter)",
+   "ok": true,
+   "count": 0,
+   "error": null,
+   "retrieved_at": "2026-10-30T04:36:14.204Z"
   },
   {
    "key": "licenses",
@@ -19930,7 +19987,7 @@
    "ok": true,
    "count": 9,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.434Z"
+   "retrieved_at": "2026-10-30T04:36:09.487Z"
   },
   {
    "key": "restaurants",
@@ -19939,7 +19996,7 @@
    "ok": true,
    "count": 11,
    "error": null,
-   "retrieved_at": "2026-10-30T04:31:22.434Z"
+   "retrieved_at": "2026-10-30T04:36:09.488Z"
   },
   {
    "key": "nypl_photo",
@@ -20022,7 +20079,7 @@
       ]
      },
      {
-      "text": "Shops and restaurants on current City records include Alidoro, AT&T Mobility Supply LLC, Chipotle Mexican Grill #3641, Chop't, Empire Diamond Corporation, Ghirardelli, Handy Candy Inc. and Linkedin 28TH Floor Coffee Bar (14 in all).",
+      "text": "Shops and restaurants on current City records include Alidoro, AT&T Mobility Supply LLC, Chipotle Mexican Grill #3641, Chop't, Empire Diamond Corporation, Ghirardelli, Handy Candy Inc. and Linkedin 28th Floor Coffee Bar (14 in all).",
       "refs": [
        19,
        20
@@ -20042,6 +20099,23 @@
        22,
        23,
        24
+      ]
+     }
+    ]
+   },
+   {
+    "heading": "On the block",
+    "sentences": [
+     {
+      "text": "NYPD records no murders within 150 m since 2006.",
+      "refs": [
+       25
+      ]
+     },
+     {
+      "text": "FDNY answered 2 fires on Fifth Avenue in this ZIP code between 2017 and 2019, most often trash or rubbish fire, contained.",
+      "refs": [
+       26
       ]
      }
     ]
@@ -20234,6 +20308,21 @@
     "label": "ACRIS property records (City Register)",
     "publisher": "NYC Dept. of Finance",
     "note": "Lease, 1973-08-14",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "nypd",
+    "url": "https://data.cityofnewyork.us/d/qgea-i56i",
+    "label": "NYPD Complaint Data (murder and non-negligent manslaughter)",
+    "publisher": "New York City Police Department",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "fdny",
+    "url": "https://data.cityofnewyork.us/resource/tm6d-hbzd.json?$where=street_highway%3D'5%20AVE'%20AND%20zip_code%20in%20('10001'%2C'10118')%20AND%20starts_with(incident_type_desc%2C'1')",
+    "label": "FDNY Incidents Responded to by Fire Companies",
+    "publisher": "Fire Department of the City of New York",
+    "note": "5 AVE, ZIP 10001/10118",
     "accessed": "2026-10-30"
    }
   ],
