@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-30T03:59:54.455Z",
+ "generated_at": "2026-10-30T04:25:29.395Z",
  "title": "Empire State Building",
  "address": "350 Fifth Avenue",
  "identity": {
@@ -312,7 +312,8 @@
      "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
      "note": "1931"
     }
-   ]
+   ],
+   "major": true
   },
   {
    "date": "1973-08-14",
@@ -328,7 +329,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1580008524658",
      "note": "Document FT_1580008524658"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1979-09-11",
@@ -344,7 +346,8 @@
      "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
      "note": "LP-02001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1979-09-11",
@@ -360,7 +363,8 @@
      "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
      "note": "LP-02000"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1979-12-11",
@@ -376,7 +380,8 @@
      "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
      "note": "LP-02001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1979-12-11",
@@ -392,7 +397,8 @@
      "url": "https://data.cityofnewyork.us/resource/ncre-qhxs.json?%24where=bin_number%3D%271015862%27+OR+bbl%3D%271008350041%27&%24limit=200",
      "note": "LP-02000"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1981-05-19",
@@ -413,7 +419,8 @@
      "url": "https://s-media.nyc.gov/agencies/lpc/lp/2001.pdf",
      "note": "LP-02001"
     }
-   ]
+   ],
+   "major": true
   },
   {
    "date": "1981-05-19",
@@ -434,7 +441,8 @@
      "url": "https://s-media.nyc.gov/agencies/lpc/lp/2000.pdf",
      "note": "LP-02000"
     }
-   ]
+   ],
+   "major": true
   },
   {
    "date": "1982-07-02",
@@ -450,7 +458,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1530000011453",
      "note": "Document FT_1530000011453"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1982-07-02",
@@ -466,7 +475,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1540000011454",
      "note": "Document FT_1540000011454"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1991-11-27",
@@ -482,7 +492,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1210000386321",
      "note": "Document FT_1210000386321"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1993-02-10",
@@ -498,7 +509,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=100582898&passdocnumber=01",
      "note": "Job 100582898"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1993-03-26",
@@ -514,7 +526,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=100597882&passdocnumber=01",
      "note": "Job 100597882"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1993-10-27",
@@ -530,7 +543,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1850000447485",
      "note": "Document FT_1850000447485"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1994-06-28",
@@ -546,7 +560,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1520004330052",
      "note": "Document FT_1520004330052"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1995-11-30",
@@ -562,7 +577,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=101165089&passdocnumber=01",
      "note": "Job 101165089"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "1996-07-12",
@@ -578,7 +594,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=101348285&passdocnumber=01",
      "note": "Job 101348285"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2002-04-15",
@@ -594,7 +611,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1110008359611",
      "note": "Document FT_1110008359611"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2002-04-17",
@@ -610,7 +628,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1140008359614",
      "note": "Document FT_1140008359614"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2004-04-01",
@@ -626,7 +645,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=103747518&passdocnumber=01",
      "note": "Job 103747518"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2004-08-13",
@@ -642,7 +662,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2004082301415001",
      "note": "Document 2004082301415001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2005-09-22",
@@ -658,7 +679,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=104240778&passdocnumber=01",
      "note": "Job 104240778"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2007-09-01",
@@ -674,7 +696,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2008022800402001",
      "note": "Document 2008022800402001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2009-06-26",
@@ -690,7 +713,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120088341&passdocnumber=01",
      "note": "Job 120088341"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2011-01-01",
@@ -705,7 +729,8 @@
      "source": "pluto",
      "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041"
     }
-   ]
+   ],
+   "major": true
   },
   {
    "date": "2011-01-18",
@@ -721,7 +746,8 @@
      "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120581502&passdocnumber=01",
      "note": "Job 120581502"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2011-07-26",
@@ -737,7 +763,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090009",
      "note": "Document 2011080600090009"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2011-07-26",
@@ -753,7 +780,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090013",
      "note": "Document 2011080600090013"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2012-04-05",
@@ -769,7 +797,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012041600990001",
      "note": "Document 2012041600990001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2012-07-09",
@@ -785,7 +814,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2012072100035001",
      "note": "Document 2012072100035001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2012-08-20",
@@ -801,7 +831,8 @@
      "url": "https://data.cityofnewyork.us/resource/bs8b-p36w.json?%24select=job_number%2Cjob_type%2Cc_o_issue_date%2Cissue_type%2Cfiling_status_raw&%24where=bin%3D%271015862%27+OR+bin_number%3D%271015862%27&%24limit=1000",
      "note": "Job 120088341"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2012-09-19",
@@ -817,7 +848,8 @@
      "url": "https://data.cityofnewyork.us/resource/bs8b-p36w.json?%24select=job_number%2Cjob_type%2Cc_o_issue_date%2Cissue_type%2Cfiling_status_raw&%24where=bin%3D%271015862%27+OR+bin_number%3D%271015862%27&%24limit=1000",
      "note": "Job 120581502"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2013-02-26",
@@ -833,7 +865,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013031201548001",
      "note": "Document 2013031201548001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2013-08-26",
@@ -849,7 +882,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013091000735001",
      "note": "Document 2013091000735001"
     }
-   ]
+   ],
+   "major": false
   },
   {
    "date": "2013-10-07",
@@ -865,7 +899,8 @@
      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013100700087001",
      "note": "Document 2013100700087001"
     }
-   ]
+   ],
+   "major": false
   }
  ],
  "conflicts": [],
@@ -873,8 +908,299 @@
   "No new-building permit appears in DOB data. DOB’s searchable job records for this building begin in 1990; older permits (including the original construction permit) survive only as scanned papers in DOB’s Building Information System and the Municipal Archives.",
   "Online property records (ACRIS) for this lot start in 1971. ACRIS indexes Manhattan documents back to 1966; older deeds are on microfilm at the City Register.",
   "No public-domain historical image confidently matched to this building in NYPL Digital Collections (only landmarks in the pilot are searched so far). Try the NYPL link under “Dig deeper”.",
-  "Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated."
+  "Businesses: City records only name restaurants, businesses that need a City licence, and tenants in recorded leases. Office tenants and anything before the 1970s are not covered yet (NYPL city directories are the planned source).",
+  "News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “Dig deeper”."
  ],
+ "tenants": {
+  "current": [
+   {
+    "name": "Alidoro",
+    "kind": "Restaurant / food service",
+    "from": null,
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "not yet inspected"
+     }
+    ]
+   },
+   {
+    "name": "AT&T Mobility Supply LLC",
+    "kind": "Electronics Store",
+    "from": "2019-10-24",
+    "to": null,
+    "source": "licenses",
+    "cite": [
+     {
+      "source": "licenses",
+      "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+      "note": "Electronics Store, Active"
+     }
+    ]
+   },
+   {
+    "name": "Chipotle Mexican Grill #3641",
+    "kind": "Restaurant (Mexican)",
+    "from": "2025-07-25",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2025–2026"
+     }
+    ]
+   },
+   {
+    "name": "Chop't",
+    "kind": "Restaurant (Salads)",
+    "from": "2024-09-16",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2024–2026"
+     }
+    ]
+   },
+   {
+    "name": "Empire Diamond Corporation",
+    "kind": "Secondhand Dealer - General",
+    "from": "2003-07-29",
+    "to": null,
+    "source": "licenses",
+    "cite": [
+     {
+      "source": "licenses",
+      "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+      "note": "Secondhand Dealer - General, Active"
+     }
+    ]
+   },
+   {
+    "name": "Ghirardelli",
+    "kind": "Restaurant (American)",
+    "from": "2025-04-23",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2025–2026"
+     }
+    ]
+   },
+   {
+    "name": "Handy Candy Inc.",
+    "kind": "Electronic Cigarette Dealer",
+    "from": "2022-07-26",
+    "to": null,
+    "source": "licenses",
+    "cite": [
+     {
+      "source": "licenses",
+      "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+      "note": "Electronic Cigarette Dealer, Active"
+     }
+    ]
+   },
+   {
+    "name": "Linkedin 28th Floor Coffee Bar",
+    "kind": "Restaurant / food service",
+    "from": null,
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "not yet inspected"
+     }
+    ]
+   },
+   {
+    "name": "Linkedin 3rd Floor Cafe",
+    "kind": "Restaurant / food service",
+    "from": null,
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "not yet inspected"
+     }
+    ]
+   },
+   {
+    "name": "Starbucks Reserve",
+    "kind": "Restaurant (Coffee/Tea)",
+    "from": "2024-05-10",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2024–2026"
+     }
+    ]
+   },
+   {
+    "name": "State Grill And Bar",
+    "kind": "Restaurant (American)",
+    "from": "2023-10-19",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2023–2026"
+     }
+    ]
+   },
+   {
+    "name": "Sushi Beauu",
+    "kind": "Restaurant (Japanese)",
+    "from": "2025-10-02",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2025–2026"
+     }
+    ]
+   },
+   {
+    "name": "Tacombi",
+    "kind": "Restaurant (Tex-Mex)",
+    "from": "2024-05-30",
+    "to": null,
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2024–2026"
+     }
+    ]
+   },
+   {
+    "name": "Vanguard Construction And Development Company, Inc.",
+    "kind": "Home Improvement Contractor",
+    "from": "2009-07-22",
+    "to": null,
+    "source": "licenses",
+    "cite": [
+     {
+      "source": "licenses",
+      "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+      "note": "Home Improvement Contractor, Active"
+     }
+    ]
+   }
+  ],
+  "past": [
+   {
+    "name": "Juice Press",
+    "kind": "Restaurant (Juice, Smoothies, Fruit Salads)",
+    "from": "2022-12-27",
+    "to": "2025-08-21",
+    "source": "restaurants",
+    "cite": [
+     {
+      "source": "restaurants",
+      "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+      "note": "inspected 2022–2025"
+     }
+    ]
+   },
+   {
+    "name": "A3 Artists Agency",
+    "kind": "Employment Agency",
+    "from": "2018-10-26",
+    "to": "2024-05-01",
+    "source": "licenses",
+    "cite": [
+     {
+      "source": "licenses",
+      "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+      "note": "Employment Agency, Expired"
+     }
+    ]
+   },
+   {
+    "name": "ESB Observatory LLC",
+    "kind": "Lease recorded",
+    "from": "2011-07-26",
+    "to": null,
+    "lease": true,
+    "source": "acris",
+    "cite": [
+     {
+      "source": "acris",
+      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090013",
+      "note": "Memorandum Of Lease, 2011-07-26"
+     }
+    ]
+   },
+   {
+    "name": "Icbc-Ny, LLC",
+    "kind": "Lease recorded (part of the lot)",
+    "from": "2007-09-01",
+    "to": null,
+    "lease": true,
+    "source": "acris",
+    "cite": [
+     {
+      "source": "acris",
+      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2008022800402001",
+      "note": "Memorandum Of Lease, 2007-09-01"
+     }
+    ]
+   },
+   {
+    "name": "ICBC Corporation",
+    "kind": "Lease recorded (part of the lot)",
+    "from": "2004-08-13",
+    "to": null,
+    "lease": true,
+    "source": "acris",
+    "cite": [
+     {
+      "source": "acris",
+      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2004082301415001",
+      "note": "Memorandum Of Lease, 2004-08-13"
+     }
+    ]
+   },
+   {
+    "name": "US Postal Service",
+    "kind": "Lease recorded",
+    "from": "1973-08-14",
+    "to": null,
+    "lease": true,
+    "source": "acris",
+    "cite": [
+     {
+      "source": "acris",
+      "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1580008524658",
+      "note": "Lease, 1973-08-14"
+     }
+    ]
+   }
+  ]
+ },
  "dob": {
   "totals": {
    "jobs": 2610,
@@ -1173,6 +1499,12 @@
  ],
  "research_links": [
   {
+   "group": "See it today",
+   "label": "Google Street View",
+   "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=40.748559,-73.985979",
+   "note": "Opens Google Maps. Use the clock icon there to see older Street View photos, where Google has them"
+  },
+  {
    "group": "Newspapers",
    "label": "Historic newspapers mentioning “Empire State Building”",
    "url": "https://www.loc.gov/collections/chronicling-america/?q=%22Empire+State+Building%22&dates=1924%2F1963",
@@ -1289,6 +1621,20 @@
    "url": "https://digitalcollections.nypl.org/",
    "license": "Public domain (per NYPL rights statement on each item)"
   },
+  "licenses": {
+   "label": "DCWP Issued Licenses",
+   "publisher": "NYC Dept. of Consumer and Worker Protection",
+   "url": "https://data.cityofnewyork.us/d/w7w3-xahh",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)",
+   "caution": "Only businesses that need a City licence (shops, electronics, tobacco, etc.)."
+  },
+  "restaurants": {
+   "label": "DOHMH Restaurant Inspection Results",
+   "publisher": "NYC Dept. of Health and Mental Hygiene",
+   "url": "https://data.cityofnewyork.us/d/43nn-pn8j",
+   "license": "NYC Open Data — free public data (NYC Open Data Law)",
+   "caution": "Covers recent years only."
+  },
   "acris": {
    "label": "ACRIS property records (City Register)",
    "publisher": "NYC Dept. of Finance",
@@ -1304,7 +1650,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.251Z"
+   "retrieved_at": "2026-10-30T04:25:24.512Z"
   },
   {
    "key": "pluto",
@@ -1313,7 +1659,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.446Z"
+   "retrieved_at": "2026-10-30T04:25:24.947Z"
   },
   {
    "key": "lpc_buildings",
@@ -1322,7 +1668,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.447Z"
+   "retrieved_at": "2026-10-30T04:25:24.948Z"
   },
   {
    "key": "lpc_designations",
@@ -1331,7 +1677,7 @@
    "ok": true,
    "count": 2,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.448Z"
+   "retrieved_at": "2026-10-30T04:25:24.949Z"
   },
   {
    "key": "dob_jobs_all",
@@ -1340,7 +1686,7 @@
    "ok": true,
    "count": 2850,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.450Z"
+   "retrieved_at": "2026-10-30T04:25:24.951Z"
   },
   {
    "key": "dob_now_jobs",
@@ -1349,7 +1695,7 @@
    "ok": true,
    "count": 696,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.451Z"
+   "retrieved_at": "2026-10-30T04:25:24.952Z"
   },
   {
    "key": "dob_co",
@@ -1358,7 +1704,7 @@
    "ok": true,
    "count": 47,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.452Z"
+   "retrieved_at": "2026-10-30T04:25:24.953Z"
   },
   {
    "key": "dob_violations",
@@ -1367,7 +1713,7 @@
    "ok": true,
    "count": 691,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.453Z"
+   "retrieved_at": "2026-10-30T04:25:24.954Z"
   },
   {
    "key": "ecb_violations",
@@ -1376,7 +1722,7 @@
    "ok": true,
    "count": 241,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.455Z"
+   "retrieved_at": "2026-10-30T04:25:24.956Z"
   },
   {
    "key": "dob_complaints",
@@ -1385,7 +1731,7 @@
    "ok": true,
    "count": 142,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.456Z"
+   "retrieved_at": "2026-10-30T04:25:24.957Z"
   },
   {
    "key": "acris",
@@ -1394,7 +1740,25 @@
    "ok": true,
    "count": 141,
    "error": null,
-   "retrieved_at": "2026-10-30T03:59:52.457Z"
+   "retrieved_at": "2026-10-30T04:25:24.958Z"
+  },
+  {
+   "key": "licenses",
+   "source": "licenses",
+   "label": "DCWP Issued Licenses",
+   "ok": true,
+   "count": 9,
+   "error": null,
+   "retrieved_at": "2026-10-30T04:25:24.959Z"
+  },
+  {
+   "key": "restaurants",
+   "source": "restaurants",
+   "label": "DOHMH Restaurant Inspection Results",
+   "ok": true,
+   "count": 11,
+   "error": null,
+   "retrieved_at": "2026-10-30T04:25:24.959Z"
   },
   {
    "key": "nypl_photo",
@@ -1415,79 +1779,68 @@
       "text": "Empire State Building stands at 350 Fifth Avenue, Manhattan.",
       "refs": [
        1,
-       2,
-       3
-      ]
-     },
-     {
-      "text": "City records also list it as 338 Fifth Avenue, 336 Fifth Avenue and 338-50 Fifth Avenue.",
-      "refs": [
-       4,
-       5,
-       3
+       2
       ]
      },
      {
       "text": "It was built in 1929–1931, designed by Shreve, Lamb & Harmon [William Lamb], for John J. Raskob (General Motors).",
       "refs": [
-       6
+       3
       ]
      },
      {
-      "text": "Its survey record lists style “Art Deco, Modernist”, materials “Brick, Indiana Limestone, Granite, Cast Stone, Metal” and original use “Commercial, offices”.",
+      "text": "An Art Deco office building, it has 102 floors and a roof height of about 1239 ft; its original use was commercial, offices.",
       "refs": [
-       6
+       3,
+       4,
+       5
       ]
      }
     ]
    },
    {
-    "heading": "Recognition",
+    "heading": "Changes over time",
     "sentences": [
      {
-      "text": "On May 19, 1981, the Landmarks Preservation Commission designated it a New York City Interior Landmark.",
+      "text": "City Planning records a major alteration in 2011.",
       "refs": [
+       4
+      ]
+     },
+     {
+      "text": "On May 19, 1981, the Landmarks Preservation Commission designated it a New York City Interior Landmark and a New York City Individual Landmark.",
+      "refs": [
+       6,
        7,
        8
       ]
-     },
-     {
-      "text": "On May 19, 1981, the Landmarks Preservation Commission designated it a New York City Individual Landmark.",
-      "refs": [
-       7,
-       9
-      ]
      }
     ]
    },
    {
-    "heading": "Later life in the records",
+    "heading": "Businesses here",
     "sentences": [
      {
-      "text": "Department of Buildings data from 1990 onward holds 2,610 job filings, 691 DOB violations, 241 ECB violations and 142 complaints for this building.",
+      "text": "Businesses here on current City records include Alidoro, AT&T Mobility Supply LLC, Chipotle Mexican Grill #3641, Chop't, Empire Diamond Corporation, Ghirardelli, Handy Candy Inc. and Linkedin 28th Floor Coffee Bar (14 in all).",
       "refs": [
-       2,
-       10,
+       9,
+       10
+      ]
+     },
+     {
+      "text": "Earlier ones include Juice Press (until 2025) and A3 Artists Agency (until 2024).",
+      "refs": [
+       9,
+       10
+      ]
+     },
+     {
+      "text": "Recorded leases name ESB Observatory LLC (2011), Icbc-Ny, LLC (2007), ICBC Corporation (2004) and US Postal Service (1973) as tenants.",
+      "refs": [
        11,
-       12
-      ]
-     },
-     {
-      "text": "Of these, 8 are major alterations (changes of use, egress or occupancy); the most recent was filed January 18, 2011.",
-      "refs": [
-       13
-      ]
-     },
-     {
-      "text": "The city tax roll lists ESRT EMPIRE STATE BUILDING, L.L.C. as the current owner of record.",
-      "refs": [
+       12,
+       13,
        14
-      ]
-     },
-     {
-      "text": "ACRIS holds 15 deeds, leases or other conveyances for the lot; the most recent deed, dated October 7, 2013, went to Esrt Empire State Building, L.L.C.",
-      "refs": [
-       15
       ]
      }
     ]
@@ -1509,32 +1862,25 @@
     "accessed": "2026-10-30"
    },
    {
-    "source": "acris",
-    "url": "https://data.cityofnewyork.us/d/bnx9-e6tj",
-    "label": "ACRIS property records (City Register)",
-    "publisher": "NYC Dept. of Finance",
-    "accessed": "2026-10-30"
-   },
-   {
-    "source": "pluto",
-    "url": "https://data.cityofnewyork.us/d/64uk-42ks",
-    "label": "PLUTO tax-lot data",
-    "publisher": "NYC Dept. of City Planning",
-    "accessed": "2026-10-30"
-   },
-   {
-    "source": "lpc_designations",
-    "url": "https://data.cityofnewyork.us/d/ncre-qhxs",
-    "label": "LPC Designated and Calendared Buildings and Sites",
-    "publisher": "NYC Landmarks Preservation Commission",
-    "accessed": "2026-10-30"
-   },
-   {
     "source": "lpc_buildings",
     "url": "https://data.cityofnewyork.us/resource/gpmc-yuvp.json?%24where=bin%3D%271015862%27",
     "label": "LPC Landmark & Historic District Building Database",
     "publisher": "NYC Landmarks Preservation Commission",
     "note": "1929 - 1931",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "pluto",
+    "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
+    "label": "PLUTO tax-lot data",
+    "publisher": "NYC Dept. of City Planning",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "footprints",
+    "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?bin=1015862",
+    "label": "Building Footprints",
+    "publisher": "NYC Office of Technology & Innovation",
     "accessed": "2026-10-30"
    },
    {
@@ -1562,46 +1908,51 @@
     "accessed": "2026-10-30"
    },
    {
-    "source": "dob_violations",
-    "url": "https://data.cityofnewyork.us/d/3h2n-5cm9",
-    "label": "DOB Violations",
-    "publisher": "NYC Dept. of Buildings",
+    "source": "restaurants",
+    "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json?%24select=camis%2Cdba%2Ccuisine_description%2Cmin%28inspection_date%29+as+first_inspection%2Cmax%28inspection_date%29+as+last_inspection&%24where=bin%3D%271015862%27&%24group=camis%2Cdba%2Ccuisine_description&%24limit=2000",
+    "label": "DOHMH Restaurant Inspection Results",
+    "publisher": "NYC Dept. of Health and Mental Hygiene",
+    "note": "not yet inspected",
     "accessed": "2026-10-30"
    },
    {
-    "source": "ecb_violations",
-    "url": "https://data.cityofnewyork.us/d/6bgk-3dad",
-    "label": "DOB ECB Violations",
-    "publisher": "NYC Dept. of Buildings",
-    "accessed": "2026-10-30"
-   },
-   {
-    "source": "dob_complaints",
-    "url": "https://data.cityofnewyork.us/d/eabe-havv",
-    "label": "DOB Complaints Received",
-    "publisher": "NYC Dept. of Buildings",
-    "accessed": "2026-10-30"
-   },
-   {
-    "source": "dob_jobs",
-    "url": "https://a810-bisweb.nyc.gov/bisweb/JobsQueryByNumberServlet?passjobnumber=120581502&passdocnumber=01",
-    "label": "DOB Job Application Filings (BIS)",
-    "publisher": "NYC Dept. of Buildings",
-    "note": "Job 120581502",
-    "accessed": "2026-10-30"
-   },
-   {
-    "source": "pluto",
-    "url": "https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1008350041",
-    "label": "PLUTO tax-lot data",
-    "publisher": "NYC Dept. of City Planning",
+    "source": "licenses",
+    "url": "https://data.cityofnewyork.us/resource/w7w3-xahh.json?%24select=business_name%2Cdba_trade_name%2Cbusiness_category%2Clicense_status%2Clicense_creation_date%2Clic_expir_dd&%24where=bin%3D%271015862%27&%24limit=2000",
+    "label": "DCWP Issued Licenses",
+    "publisher": "NYC Dept. of Consumer and Worker Protection",
+    "note": "Electronics Store, Active",
     "accessed": "2026-10-30"
    },
    {
     "source": "acris",
-    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2013100700087001",
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2011080600090013",
     "label": "ACRIS property records (City Register)",
     "publisher": "NYC Dept. of Finance",
+    "note": "Memorandum Of Lease, 2011-07-26",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "acris",
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2008022800402001",
+    "label": "ACRIS property records (City Register)",
+    "publisher": "NYC Dept. of Finance",
+    "note": "Memorandum Of Lease, 2007-09-01",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "acris",
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=2004082301415001",
+    "label": "ACRIS property records (City Register)",
+    "publisher": "NYC Dept. of Finance",
+    "note": "Memorandum Of Lease, 2004-08-13",
+    "accessed": "2026-10-30"
+   },
+   {
+    "source": "acris",
+    "url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentDetail?doc_id=FT_1580008524658",
+    "label": "ACRIS property records (City Register)",
+    "publisher": "NYC Dept. of Finance",
+    "note": "Lease, 1973-08-14",
     "accessed": "2026-10-30"
    }
   ],

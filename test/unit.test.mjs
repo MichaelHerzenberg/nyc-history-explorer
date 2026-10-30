@@ -203,3 +203,56 @@ test('each building links to Google Street View at its location', () => {
   const [la, lo] = u.searchParams.get('viewpoint').split(',').map(Number);
   assert.ok(Math.abs(la - 40.7484) < 0.001 && Math.abs(lo + 73.9857) < 0.001);
 });
+
+import { niceName } from '../web/lib/profile.js';
+
+test('the story sticks to headlines: no permit counts, violations or deed chains', () => {
+  const { identity, raw } = fixture();
+  const p = buildProfile(identity, raw);
+  const text = p.narrative.paragraphs.flatMap(x => x.sentences.map(s => s.text)).join(' ');
+  assert.doesNotMatch(text, /violation|complaint|job filing|mortgage|deed/i);
+  assert.match(text, /built in 1929–1931, designed by Shreve, Lamb & Harmon/);
+  assert.match(text, /Interior Landmark and a New York City Individual Landmark/);
+  assert.deepEqual(p.narrative.paragraphs.map(x => x.heading), ['Origins', 'Changes over time', 'Businesses here']);
+});
+
+test('timeline highlights leave out routine paperwork', () => {
+  const { identity, raw } = fixture();
+  const p = buildProfile(identity, raw);
+  const majors = p.timeline.filter(e => e.major).map(e => e.title);
+  assert.ok(majors.some(t => /built/.test(t)));
+  assert.ok(majors.some(t => /Individual Landmark/.test(t)));
+  assert.ok(!majors.some(t => /hearing|Lease|Deed|certificate|Alteration Type 1/i.test(t)), majors.join(' | '));
+});
+
+test('tenants: leases between the owner’s own companies are not tenants', () => {
+  const { identity, raw } = fixture();
+  const p = buildProfile(identity, raw);
+  const names = p.tenants.past.map(t => t.name);
+  assert.ok(names.includes('US Postal Service'), names.join(', '));
+  assert.ok(names.includes('ESB Observatory LLC'));
+  assert.ok(!names.some(n => /Empire State Building (Company|Associates)/i.test(n)), names.join(', '));
+});
+
+test('current businesses come from restaurant and licence records', () => {
+  const { identity, raw } = fixture();
+  const now = new Date('2026-10-30T00:00:00Z');
+  raw.restaurants = { ok: true, data: [
+    { dba: 'STATE GRILL AND BAR', cuisine_description: 'American', first_inspection: '2023-10-19T00:00:00.000', last_inspection: '2026-01-07T00:00:00.000' },
+    { dba: 'JUICE PRESS', first_inspection: '2022-12-27T00:00:00.000', last_inspection: '2025-08-21T00:00:00.000' },
+    { dba: 'NEW PLACE', first_inspection: '1900-01-01T00:00:00.000', last_inspection: '1900-01-01T00:00:00.000' }] };
+  raw.licenses = { ok: true, data: [
+    { business_name: 'T-MOBILE NORTHEAST LLC', business_category: 'Electronics Store', license_status: 'Surrendered', license_creation_date: '2020-07-22T00:00:00.000', lic_expir_dd: '2027-07-31T00:00:00.000' }] };
+  const p = buildProfile(identity, raw, { now });
+  assert.deepEqual(p.tenants.current.map(t => t.name).sort(), ['New Place', 'State Grill And Bar']);
+  const tm = p.tenants.past.find(t => t.name === 'T-Mobile Northeast LLC');
+  assert.equal(tm.to, null, 'a future expiry on a surrendered licence is not a move-out date');
+  assert.equal(p.tenants.past.find(t => t.name === 'Juice Press').to, '2025-08-21');
+});
+
+test('business names are made readable', () => {
+  assert.equal(niceName("CHOP'T"), "Chop't");
+  assert.equal(niceName('AT&T MOBILITY SUPPLY LLC'), 'AT&T Mobility Supply LLC');
+  assert.equal(niceName('HANDY CANDY INC'), 'Handy Candy Inc.');
+  assert.equal(niceName('Starbucks Reserve'), 'Starbucks Reserve');
+});

@@ -1,14 +1,16 @@
-// Writes the readable "story" from a profile. Every sentence is built only
-// from facts already in the profile and carries footnote numbers back to
-// their sources. No AI model is used, so it costs nothing and cannot invent
-// anything. Only official and archival sources are used (no wikis).
-// A later version can hand the same cited facts to an AI model for more
-// fluent prose; the citation structure stays the same.
+// Writes the readable "story" from a profile: the headlines, not the paperwork.
+// Who built it, when, for whom; how it changed; who is there now and before.
+// Every sentence is built only from facts already in the profile and carries
+// footnote numbers back to their sources. No AI model is used, so it costs
+// nothing and cannot invent anything. Only official and archival sources are
+// used (no wikis). Routine records (permits, violations, mortgages, deeds)
+// stay out of the story; they are on the page under "Full records".
 
 import { formatDate } from './profile.js';
 
 const fact = (p, key) => p.facts.find(f => f.key === key);
 const list = items => items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+const lower = s => String(s || '').toLowerCase();
 
 export function writeNarrative(p) {
   const citations = [];
@@ -23,69 +25,79 @@ export function writeNarrative(p) {
     }
     return i + 1;
   });
-  const end = s => s.replace(/\.*$/, '.');
   const S = (text, cs) => ({ text, refs: [...new Set(ref(cs))] });
   const paragraphs = [];
 
-  // 1. Origins
+  // 1. Origins: who built it, when, for whom, what it is.
   const origin = [];
-  const name = p.title;
-  const addr = p.address;
-  const addrSources = (p.addresses[0]?.sources || []).map(s => ({ source: s }));
+  const name = p.title, addr = p.address;
+  const addrSources = (p.addresses[0]?.sources || []).slice(0, 2).map(s => ({ source: s }));
   origin.push(S(name !== addr && addr ? `${name} stands at ${addr}, Manhattan.` : `This building stands at ${addr || name}, Manhattan.`, addrSources));
-  if (p.addresses.length > 1) {
-    origin.push(S(`City records also list it as ${list(p.addresses.slice(1, 4).map(a => a.address))}.`, p.addresses.slice(1, 4).flatMap(a => a.sources.map(s => ({ source: s })))));
-  }
-  const built = fact(p, 'built');
-  const arch = fact(p, 'architect');
-  const dev = fact(p, 'developer');
+  const built = fact(p, 'built'), arch = fact(p, 'architect'), dev = fact(p, 'developer');
   if (built) {
-    let s = `It was built ${/[–-]/.test(built.value) ? 'in ' + built.value.replace(/\s*-\s*/, '–') : 'in ' + built.value}`;
-    const cs = [...built.cite.filter(c => c.source === built.cite[0].source)];
-    if (arch) { s += `, designed by ${arch.value}`; cs.push(...arch.cite.slice(0, 1)); }
-    if (dev) { s += `, for ${dev.value}`; cs.push(...dev.cite); }
+    let s = `It was built in ${built.value.replace(/\s*-\s*/, '–')}`;
+    const cs = [built.cite[0]];
+    // LPC lists "D. H. Burnham & Company (arch), George A. Fuller Co. (bldr)".
+    const parts = arch ? arch.value.split(/[;,](?![^[]*\])\s*(?=[^,;]*\((?:arch|bldr|engineer|eng)\))/i) : [];
+    const designers = parts.filter(x => !/\(bldr\)|\(eng(ineer)?\)/i.test(x)).map(x => x.replace(/\s*\(arch\)/i, '').trim());
+    const builders = parts.filter(x => /\(bldr\)/i.test(x)).map(x => x.replace(/\s*\(bldr\)/i, '').trim());
+    if (designers.length) { s += `, designed by ${list(designers)}`; cs.push(arch.cite[0]); }
+    if (builders.length) s += ` and built by ${list(builders)}`;
+    if (dev) { s += `, for ${dev.value}`; cs.push(dev.cite[0]); }
     origin.push(S(s + '.', cs));
   }
-  const style = fact(p, 'style'), mats = fact(p, 'materials'), use = fact(p, 'original_use');
-  const described = [style && `style “${style.value}”`, mats && `materials “${mats.value}”`, use && `original use “${use.value}”`].filter(Boolean);
-  if (described.length) {
-    origin.push(S(`Its survey record lists ${list(described)}.`, [...(style?.cite || []), ...(mats?.cite || []), ...(use?.cite || [])]));
+  const style = fact(p, 'style'), type = fact(p, 'type'), floors = fact(p, 'floors'), height = fact(p, 'height'), use = fact(p, 'original_use');
+  const typeWord = type && !/s$/i.test(type.value.trim()) && !/\band\b/i.test(type.value) ? lower(type.value) : 'building';
+  const what = [style && style.value.split(',')[0].trim(), typeWord].filter(Boolean).join(' ');
+  const size = [floors && `${floors.value} floors`, height && `a roof height of about ${height.value}`].filter(Boolean);
+  if (style || type || size.length) {
+    origin.push(S(`${/^[aeiou]/i.test(what) ? 'An' : 'A'} ${what}${size.length ? `, it has ${list(size)}` : ''}${use ? `; its original use was ${lower(use.value)}` : ''}.`,
+      [style?.cite[0], type?.cite[0], floors?.cite[0], height?.cite[0], use?.cite[0]].filter(Boolean)));
+  }
+  const conflict = p.conflicts.find(c => c.field === 'Construction date');
+  if (conflict) {
+    origin.push(S(`Records disagree on the date: ${list(conflict.values.map(v => `${v.value} (${p.sources[v.source]?.label || v.source})`))}.`, conflict.values.map(v => ({ source: v.source }))));
   }
   const photo = p.media?.[0];
   if (photo) origin.push(S(`The New York Public Library holds a public-domain historical image${photo.date ? ` dated ${photo.date}` : ''}: “${photo.title.trim().replace(/\.$/, '')}”.`, photo.cite));
-  const conflict = p.conflicts.find(c => c.field === 'Construction date');
-  if (conflict) {
-    origin.push(S(`Sources disagree on the date: ${list(conflict.values.map(v => `${v.value} (${p.sources[v.source]?.label || v.source})`))}.`, conflict.values.map(v => ({ source: v.source }))));
-  }
   paragraphs.push({ heading: 'Origins', sentences: origin });
 
-  // 2. Recognition
-  const recog = [];
-  const desig = p.timeline.filter(e => e.category === 'landmark' && /^Designated|^Included/.test(e.title));
-  for (const e of desig) recog.push(S(`On ${e.date_label}, the Landmarks Preservation Commission ${e.title.replace(/^Designated a/, 'designated it a').replace(/^Included in/, 'included it in')}.`, e.cite));
-  if (recog.length) paragraphs.push({ heading: 'Recognition', sentences: recog });
-
-  // 3. Later life: DOB and property records
-  const later = [];
-  const t = p.dob?.totals;
-  if (t && (t.jobs || t.violations)) {
-    const firstYear = p.dob.first_filing?.slice(0, 4);
-    later.push(S(`Department of Buildings data${firstYear ? ` from ${firstYear} onward` : ''} holds ${t.jobs.toLocaleString('en-US')} job filing${t.jobs === 1 ? '' : 's'}, ${t.violations.toLocaleString('en-US')} DOB violation${t.violations === 1 ? '' : 's'}, ${t.ecb.toLocaleString('en-US')} ECB violation${t.ecb === 1 ? '' : 's'} and ${t.complaints.toLocaleString('en-US')} complaint${t.complaints === 1 ? '' : 's'} for this building.`,
-      [{ source: 'dob_jobs' }, { source: 'dob_violations' }, { source: 'ecb_violations' }, { source: 'dob_complaints' }]));
-    const majors = p.timeline.filter(e => e.category === 'alteration' && e.certainty === 'documented' && e.cite[0]?.source?.startsWith('dob'));
-    if (majors.length) {
-      const last = majors[majors.length - 1];
-      later.push(S(`Of these, ${majors.length} ${majors.length === 1 ? 'is a major alteration' : 'are major alterations'} (changes of use, egress or occupancy); the most recent was filed ${last.date_label}.`, [last.cite[0]]));
+  // 2. Changes over time: major alterations, demolition, landmark status.
+  const changes = [];
+  for (const e of p.timeline.filter(e => e.major && (e.category === 'alteration' || e.category === 'demolition'))) {
+    if (e.cite[0]?.source === 'pluto') changes.push(S(`City Planning records a major alteration in ${e.date_label}.`, e.cite));
+    else {
+      const by = (e.detail.match(/Alteration architect: (.*?)\.?$/) || [])[1];
+      changes.push(S(`${e.category === 'demolition' ? 'Demolished' : 'Altered'} ${/^\d/.test(e.date_label) ? 'in ' : ''}${e.date_label}${by ? ` to designs by ${by}` : ''}.`, e.cite));
     }
   }
-  const owner = fact(p, 'owner');
-  if (owner) later.push(S(`The city tax roll lists ${owner.value} as the current owner of record.`, owner.cite));
-  const deeds = p.ownership?.deeds || [];
-  if (deeds.length) {
-    const d = deeds[deeds.length - 1];
-    later.push(S(end(`ACRIS holds ${deeds.length} deed${deeds.length === 1 ? '' : 's'}, lease${deeds.length === 1 ? '' : 's'} or other conveyance${deeds.length === 1 ? '' : 's'} for the lot; the most recent ${d.doc_type_label.toLowerCase()}${d.date ? `, dated ${formatDate(d.date)}` : ''}, ${d.to.length ? `went to ${list(d.to)}` : `covers ${d.scope}`}`), [{ source: 'acris', url: d.url }]));
+  const desig = p.timeline.filter(e => e.category === 'landmark' && /^Designated|^Included/.test(e.title));
+  const byDate = new Map();
+  for (const e of desig) { if (!byDate.has(e.date_label)) byDate.set(e.date_label, []); byDate.get(e.date_label).push(e); }
+  for (const [date, es] of byDate) {
+    const kinds = es.filter(e => e.title.startsWith('Designated')).map(e => `a New York City ${e.title.replace(/^Designated a New York City /, '')}`);
+    const districts = es.filter(e => e.title.startsWith('Included')).map(e => e.title.split(': ')[1] || 'a designated historic district');
+    if (kinds.length) changes.push(S(`On ${date}, the Landmarks Preservation Commission designated it ${list(kinds)}.`, es.flatMap(e => e.cite)));
+    if (districts.length) changes.push(S(`On ${date}, it became part of the ${list(districts)}.`, es.flatMap(e => e.cite)));
   }
-  if (later.length) paragraphs.push({ heading: 'Later life in the records', sentences: later });
+  if (changes.length) paragraphs.push({ heading: 'Changes over time', sentences: changes });
+
+  // 3. Businesses here: now and before.
+  const biz = [];
+  const t = p.tenants || { current: [], past: [] };
+  if (t.current.length) {
+    const shown = t.current.slice(0, 8);
+    biz.push(S(`Businesses here on current City records include ${list(shown.map(x => x.name))}${t.current.length > shown.length ? ` (${t.current.length} in all)` : ''}.`, shown.flatMap(x => x.cite)));
+  }
+  const earlier = t.past.filter(x => !x.lease).slice(0, 6);
+  if (earlier.length) {
+    biz.push(S(`Earlier ones include ${list(earlier.map(x => `${x.name}${x.to ? ` (until ${x.to.slice(0, 4)})` : ''}`))}.`, earlier.flatMap(x => x.cite)));
+  }
+  const leases = t.past.filter(x => x.lease).slice(0, 5);
+  if (leases.length) {
+    biz.push(S(`Recorded leases name ${list(leases.map(x => `${x.name}${x.from ? ` (${formatDate(x.from).replace(/^.* (\d{4})$/, '$1')})` : ''}`))} as tenants.`, leases.flatMap(x => x.cite)));
+  }
+  if (biz.length) paragraphs.push({ heading: 'Businesses here', sentences: biz });
 
   return {
     paragraphs,

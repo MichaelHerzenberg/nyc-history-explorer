@@ -159,12 +159,20 @@ export async function gatherRaw(id, { onProgress } = {}) {
       $select: 'date_entered,complaint_category,status', $where: `bin='${esc(bin)}'`, $limit: '50000',
     })),
     acris: () => gatherACRIS(lot),
+    licenses: () => record('licenses', soqlURL(DATASETS.licenses, {
+      $select: 'business_name,dba_trade_name,business_category,license_status,license_creation_date,lic_expir_dd',
+      $where: `bin='${esc(bin)}'`, $limit: '2000',
+    })),
+    restaurants: () => record('restaurants', soqlURL(DATASETS.restaurants, {
+      $select: 'camis,dba,cuisine_description,min(inspection_date) as first_inspection,max(inspection_date) as last_inspection',
+      $where: `bin='${esc(bin)}'`, $group: 'camis,dba,cuisine_description', $limit: '2000',
+    })),
     nypl_photo: () => photoFor(bin),
   };
   // A placeholder BIN (e.g. 1000000) is shared by thousands of unrelated
   // sites; querying by it would mix their records into this building's.
   if (!bin || isPlaceholderBIN(bin)) {
-    for (const k of ['lpc_buildings', 'dob_jobs_major', 'dob_jobs_all', 'dob_now_jobs', 'dob_co', 'dob_violations', 'ecb_violations', 'dob_complaints']) delete tasks[k];
+    for (const k of ['lpc_buildings', 'dob_jobs_major', 'dob_jobs_all', 'dob_now_jobs', 'dob_co', 'dob_violations', 'ecb_violations', 'dob_complaints', 'licenses', 'restaurants']) delete tasks[k];
     tasks.lpc_designations = () => record('lpc_designations', soqlURL(DATASETS.lpcDesignations, { bbl: String(bbl), $limit: '200' }));
   }
   const names = Object.keys(tasks);

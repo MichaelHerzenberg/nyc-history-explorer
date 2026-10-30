@@ -304,10 +304,8 @@ function showIntro() {
 // ---------------------------------------------------------------- building page
 const CERT = { documented: 'Documented', recorded: 'Recorded' };
 const FILTERS = [
-  ['all', 'All'], ['building', 'Building & alterations'], ['landmark', 'Landmark'],
-  ['ownership', 'Ownership'], ['occupancy', 'Occupancy'],
+  ['major', 'Highlights'], ['all', 'All records'],
 ];
-const filterOf = c => (['construction', 'alteration', 'demolition'].includes(c) ? 'building' : c);
 
 function renderProfile(p, raw, warning) {
   const srcLink = c => {
@@ -321,12 +319,20 @@ function renderProfile(p, raw, warning) {
   if (lm) badges.push(h('span', { class: 'badge lm' }, lm.value));
   const built = p.facts.find(f => f.key === 'built');
   if (built) badges.push(h('span', { class: 'badge' }, `Built ${built.value}`));
-  badges.push(h('span', { class: 'badge' }, `BIN ${p.identity.bin}`), h('span', { class: 'badge' }, `BBL ${p.identity.bbl}`));
   if (p.identity.condo) badges.push(h('span', { class: 'badge' }, 'Condominium'));
+
+  // At a glance: the headline facts
+  const GLANCE = [['built', 'Built'], ['architect', 'Architect'], ['developer', 'Built for'], ['style', 'Style'],
+    ['type', 'Type'], ['floors', 'Floors'], ['height', 'Roof height'], ['original_use', 'Original use'],
+    ['landmark', 'Landmark status'], ['district', 'Historic district']];
+  const glanceRows = GLANCE.map(([k, label]) => [label, p.facts.find(f => f.key === k)]).filter(([, f]) => f);
+  const glance = glanceRows.length ? h('section', { class: 'block glance' }, h('h2', {}, 'At a glance'),
+    h('dl', { class: 'facts' }, glanceRows.map(([label, f]) => [h('dt', {}, label), h('dd', {}, f.value, ' ',
+      h('span', { class: 'src' }, '(', srcLink(f.cite[0]), ')'))]))) : null;
 
   // Story
   const fnLink = n => h('sup', { class: 'fn' }, h('a', { href: `#cite-${n}`, onclick: e => { e.preventDefault(); document.getElementById(`cite-${n}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }, `[${n}]`));
-  const story = h('section', { class: 'block story' }, h('h2', {}, 'The story so far'),
+  const story = h('section', { class: 'block story' }, h('h2', {}, 'The story'),
     p.narrative.paragraphs.map(para => [
       p.narrative.paragraphs.length > 1 ? h('h3', {}, para.heading) : null,
       h('p', {}, para.sentences.map(s => [s.text, s.refs.map(fnLink), ' '])),
@@ -347,28 +353,56 @@ function renderProfile(p, raw, warning) {
         ph.rights_uri ? ext(ph.rights_uri, 'Public domain (rights statement)') : 'Public domain', ' · ', ext(ph.page, 'View at NYPL'), h('br'),
         h('span', { class: 'src' }, `Matched automatically because the ${ph.match}. Please report a wrong match.`)))) : null;
 
-  // Timeline with filters
+  // Businesses here, now and before
+  const bizItem = x => h('li', {}, h('b', {}, x.name), x.kind ? ` · ${x.kind}` : '',
+    x.lease ? (x.from ? ` · ${x.from.slice(0, 4)}` : '') : x.from || x.to ? ` · ${x.from ? x.from.slice(0, 4) : '?'}–${x.to ? x.to.slice(0, 4) : 'now'}` : '',
+    ' ', h('span', { class: 'src' }, '(', srcLink(x.cite[0]), ')'));
+  const tn = p.tenants || { current: [], past: [] };
+  const businesses = h('section', { class: 'block' }, h('h2', {}, 'Businesses here'),
+    tn.current.length ? [h('h3', {}, `Now (${tn.current.length})`), h('ul', { class: 'plain' }, tn.current.map(bizItem))] : h('p', {}, 'No current businesses on City records.'),
+    tn.past.length ? [h('h3', {}, `Earlier (${tn.past.length})`), h('ul', { class: 'plain' }, tn.past.map(bizItem))] : null,
+    h('p', { class: 'src' }, 'From City records of restaurants and licensed businesses, and tenants named in recorded leases. Office tenants are not in City records yet.'));
+
+  // In the news
+  const newsOut = h('div', {});
+  const name = p.title !== p.address ? p.title : null;
+  const from = Math.max(1777, (parseInt(p.facts.find(f => f.key === 'built')?.value, 10) || 1885) - 5);
+  const newsBtn = h('button', { class: 'btn btn-quiet', onclick: async () => {
+    newsBtn.disabled = true;
+    newsOut.replaceChildren(h('div', { class: 'loading' }, h('div', { class: 'spinner' }), 'Searching the Library of Congress…'));
+    const r = await searchNewspapers(name || p.address, from, 1963);
+    if (!r.ok) { newsOut.replaceChildren(h('p', { class: 'src' }, `The Library of Congress did not answer (${r.error}). Use the links above instead.`)); return; }
+    const results = (r.data.results || []).filter(x => x.url || x.id);
+    newsOut.replaceChildren(h('p', { class: 'src' }, `${r.data.pagination?.of?.toLocaleString?.() ?? results.length} page(s) contain the phrase. These are keyword matches: read each to confirm it is about this building.`),
+      h('ul', { class: 'plain' }, results.map(x => h('li', {}, ext(x.url || x.id, x.title || 'Newspaper page'), x.date ? ` · ${x.date}` : ''))));
+  } }, `Search old newspapers for “${name || p.address}”`);
+  const news = h('section', { class: 'block' }, h('h2', {}, 'In the news'),
+    h('p', {}, 'News stories about the building and its block are not gathered automatically yet. Search historic newspapers (to 1963):'),
+    h('ul', { class: 'plain' }, p.research_links.filter(l => l.group === 'Newspapers').map(l => h('li', {}, ext(l.url, l.label)))),
+    newsBtn, newsOut);
+
+  // Timeline: highlights by default, every record on request
   const tl = h('ol', { class: 'timeline' });
-  const renderTL = f => tl.replaceChildren(...p.timeline.filter(e => f === 'all' || filterOf(e.category) === f).map(e =>
+  const renderTL = f => tl.replaceChildren(...p.timeline.filter(e => f === 'all' || e.major).map(e =>
     h('li', { class: e.certainty },
       h('div', { class: 'tl-date' }, e.date_label, h('span', { class: `cert ${e.certainty}` }, CERT[e.certainty])),
       h('div', { class: 'tl-title' }, e.title),
       e.detail ? h('div', { class: 'tl-detail' }, e.detail) : null,
       srcLine(e.cite))));
-  const present = new Set(p.timeline.map(e => filterOf(e.category)));
   const chips = h('div', { class: 'chips', role: 'toolbar', 'aria-label': 'Filter timeline' },
-    FILTERS.filter(([k]) => k === 'all' || present.has(k)).map(([k, label]) => h('button', {
-      class: 'chip', 'aria-pressed': k === 'all' ? 'true' : 'false',
+    FILTERS.map(([k, label]) => h('button', {
+      class: 'chip', 'aria-pressed': k === 'major' ? 'true' : 'false',
       onclick: ev => { chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false')); ev.currentTarget.setAttribute('aria-pressed', 'true'); renderTL(k); },
     }, label)));
-  renderTL('all');
-  const timeline = h('section', { class: 'block' }, h('h2', {}, `Timeline (${p.timeline.length})`),
+  renderTL('major');
+  const timeline = h('section', { class: 'block' }, h('h2', {}, 'Timeline'),
     h('p', { class: 'legend' }, '● Documented: official record   ○ Recorded: administrative data (often approximate)'),
     chips, p.timeline.length ? tl : h('p', {}, 'No dated events were found in the available records.'));
 
-  // Facts
-  const facts = h('section', { class: 'block' }, h('h2', {}, 'Key facts'),
-    h('dl', { class: 'facts' }, p.facts.map(f => [h('dt', {}, f.label), h('dd', {}, f.value, srcLine(f.cite))])));
+  // Facts (all of them, in Full records)
+  const facts = [h('h3', {}, 'All facts'),
+    h('dl', { class: 'facts' }, [['BIN (building ID)', p.identity.bin], ['BBL (tax lot)', p.identity.bbl]].map(([a, b]) => [h('dt', {}, a), h('dd', {}, b)]),
+      p.facts.map(f => [h('dt', {}, f.label), h('dd', {}, f.value, srcLine(f.cite))]))];
 
   // Conflicts and gaps
   const unknowns = h('section', { class: 'block' }, h('h2', {}, 'What we don’t know (yet)'),
@@ -379,7 +413,8 @@ function renderProfile(p, raw, warning) {
   // Records at a glance
   const t = p.dob.totals;
   const maxDec = Math.max(1, ...p.dob.by_decade.map(d => d.jobs + d.violations + d.ecb + d.complaints));
-  const records = h('section', { class: 'block' }, h('h2', {}, 'City records at a glance'),
+  const records = h('section', { class: 'block' }, h('details', {}, h('summary', {}, 'Full records: facts, permits, violations, property documents'),
+    facts, h('h3', {}, 'Building Department activity by decade'),
     h('table', { class: 'mini' },
       h('thead', {}, h('tr', {}, h('th', {}, 'Decade'), h('th', { class: 'num' }, 'DOB jobs'), h('th', { class: 'num' }, 'Violations'), h('th', { class: 'num' }, 'ECB'), h('th', { class: 'num' }, 'Complaints'), h('th', {}, ''))),
       h('tbody', {}, p.dob.by_decade.map(d => h('tr', {}, h('td', {}, `${d.decade}s`), h('td', { class: 'num' }, d.jobs.toLocaleString()), h('td', { class: 'num' }, d.violations.toLocaleString()), h('td', { class: 'num' }, d.ecb.toLocaleString()), h('td', { class: 'num' }, d.complaints.toLocaleString()),
@@ -391,27 +426,14 @@ function renderProfile(p, raw, warning) {
       p.ownership.deeds.length ? h('table', { class: 'mini' },
         h('thead', {}, h('tr', {}, h('th', {}, 'Date'), h('th', {}, 'Type'), h('th', {}, 'From → To'))),
         h('tbody', {}, p.ownership.deeds.map(d => h('tr', {}, h('td', {}, d.date || '—'), h('td', {}, ext(d.url, d.doc_type_label)),
-          h('td', {}, `${d.from.join('; ') || '?'} → ${d.to.join('; ') || '?'}`))))) : null));
+          h('td', {}, `${d.from.join('; ') || '?'} → ${d.to.join('; ') || '?'}`))))) : null)));
 
   // Dig deeper
   const groups = {};
   for (const l of p.research_links) (groups[l.group] ||= []).push(l);
-  const newsOut = h('div', {});
-  const name = p.title !== p.address ? p.title : null;
-  const from = Math.max(1777, (parseInt(p.facts.find(f => f.key === 'built')?.value, 10) || 1885) - 5);
-  const newsBtn = h('button', { class: 'btn btn-quiet', onclick: async () => {
-    newsBtn.disabled = true;
-    newsOut.replaceChildren(h('div', { class: 'loading' }, h('div', { class: 'spinner' }), 'Searching the Library of Congress…'));
-    const r = await searchNewspapers(name || p.address, from, 1963);
-    if (!r.ok) { newsOut.replaceChildren(h('p', { class: 'src' }, `The Library of Congress did not answer (${r.error}). Use the newspaper links above instead.`)); return; }
-    const results = (r.data.results || []).filter(x => x.url || x.id);
-    newsOut.replaceChildren(h('p', { class: 'src' }, `${r.data.pagination?.of?.toLocaleString?.() ?? results.length} page(s) contain the phrase. These are keyword matches: read each to confirm it is about this building.`),
-      h('ul', { class: 'plain' }, results.map(x => h('li', {}, ext(x.url || x.id, x.title || 'Newspaper page'), x.date ? ` · ${x.date}` : ''))));
-  } }, `Search old newspapers for “${name || p.address}”`);
   const deeper = h('section', { class: 'block' }, h('h2', {}, 'Dig deeper'),
     p.reports.length ? h('p', {}, 'Landmark designation reports: ', p.reports.map((r, i) => [i ? ' · ' : '', ext(r.url, r.label + ' (PDF)')])) : null,
-    Object.entries(groups).map(([g, ls]) => [h('h3', {}, g), h('ul', { class: 'plain' }, ls.map(l => h('li', {}, ext(l.url, l.label), l.note ? h('span', { class: 'src' }, ` · ${l.note}`) : null)))]),
-    newsBtn, newsOut);
+    Object.entries(groups).filter(([g]) => g !== 'Newspapers').map(([g, ls]) => [h('h3', {}, g), h('ul', { class: 'plain' }, ls.map(l => h('li', {}, ext(l.url, l.label), l.note ? h('span', { class: 'src' }, ` · ${l.note}`) : null)))]));
 
   // How we matched + sources
   const how = h('section', { class: 'block' }, h('h2', {}, 'How this page was assembled'),
@@ -433,7 +455,7 @@ function renderProfile(p, raw, warning) {
     p.title !== p.address ? h('p', { class: 'addr' }, p.address, ', Manhattan') : null,
     h('div', { class: 'badges' }, badges),
     (() => { const sv = p.research_links.find(l => l.label === 'Google Street View'); return sv ? h('p', {}, h('a', { class: 'btn btn-quiet sv', href: sv.url, target: '_blank', rel: 'noopener' }, 'Street View ↗')) : null; })(),
-    story, photo, timeline, facts, unknowns, records, deeper, how,
+    glance, story, photo, businesses, news, timeline, unknowns, records, deeper, how,
   );
 }
 

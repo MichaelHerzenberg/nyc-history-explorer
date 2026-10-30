@@ -28,6 +28,8 @@ export const SOURCES = {
   ecb_violations: { label: 'DOB ECB Violations', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.ecbViolations), license: NYC_TERMS },
   dob_complaints: { label: 'DOB Complaints Received', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.dobComplaints), license: NYC_TERMS },
   nypl: { label: 'NYPL Digital Collections', publisher: 'The New York Public Library', url: 'https://digitalcollections.nypl.org/', license: 'Public domain (per NYPL rights statement on each item)' },
+  licenses: { label: 'DCWP Issued Licenses', publisher: 'NYC Dept. of Consumer and Worker Protection', url: OD(DATASETS.licenses), license: NYC_TERMS, caution: 'Only businesses that need a City licence (shops, electronics, tobacco, etc.).' },
+  restaurants: { label: 'DOHMH Restaurant Inspection Results', publisher: 'NYC Dept. of Health and Mental Hygiene', url: OD(DATASETS.restaurants), license: NYC_TERMS, caution: 'Covers recent years only.' },
   acris: { label: 'ACRIS property records (City Register)', publisher: 'NYC Dept. of Finance', url: OD(DATASETS.acrisMaster), license: NYC_TERMS },
 };
 
@@ -247,14 +249,17 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   }));
   if (!media.length) gaps.push('No public-domain historical image confidently matched to this building in NYPL Digital Collections (only landmarks in the pilot are searched so far). Try the NYPL link under “Dig deeper”.');
 
-  // ---- standing gaps that apply to every building
-  gaps.push('Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated.');
+  // ---- businesses here, now and before
+  const tenants = summariseTenants(raw, ownership, { name, owner: pluto?.ownername, now });
+  gaps.push('Businesses: City records only name restaurants, businesses that need a City licence, and tenants in recorded leases. Office tenants and anything before the 1970s are not covered yet (NYPL city directories are the planned source).');
+  gaps.push('News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “Dig deeper”.');
 
   // ---- sources that failed
   const source_status = sourceStatus(raw);
   for (const s of source_status.filter(s => !s.ok)) gaps.unshift(`${s.label} could not be reached (${s.error}); its records are missing from this page.`);
 
   timeline.sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
+  for (const e of timeline) e.major = isMajor(e);
   const display = name || (addresses[0]?.address) || identity.label || `BIN ${bin}`;
   const profile = {
     schema_version: SCHEMA_VERSION,
@@ -268,7 +273,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
     geometry: identity.geometry || fp?.the_geom || null,
     match_log: identity.match_log || [],
     addresses, facts, timeline, conflicts, gaps,
-    dob, ownership, media,
+    tenants, dob, ownership, media,
     reports,
     research_links: researchLinks({ bin, lot, name, addresses, lat: identity.lat, lng: identity.lng, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
     sources: SOURCES,
@@ -276,6 +281,80 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   };
   profile.narrative = writeNarrative(profile);
   return profile;
+}
+
+// Highlights for the timeline: how the building came to be and how it changed,
+// not routine paperwork (permits, leases, mortgages, hearings, certificates).
+function isMajor(e) {
+  const src = e.cite?.[0]?.source || '';
+  if (e.category === 'construction' || e.category === 'demolition') return true;
+  if (e.category === 'alteration') return src === 'lpc_buildings' || src === 'pluto';
+  if (e.category === 'landmark') return /^(Designated|Included|Landmark status)/.test(e.title);
+  return false;
+}
+
+// Business names arrive in capitals ("STATE GRILL AND BAR"); make them readable
+// without mangling "Chop't", "AT&T" or "LLC".
+const KEEP_UPPER = /^(LLC|L\.L\.C\.?|LP|L\.P\.|NYC|USA|US|AT&T|ICBC|ESB|II|III|IV|NY|CVS|TD|HSBC|UPS|IBM|ABC|CBS|NBC|RCA)$/i;
+export function niceName(s) {
+  const str = String(s || '').replace(/\s+/g, ' ').trim();
+  const upper = !/[a-z]/.test(str);
+  return str.split(' ').map(w => {
+    const bare = w.replace(/[,.]+$/, '');
+    if (KEEP_UPPER.test(bare)) return w.toUpperCase().replace(/^L\.L\.C\.?/, 'LLC').replace(/^L\.P\./, 'LP');
+    if (/^inc\.?,?$/i.test(w)) return 'Inc.';
+    if (!upper) return w;
+    return w.charAt(0) + w.slice(1).toLowerCase().replace(/-([a-z])/g, (m, c) => '-' + c.toUpperCase());
+  }).join(' ').replace(/\.\.$/, '.');
+}
+const TENANT_STOP = new Set(['llc', 'inc', 'corp', 'corporation', 'company', 'associates', 'building', 'new', 'york', 'the', 'and', 'street', 'avenue', 'realty', 'holdings', 'trust', 'partners', 'group', 'limited']);
+const nameWords = s => new Set(String(s || '').toLowerCase().split(/[^a-z]+/).filter(w => w.length >= 4 && !TENANT_STOP.has(w)));
+
+function summariseTenants(raw, ownership, { name, owner, now }) {
+  const current = new Map(), past = new Map();
+  const put = (map, key, item) => { const prev = map.get(key); if (!prev || (item.to || '') > (prev.to || '')) map.set(key, item); };
+  // Licensed businesses (DCWP): active licence = here now.
+  for (const r of rows(raw.licenses)) {
+    const nm = niceName(r.dba_trade_name || r.business_name);
+    if (!nm) continue;
+    const from = isoDate(r.license_creation_date);
+    // An expiry date in the future on a surrendered licence doesn't tell us when they left.
+    const exp = isoDate(r.lic_expir_dd);
+    const to = exp && exp <= now.toISOString().slice(0, 10) ? exp : null;
+    const item = { name: nm, kind: r.business_category || null, from, to: /active/i.test(r.license_status || '') ? null : to, source: 'licenses',
+      cite: [cite('licenses', recURL(raw.licenses), `${r.business_category || 'licence'}, ${r.license_status || ''}`)] };
+    put(/active/i.test(r.license_status || '') ? current : past, nm.toLowerCase(), item);
+  }
+  // Restaurants (DOHMH): inspected within the last ~13 months = here now.
+  const recent = new Date(now.getTime() - 400 * 864e5).toISOString().slice(0, 10);
+  for (const r of rows(raw.restaurants)) {
+    const nm = niceName(r.dba);
+    if (!nm) continue;
+    const first = isoDate(r.first_inspection), last = isoDate(r.last_inspection);
+    const notYet = !last || last.startsWith('1900');
+    const item = { name: nm, kind: r.cuisine_description ? `Restaurant (${r.cuisine_description})` : 'Restaurant / food service',
+      from: notYet ? null : first, to: notYet || last >= recent ? null : last, source: 'restaurants',
+      cite: [cite('restaurants', recURL(raw.restaurants), notYet ? 'not yet inspected' : `inspected ${first.slice(0, 4)}–${last.slice(0, 4)}`)] };
+    put(notYet || last >= recent ? current : past, nm.toLowerCase(), item);
+  }
+  // Recorded leases (ACRIS): the lessee is a tenant. Leases between companies
+  // that share a name with the owner or the building are ownership structure,
+  // not tenancy, and are skipped.
+  const insiders = new Set([...nameWords(name), ...nameWords(owner)]);
+  for (const d of ownership.deeds) {
+    if (!/^(LEAS|MLEA)$/.test(d.doc_type)) continue;
+    const lessorWords = new Set(d.from.flatMap(f => [...nameWords(f)]));
+    for (const lessee of d.to) {
+      const w = nameWords(lessee);
+      if ([...w].some(x => lessorWords.has(x) || insiders.has(x))) continue;
+      const nm = niceName(lessee);
+      put(past, nm.toLowerCase(), { name: nm, kind: `Lease recorded${d.scope !== 'entire lot' ? ` (${d.scope})` : ''}`, from: d.date, to: null, lease: true, source: 'acris',
+        cite: [cite('acris', d.url, `${d.doc_type_label}, ${d.date || 'undated'}`)] });
+    }
+  }
+  for (const k of current.keys()) past.delete(k);
+  const byDate = (a, b) => (b.to || b.from || '').localeCompare(a.to || a.from || '');
+  return { current: [...current.values()].sort((a, b) => a.name.localeCompare(b.name)), past: [...past.values()].sort(byDate) };
 }
 
 // Which spelling to show first: the address the user searched for, then the
@@ -424,7 +503,7 @@ function sourceStatus(raw) {
   const list = [
     ['footprint', 'footprints'], ['pluto', 'pluto'], ['lpc_buildings', 'lpc_buildings'], ['lpc_designations', 'lpc_designations'],
     ['dob_jobs_all', 'dob_jobs'], ['dob_now_jobs', 'dob_now'], ['dob_co', 'dob_co'], ['dob_violations', 'dob_violations'],
-    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['nypl_photo', 'nypl'],
+    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['licenses', 'licenses'], ['restaurants', 'restaurants'], ['nypl_photo', 'nypl'],
   ];
   return list.filter(([k]) => raw[k]).map(([k, src]) => {
     const r = raw[k];

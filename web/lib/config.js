@@ -51,6 +51,8 @@ export const DATASETS = {
   acrisMaster: 'bnx9-e6tj',    // ACRIS Real Property Master
   acrisParties: '636b-3b5g',   // ACRIS Real Property Parties
   acrisCodes: '7isb-wh4c',     // ACRIS Document Control Codes
+  licenses: 'w7w3-xahh',       // DCWP Issued Licenses (licensed businesses)
+  restaurants: '43nn-pn8j',    // DOHMH Restaurant Inspection Results (recent years only)
 };
 
 // Optional free Socrata app token (raises rate limits). Not required.
