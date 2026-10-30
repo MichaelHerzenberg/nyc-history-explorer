@@ -18,6 +18,7 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 | **DOB Certificates of Occupancy** `bs8b-p36w` | COs (mostly recent) | BIN | ✅ | NYC Open Data terms | Historic COs exist only as scans in BIS |
 | **DOB Violations / ECB Violations / Complaints** `3h2n-5cm9`, `6bgk-3dad`, `eabe-havv` | Counts by decade | BIN | ✅ | NYC Open Data terms | |
 | **ACRIS** Legals `8h5j-fqxa`, Master `bnx9-e6tj`, Parties `636b-3b5g`, Codes `7isb-wh4c` | Deeds, leases, mortgages, landmark recordings; parties and amounts | BBL | ✅ | NYC Open Data terms | For the ESB lot the data starts in 1971, deeds from 1991. Condo units have their own lots (not yet followed). ACRIS's own website refuses automated requests, so links are for people to click |
+| **NYPL Digital Collections API** (`api.repo.nypl.org`) | One public-domain historical image per pilot landmark (25 of 250 matched) | building name + street, checked against catalogue date/genre | ✅ with key (2026-10-30) | Public domain per NYPL rights statement on each item; credit "From The New York Public Library" | Key required, 10,000 requests/day; used only by `scripts/nypl-photos.mjs`, never on the site. Images load from `images.nypl.org` (blocked in the build workspace, so not seen by eye there) |
 | **OpenStreetMap tiles** | Base map | — | ✅ | ODbL, attribution shown | Light use only under OSM tile policy (see TODO) |
 | **Leaflet 1.9.4** (unpkg.com) | Map library | — | ✅ pinned with integrity hash | BSD-2 | |
 
@@ -26,7 +27,7 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 | Source | How it's used | Status |
 |---|---|---|
 | **Library of Congress, Chronicling America** | "Dig deeper" search links (name and address, from construction to 1963) plus an on-demand search button | ⚠️ loc.gov answered this cloud server with a Cloudflare challenge (HTTP 429). Browser access is **untested**; if it fails the button says so and the links still work. Newspapers before 1929 are public domain; LOC states most content has no known restrictions, but each item should be checked |
-| **NYPL Digital Collections** | Search link by building name | ✅ website reachable. The API needs a free token (HTTP 401 without), not yet requested |
+| **NYPL Digital Collections** | Search link by building name | ✅ |
 | **DOB Building Information System (BIS)** | Link to full DOB file incl. scanned older COs | Standard public URL; BIS refuses automated checks (403), so it wasn't machine-tested |
 | **ACRIS website** | Per-document links and BBL search | Standard public URL; redirects automated requests to its bandwidth policy page |
 | **ZoLa** (zoning map) | Lot link | Not reachable from build server (not on network allowlist); URL pattern untested |
@@ -43,8 +44,8 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 
 | Source | Why it matters | Blocker / next step |
 |---|---|---|
-| **NYC Municipal Archives 1940s tax photos** (`nycma.lunaimaging.com`, viewer at `1940s.nyc`) | A photo of nearly every lot, around 1940, indexed by block and lot. Probably the single best historical photo source | Couldn't reach either host from the build server. Check terms and whether a stable per-lot URL exists |
-| **NYPL API** | Public-domain photos, maps, city directories (past occupants!) | Free token; token must stay off the public site, so use it in the snapshot script only |
+| **NYC Municipal Archives 1940s tax photos** | A photo of nearly every lot, around 1940, indexed by block and lot. Probably the single best historical photo source | `1940s.nyc` (volunteer site) **ruled out by its terms** (no automated access, republishing or linking without permission). Official sites (`nycrecords.access.preservica.com`, `www.nyc.gov/site/records`) blocked in the build workspace; their reuse terms are not yet read |
+| **NYPL city directories** | Past occupants and businesses | Key now available; next step |
 | **NYS Historic Newspapers**, **Fultonhistory** | NYC-heavy newspaper coverage | Check terms and APIs |
 | **Socrata app token** | Higher NYC Open Data rate limits | Free; optional field in `web/lib/config.js` |
 

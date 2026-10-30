@@ -51,6 +51,8 @@ export function writeNarrative(p) {
   if (described.length) {
     origin.push(S(`Its survey record lists ${list(described)}.`, [...(style?.cite || []), ...(mats?.cite || []), ...(use?.cite || [])]));
   }
+  const photo = p.media?.[0];
+  if (photo) origin.push(S(`The New York Public Library holds a public-domain historical image${photo.date ? ` dated ${photo.date}` : ''}: “${photo.title.trim().replace(/\.$/, '')}”.`, photo.cite));
   const conflict = p.conflicts.find(c => c.field === 'Construction date');
   if (conflict) {
     origin.push(S(`Sources disagree on the date: ${list(conflict.values.map(v => `${v.value} (${p.sources[v.source]?.label || v.source})`))}.`, conflict.values.map(v => ({ source: v.source }))));

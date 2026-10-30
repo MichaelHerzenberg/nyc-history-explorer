@@ -70,7 +70,8 @@ approval first.
 - (v0.1 also had **Reported** for Wikidata; removed in D9.)
 
 Disagreements are shown, never silently resolved. For example, 49 West 28th Street (Tin Pan Alley)
-is circa 1852 in the LPC survey but 1920 in both PLUTO and the footprint data. See `pilot-report.md` for how often this happens.
+is circa 1852 in the LPC survey but 1920 in both PLUTO and the footprint data. The 2026-10-30
+pilot run flagged date conflicts for 36 of 250 landmarks (14%).
 
 ### D6. Future database: Supabase (Postgres) free tier, only when needed
 `DATA_MODEL.md` contains a ready schema. It is not used yet because nothing needs storing. Supabase's
@@ -101,3 +102,26 @@ Every story sentence has numbered footnotes, and the citation list is always sho
 Each citation gives the source, the publishing agency, the specific record (job number, document
 ID, LP number) where there is one, the access date and the link. Timeline entries and key facts
 also show their sources inline.
+
+### D11. One NYPL image per building, chosen ahead of time (2026-10-30)
+**Decision:** `scripts/nypl-photos.mjs` searches NYPL Digital Collections for each pilot landmark,
+picks at most **one** public-domain image, and saves it to `web/data/nypl-photos.json`. The website
+reads that file; visitors never call the NYPL API.
+**Why:** NYPL's API needs a key, and anything on a public website is visible to everyone, so the key
+must stay off the site. NYPL also allows 10,000 requests a day. One search plus up to four
+catalogue checks per building keeps a full pilot run near 300 requests (the script enforces a hard
+cap, `--max-requests`, default 1,000).
+**Matching is strict** (`scripts/photo-match.mjs`, with tests built from real wrong matches): the
+title must name the building, short names must be a whole phrase, menus/programs/portraits are
+rejected, and images dated before the building was built are rejected. The first loose attempt
+matched a fish, a play, menus and predecessor buildings; the strict rules found 25 buildings with a
+confident match, all checked by eye. Better to show no picture than the wrong one.
+**Token:** kept only in a private file in the working session, never committed. To refresh,
+run `NYPL_TOKEN=... node scripts/nypl-photos.mjs --refresh`.
+
+### D12. 1940s.nyc not used (2026-10-30)
+The 1940s tax photos would be ideal, and 1940s.nyc indexes them by block and lot. But its terms of
+use prohibit automated access, republishing or publicly displaying its content without written
+permission, and "unauthorized framing of or linking to the Site". So we don't use it. The photos
+belong to the NYC Municipal Archives; the route is the Archives' own site or permission from
+them (see TODO).

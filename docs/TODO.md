@@ -16,10 +16,10 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
 1. ⬜ **Publish**: create the GitHub repository, push, turn on Pages (steps in README). *Owner action needed.*
 2. ⬜ **Test on a real phone in Midtown**: "Near me" accuracy between tall buildings; whether
    Library of Congress search works from a phone browser.
-3. ⬜ **Photos (none at present)** from the 1940s tax photos (NYC Municipal Archives): find a stable per-lot image or page URL and
-   confirm terms. This is likely the best single source of historic photos for every building.
-4. ⬜ **NYPL API**: request the free token; use it in the snapshot script (not the public site) for
-   public-domain photos and **city directories** (past occupants and businesses, the biggest gap).
+3. 🟡 **Photos**: ✅ one NYPL image for 25 pilot landmarks (2026-10-30). ⬜ 1940s tax photos via the
+   Municipal Archives' official site (1940s.nyc ruled out by its terms): needs network access to
+   `nycrecords.access.preservica.com` and `www.nyc.gov`, then read their reuse terms.
+4. ⬜ **NYPL city directories** (key now in hand): past occupants and businesses, the biggest gap.
 5. ⬜ **Newspapers**: confirm browser access to loc.gov. If it works, show top matches
    automatically for landmarks, clearly labelled as keyword matches.
 6. ⬜ **Condos**: follow unit lots in ACRIS so condo sales show up (currently only the billing lot).

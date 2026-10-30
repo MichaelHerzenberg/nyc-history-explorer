@@ -286,6 +286,16 @@ function renderProfile(p, raw, warning) {
       h('b', {}, c.label || c.source), c.publisher ? `, ${c.publisher}` : '', c.note ? `. ${c.note}` : '',
       c.accessed ? `. Accessed ${c.accessed}. ` : '. ', ext(c.url, c.url)))));
 
+  // Photo (one per building, from NYPL)
+  const ph = p.media?.[0];
+  const photo = ph ? h('section', { class: 'block' }, h('h2', {}, 'Historical image'),
+    h('figure', { class: 'photo' },
+      ext(ph.page, h('img', { src: ph.image, alt: ph.title, loading: 'lazy' })),
+      h('figcaption', {}, h('b', {}, ph.title), ph.date ? ` (${ph.date})` : '', h('br'),
+        'From The New York Public Library', ph.collection ? `, ${ph.collection}` : '', '. ',
+        ph.rights_uri ? ext(ph.rights_uri, 'Public domain (rights statement)') : 'Public domain', ' · ', ext(ph.page, 'View at NYPL'), h('br'),
+        h('span', { class: 'src' }, `Matched automatically because the ${ph.match}. Please report a wrong match.`)))) : null;
+
   // Timeline with filters
   const tl = h('ol', { class: 'timeline' });
   const renderTL = f => tl.replaceChildren(...p.timeline.filter(e => f === 'all' || filterOf(e.category) === f).map(e =>
@@ -371,7 +381,7 @@ function renderProfile(p, raw, warning) {
     h('h1', { class: 'bname' }, p.title),
     p.title !== p.address ? h('p', { class: 'addr' }, p.address, ', Manhattan') : null,
     h('div', { class: 'badges' }, badges),
-    story, timeline, facts, unknowns, records, deeper, how,
+    story, photo, timeline, facts, unknowns, records, deeper, how,
   );
 }
 

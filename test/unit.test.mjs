@@ -147,3 +147,47 @@ test('citations name the source, publisher, record and access date', () => {
   assert.equal(c.accessed, '2026-10-30');
   for (const x of p.narrative.citations) assert.ok(x.label && x.publisher && x.url, JSON.stringify(x));
 });
+
+import { matchTitle, acceptRecord, nameCore } from '../scripts/photo-match.mjs';
+
+test('NYPL photo matching rejects the wrong pictures found in real searches', () => {
+  const no = [
+    ['Broadway from the Empire Building, New York City.', 'Empire State Building', '350 Fifth Avenue'],
+    ['Brill, Pleuronectes Rhombus', 'The Brill Building', '1619 Broadway'],
+    ["George Alexander ... in the stage production Lady Windermere's Fan", 'The Windermere', '400 West 57th Street'],
+    ['Engineering Building, Univ. of Wisconsin, Madison, Wisc.', 'Madison Belmont Building', '181 Madison Avenue'],
+    ['Salmagundi Club, 47 Fifth Avenue', 'Saks Fifth Avenue', '611 Fifth Avenue'],
+    ['Central Park Plaza: Hotel Sherry-Netherland (center)', 'Plaza Hotel', '768 Fifth Avenue'],
+    ['St. George Branch--Staten Island--The New York Public Library', 'New York Public Library, Muhlenberg Branch', '209 West 23rd Street'],
+    ['Jamaica Town Hall, 159-01 Jamaica Avenue, Jamaica', 'Town Hall', '113 West 43rd Street'],
+    ['Fifth Avenue, No. 8 (Marble House)', 'Marble Collegiate Reformed Church', '272 Fifth Avenue'],
+    ['James W. Gerard.', 'The Gerard', '123 West 44th Street'],
+    ['DINNER [held by] ST.REGIS HOTEL [at] ? (HOTEL;)', 'St. Regis Hotel', '2 East 55th Street'],
+  ];
+  for (const [t, name, a] of no) assert.equal(matchTitle(t, { name, addresses: [a] }), null, t);
+  const yes = [
+    ['Flatiron Building, New York', 'Flatiron Building', '175 Fifth Avenue'],
+    ['Osborne Flats, 57th Street and 7th Avenue', 'Osborne Apartments', '205 West 57th Street'],
+    ['Chelsea Hotel, 222 West 23rd Street', 'Hotel Chelsea', '222 West 23rd Street'],
+    ['Town Hall, 43rd Street, New York', 'Town Hall', '113 West 43rd Street'],
+  ];
+  for (const [t, name, a] of yes) assert.ok(matchTitle(t, { name, addresses: [a] }), t);
+  assert.equal(nameCore('(Former) Yale Club of New York City Building (now Penn Club of New York)'), 'Yale Club of New York City Building');
+});
+
+test('NYPL catalogue checks reject menus and photos older than the building', () => {
+  const m = { needsNYC: false };
+  assert.equal(acceptRecord(m, { year: 1914, genre: 'Menus' }, 1883).ok, false);
+  assert.equal(acceptRecord(m, { year: 1880, genre: 'Photographs' }, 1903).ok, false); // Grand Central Depot, not the Terminal
+  assert.equal(acceptRecord(m, { year: 1913, genre: 'Photographs' }, 1902).ok, true);
+  assert.equal(acceptRecord({ needsNYC: true }, { year: 1936, collection: 'Photographs of Paris' }, 1900).ok, false);
+});
+
+test('a matched NYPL photo appears once, with its own citation', () => {
+  const { identity, raw } = fixture();
+  raw.nypl_photo = { name: 'nypl_photo', ok: true, data: [{ title: 'Test view, New York', date: '1932', image: 'https://images.nypl.org/index.php?id=1&t=w', page: 'https://digitalcollections.nypl.org/items/abc', match: 'title names “X”' }] };
+  const p = buildProfile(identity, raw);
+  assert.equal(p.media.length, 1);
+  assert.ok(p.narrative.citations.some(c => c.source === 'nypl' && c.url === 'https://digitalcollections.nypl.org/items/abc' && c.publisher === 'The New York Public Library'));
+  assert.ok(!p.gaps.some(g => /No public-domain historical image/.test(g)));
+});

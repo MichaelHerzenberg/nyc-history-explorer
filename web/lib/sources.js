@@ -112,7 +112,7 @@ export async function plutoAddresses(bbls) {
 // Individual landmarks in the pilot area (for the map's highlight layer).
 export async function pilotLandmarks(pilotWKT) {
   return getJSON(soqlURL(DATASETS.lpcDesignations, {
-    $select: 'bin_number,bbl,lm_name,lp_number,desdate,latitude,longitude',
+    $select: 'bin_number,bbl,lm_name,lp_number,desdate,desig_addr,latitude,longitude',
     $where: `within_polygon(location,'${pilotWKT}') AND lm_type='Individual Landmark' AND status='DESIGNATED'`,
     $limit: '2000',
   }));
@@ -159,6 +159,7 @@ export async function gatherRaw(id, { onProgress } = {}) {
       $select: 'date_entered,complaint_category,status', $where: `bin='${esc(bin)}'`, $limit: '50000',
     })),
     acris: () => gatherACRIS(lot),
+    nypl_photo: () => photoFor(bin),
   };
   // A placeholder BIN (e.g. 1000000) is shared by thousands of unrelated
   // sites; querying by it would mix their records into this building's.
@@ -225,6 +226,22 @@ function mergeRecords(name, recs) {
   const bad = recs.find(r => !r.ok);
   if (bad) return bad;
   return { name, ok: true, url: recs.map(r => r.url), retrieved_at: recs[0].retrieved_at, data: recs.flatMap(r => r.data) };
+}
+
+// NYPL photos are chosen ahead of time by scripts/nypl-photos.mjs (the API key
+// stays off the public site) and saved to web/data/nypl-photos.json.
+let photoIndex = null;
+function loadPhotoIndex() {
+  const file = new URL('../data/nypl-photos.json', import.meta.url);
+  photoIndex ||= (IS_NODE
+    ? import('node:fs/promises').then(fs => fs.readFile(file, 'utf8')).then(JSON.parse)
+    : fetch(file).then(r => (r.ok ? r.json() : { photos: {} })))
+    .catch(() => ({ photos: {} }));
+  return photoIndex;
+}
+async function photoFor(bin) {
+  const idx = await loadPhotoIndex();
+  return { name: 'nypl_photo', ok: true, url: 'data/nypl-photos.json', retrieved_at: idx.generated_at || null, data: idx.photos?.[bin] ? [idx.photos[bin]] : [] };
 }
 
 // Library of Congress Chronicling America (historic US newspapers, mostly

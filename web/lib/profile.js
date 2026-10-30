@@ -27,6 +27,7 @@ export const SOURCES = {
   dob_violations: { label: 'DOB Violations', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.dobViolations), license: NYC_TERMS },
   ecb_violations: { label: 'DOB ECB Violations', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.ecbViolations), license: NYC_TERMS },
   dob_complaints: { label: 'DOB Complaints Received', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.dobComplaints), license: NYC_TERMS },
+  nypl: { label: 'NYPL Digital Collections', publisher: 'The New York Public Library', url: 'https://digitalcollections.nypl.org/', license: 'Public domain (per NYPL rights statement on each item)' },
   acris: { label: 'ACRIS property records (City Register)', publisher: 'NYC Dept. of Finance', url: OD(DATASETS.acrisMaster), license: NYC_TERMS },
 };
 
@@ -238,8 +239,13 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   // ---- ACRIS ownership
   const ownership = summariseACRIS(raw, timeline, gaps, lot, bbl);
 
-  // ---- photos: none gathered automatically yet (see docs/TODO.md)
-  gaps.push('Historical photographs are not gathered automatically yet. Try the NYPL and newspaper links under “Dig deeper”.');
+  // ---- photo: at most one, chosen ahead of time from NYPL (scripts/nypl-photos.mjs)
+  const media = rows(raw.nypl_photo).map(ph => ({
+    title: ph.title, image: ph.image, page: ph.page, date: ph.date, year: Number(String(ph.date || '').slice(0, 4)) || null,
+    collection: ph.collection, rights: ph.rights, rights_uri: ph.rights_uri, match: ph.match,
+    cite: [cite('nypl', ph.page, [ph.title, ph.date].filter(Boolean).join(', '))],
+  }));
+  if (!media.length) gaps.push('No public-domain historical image confidently matched to this building in NYPL Digital Collections (only landmarks in the pilot are searched so far). Try the NYPL link under “Dig deeper”.');
 
   // ---- standing gaps that apply to every building
   gaps.push('Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated.');
@@ -262,7 +268,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
     geometry: identity.geometry || fp?.the_geom || null,
     match_log: identity.match_log || [],
     addresses, facts, timeline, conflicts, gaps,
-    dob, ownership,
+    dob, ownership, media,
     reports,
     research_links: researchLinks({ bin, lot, name, addresses, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
     sources: SOURCES,
@@ -418,7 +424,7 @@ function sourceStatus(raw) {
   const list = [
     ['footprint', 'footprints'], ['pluto', 'pluto'], ['lpc_buildings', 'lpc_buildings'], ['lpc_designations', 'lpc_designations'],
     ['dob_jobs_all', 'dob_jobs'], ['dob_now_jobs', 'dob_now'], ['dob_co', 'dob_co'], ['dob_violations', 'dob_violations'],
-    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'],
+    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['nypl_photo', 'nypl'],
   ];
   return list.filter(([k]) => raw[k]).map(([k, src]) => {
     const r = raw[k];

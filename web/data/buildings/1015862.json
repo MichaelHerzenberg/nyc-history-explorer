@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-30T03:33:18.874Z",
+ "generated_at": "2026-10-30T03:59:54.455Z",
  "title": "Empire State Building",
  "address": "350 Fifth Avenue",
  "identity": {
@@ -872,7 +872,7 @@
  "gaps": [
   "No new-building permit appears in DOB data. DOB’s searchable job records for this building begin in 1990; older permits (including the original construction permit) survive only as scanned papers in DOB’s Building Information System and the Municipal Archives.",
   "Online property records (ACRIS) for this lot start in 1971. ACRIS indexes Manhattan documents back to 1966; older deeds are on microfilm at the City Register.",
-  "Historical photographs are not gathered automatically yet. Try the NYPL and newspaper links under “Dig deeper”.",
+  "No public-domain historical image confidently matched to this building in NYPL Digital Collections (only landmarks in the pilot are searched so far). Try the NYPL link under “Dig deeper”.",
   "Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated."
  ],
  "dob": {
@@ -1160,6 +1160,7 @@
   "total_documents": 141,
   "lot": "Borough 1, Block 835, Lot 41"
  },
+ "media": [],
  "reports": [
   {
    "label": "Interior Landmark report LP-02001",
@@ -1282,6 +1283,12 @@
    "url": "https://data.cityofnewyork.us/d/eabe-havv",
    "license": "NYC Open Data — free public data (NYC Open Data Law)"
   },
+  "nypl": {
+   "label": "NYPL Digital Collections",
+   "publisher": "The New York Public Library",
+   "url": "https://digitalcollections.nypl.org/",
+   "license": "Public domain (per NYPL rights statement on each item)"
+  },
   "acris": {
    "label": "ACRIS property records (City Register)",
    "publisher": "NYC Dept. of Finance",
@@ -1297,7 +1304,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.302Z"
+   "retrieved_at": "2026-10-30T03:59:52.251Z"
   },
   {
    "key": "pluto",
@@ -1306,7 +1313,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.565Z"
+   "retrieved_at": "2026-10-30T03:59:52.446Z"
   },
   {
    "key": "lpc_buildings",
@@ -1315,7 +1322,7 @@
    "ok": true,
    "count": 1,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.566Z"
+   "retrieved_at": "2026-10-30T03:59:52.447Z"
   },
   {
    "key": "lpc_designations",
@@ -1324,7 +1331,7 @@
    "ok": true,
    "count": 2,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.567Z"
+   "retrieved_at": "2026-10-30T03:59:52.448Z"
   },
   {
    "key": "dob_jobs_all",
@@ -1333,7 +1340,7 @@
    "ok": true,
    "count": 2850,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.569Z"
+   "retrieved_at": "2026-10-30T03:59:52.450Z"
   },
   {
    "key": "dob_now_jobs",
@@ -1342,7 +1349,7 @@
    "ok": true,
    "count": 696,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.570Z"
+   "retrieved_at": "2026-10-30T03:59:52.451Z"
   },
   {
    "key": "dob_co",
@@ -1351,7 +1358,7 @@
    "ok": true,
    "count": 47,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.573Z"
+   "retrieved_at": "2026-10-30T03:59:52.452Z"
   },
   {
    "key": "dob_violations",
@@ -1360,7 +1367,7 @@
    "ok": true,
    "count": 691,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.574Z"
+   "retrieved_at": "2026-10-30T03:59:52.453Z"
   },
   {
    "key": "ecb_violations",
@@ -1369,7 +1376,7 @@
    "ok": true,
    "count": 241,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.575Z"
+   "retrieved_at": "2026-10-30T03:59:52.455Z"
   },
   {
    "key": "dob_complaints",
@@ -1378,7 +1385,7 @@
    "ok": true,
    "count": 142,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.577Z"
+   "retrieved_at": "2026-10-30T03:59:52.456Z"
   },
   {
    "key": "acris",
@@ -1387,7 +1394,16 @@
    "ok": true,
    "count": 141,
    "error": null,
-   "retrieved_at": "2026-10-30T03:33:11.578Z"
+   "retrieved_at": "2026-10-30T03:59:52.457Z"
+  },
+  {
+   "key": "nypl_photo",
+   "source": "nypl",
+   "label": "NYPL Digital Collections",
+   "ok": true,
+   "count": 0,
+   "error": null,
+   "retrieved_at": "2026-10-30T03:58:16.864Z"
   }
  ],
  "narrative": {

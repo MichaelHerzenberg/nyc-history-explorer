@@ -53,6 +53,17 @@ except as a map query to NYC Open Data.
 | `npm run test:live` | The real public sources still answer the way the app expects (ESB by address, by map click, "near me" at Times Square, landmark layer, autocomplete) | Yes |
 | `npm run pilot` | Builds profiles for a sample of 40 Midtown landmarks and writes `docs/pilot-report.md` (`-- --all` for every landmark) | Yes |
 
+## Refresh the historical images (NYPL)
+
+Needs your free NYPL API key. Keep it private: never put it in a file inside this project.
+
+```
+NYPL_TOKEN=yourkey node scripts/nypl-photos.mjs --refresh
+```
+
+It picks at most one public-domain image per pilot landmark (about 300 API requests for all 250;
+NYPL allows 10,000 a day) and saves the choices to `web/data/nypl-photos.json`.
+
 ## Save a copy of a building's data
 
 ```
@@ -96,5 +107,6 @@ docs/                 decisions, data sources, data model, to-do list
 
 Data: NYC Open Data (Department of Buildings, Department of Finance/ACRIS, Landmarks Preservation
 Commission, Department of City Planning, Office of Technology & Innovation), NYC GeoSearch,
-Library of Congress (linked). Community-edited wiki sources are deliberately not used.
+The New York Public Library (public-domain images), Library of Congress (linked).
+Community-edited wiki sources are deliberately not used.
 Map: © OpenStreetMap contributors, rendered with Leaflet.
