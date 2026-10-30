@@ -31,6 +31,7 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 | **NYPL Digital Collections** | Search link by building name | ✅ |
 | **DOB Building Information System (BIS)** | Link to full DOB file incl. scanned older COs | Standard public URL; BIS refuses automated checks (403), so it wasn't machine-tested |
 | **ACRIS website** | Per-document links and BBL search | Standard public URL; redirects automated requests to its bandwidth policy page |
+| **Google Street View** | “Street View ↗” button and “See it today” link at the building's coordinates, via Google's no-key Maps URLs format (`google.com/maps/@?api=1&map_action=pano&viewpoint=lat,lng`). Visitors can use Google's own clock icon for older dated images | Link only: no Google images are copied or shown in the app (Google's terms forbid that). Format from Google's Maps URLs documentation, written from memory: the docs host was blocked in the build workspace |
 | **ZoLa** (zoning map) | Lot link | Not reachable from build server (not on network allowlist); URL pattern untested |
 
 ## Removed (owner decision, 2026-10-30)

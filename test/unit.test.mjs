@@ -191,3 +191,15 @@ test('a matched NYPL photo appears once, with its own citation', () => {
   assert.ok(p.narrative.citations.some(c => c.source === 'nypl' && c.url === 'https://digitalcollections.nypl.org/items/abc' && c.publisher === 'The New York Public Library'));
   assert.ok(!p.gaps.some(g => /No public-domain historical image/.test(g)));
 });
+
+test('each building links to Google Street View at its location', () => {
+  const { identity, raw } = fixture();
+  const p = buildProfile(identity, raw);
+  const sv = p.research_links.find(l => l.label === 'Google Street View');
+  assert.ok(sv, 'link present');
+  const u = new URL(sv.url);
+  assert.equal(u.origin + u.pathname, 'https://www.google.com/maps/@');
+  assert.equal(u.searchParams.get('map_action'), 'pano');
+  const [la, lo] = u.searchParams.get('viewpoint').split(',').map(Number);
+  assert.ok(Math.abs(la - 40.7484) < 0.001 && Math.abs(lo + 73.9857) < 0.001);
+});

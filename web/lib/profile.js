@@ -270,7 +270,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
     addresses, facts, timeline, conflicts, gaps,
     dob, ownership, media,
     reports,
-    research_links: researchLinks({ bin, lot, name, addresses, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
+    research_links: researchLinks({ bin, lot, name, addresses, lat: identity.lat, lng: identity.lng, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
     sources: SOURCES,
     source_status,
   };
@@ -434,8 +434,17 @@ function sourceStatus(raw) {
   });
 }
 
-function researchLinks({ bin, lot, name, addresses, builtYear }) {
+// Google "Maps URLs" link (no key needed): opens Street View at the nearest
+// panorama to the building. Older dated images are under the clock icon there.
+export function streetViewURL(lat, lng) {
+  if (lat == null || lng == null) return null;
+  return `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${Number(lat).toFixed(6)},${Number(lng).toFixed(6)}`;
+}
+
+function researchLinks({ bin, lot, name, addresses, lat, lng, builtYear }) {
   const links = [];
+  const sv = streetViewURL(lat, lng);
+  if (sv) links.push({ group: 'See it today', label: 'Google Street View', url: sv, note: 'Opens Google Maps. Use the clock icon there to see older Street View photos, where Google has them' });
   const addr = addresses[0]?.address;
   const from = builtYear ? Math.max(1777, builtYear - 5) : 1880;
   const loc = phrase => `https://www.loc.gov/collections/chronicling-america/?${new URLSearchParams({ q: `"${phrase}"`, dates: `${from}/1963` })}`;

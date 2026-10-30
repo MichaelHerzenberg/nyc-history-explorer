@@ -13,7 +13,7 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
 - ✅ GitHub Pages deploy workflow (runs tests first)
 
 ## Next
-0. ⬜ **Check the aerial slider on a real browser**: confirm which years load (only 1924 and 1951 are proven).
+0. ⬜ **Check on a real phone**: which aerial years load (only 1924 and 1951 are proven), and that the Street View button opens at the right building.
 1. ⬜ **Publish**: create the GitHub repository, push, turn on Pages (steps in README). *Owner action needed.*
 2. ⬜ **Test on a real phone in Midtown**: "Near me" accuracy between tall buildings; whether
    Library of Congress search works from a phone browser.

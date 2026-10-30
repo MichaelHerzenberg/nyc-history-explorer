@@ -432,6 +432,7 @@ function renderProfile(p, raw, warning) {
     h('h1', { class: 'bname' }, p.title),
     p.title !== p.address ? h('p', { class: 'addr' }, p.address, ', Manhattan') : null,
     h('div', { class: 'badges' }, badges),
+    (() => { const sv = p.research_links.find(l => l.label === 'Google Street View'); return sv ? h('p', {}, h('a', { class: 'btn btn-quiet sv', href: sv.url, target: '_blank', rel: 'noopener' }, 'Street View ↗')) : null; })(),
     story, photo, timeline, facts, unknowns, records, deeper, how,
   );
 }
