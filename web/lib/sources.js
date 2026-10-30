@@ -4,9 +4,9 @@
 // interpreting. Runs unchanged in the browser and in Node 18+.
 
 import {
-  GEOSEARCH, SOCRATA, DATASETS, SOCRATA_APP_TOKEN,
+  GEOSEARCH, SOCRATA, NYS_SOCRATA, DATASETS, NYS_DATASETS, SOCRATA_APP_TOKEN,
 } from './config.js';
-import { splitBBL, isPlaceholderBIN } from './address.js';
+import { splitBBL, isPlaceholderBIN, normalizeAddress } from './address.js';
 
 const IS_NODE = typeof window === 'undefined';
 let userAgent = 'NYCHistoryExplorer/0.1 (https://github.com/MichaelHerzenberg/nyc-history-explorer)';
@@ -183,6 +183,8 @@ export async function gatherRaw(id, { onProgress } = {}) {
   })));
   const raw = {};
   names.forEach((n, i) => { raw[n] = results[i]; });
+  // Second step: offices, which needs the ZIP code and addresses found above.
+  raw.offices = await gatherOffices(id, raw);
   return raw;
 }
 
@@ -234,6 +236,88 @@ function mergeRecords(name, recs) {
   const bad = recs.find(r => !r.ok);
   if (bad) return bad;
   return { name, ok: true, url: recs.map(r => r.url), retrieved_at: recs[0].retrieved_at, data: recs.flatMap(r => r.data) };
+}
+
+// Companies with offices here, from New York State company filings. Only the
+// "chief executive officer" and "principal executive office" addresses count
+// (types 3 and 4); service-of-process and registered-agent addresses are
+// usually a lawyer's or agent's mailbox, and "c/o" addresses are someone
+// else's office.
+export function buildingAddresses(id, raw) {
+  const rowsOf = r => (r?.ok && Array.isArray(r.data) ? r.data : []);
+  const list = [id.label, rowsOf(raw.pluto)[0]?.address, rowsOf(raw.lpc_buildings)[0]?.des_addres,
+    ...rowsOf(raw.lpc_designations).filter(d => d.bin_number === id.bin).map(d => d.desig_addr),
+    ...(id.candidates || []).filter(c => c.bin === id.bin).map(c => c.label)];
+  const out = new Set();
+  // "173-185 Fifth Avenue (aka 945-953 Broadway)" -> both addresses; ranges
+  // expand to every number on that side of the street (companies write "175").
+  const pieces = list.filter(Boolean).flatMap(a => String(a).split(/\(\s*a\.?k\.?a\.?|\)|;|\baka\b/i)).map(x => x.trim()).filter(Boolean);
+  for (const a of pieces) {
+    const n = normalizeAddress(a);
+    const m = n.match(/^(\d+)[A-Z]?(?:-(\d+)[A-Z]?)?\s+(.+)$/);
+    if (!m) continue;
+    const lo = Number(m[1]);
+    let hi = lo;
+    if (m[2]) hi = Number(m[2].length < m[1].length ? m[1].slice(0, m[1].length - m[2].length) + m[2] : m[2]);
+    if (!(hi >= lo) || hi - lo > 80) hi = lo;
+    for (let k = lo; k <= hi; k += 2) out.add(`${k} ${m[3]}`);
+    out.add(`${hi} ${m[3]}`);
+  }
+  return [...out];
+}
+
+// SQL patterns for one address: "350 5 AVENUE" -> "350 %5%", "350 %FIFTH%".
+const AVENUE_WORD = ['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH', 'SEVENTH', 'EIGHTH', 'NINTH', 'TENTH', 'ELEVENTH', 'TWELFTH'];
+function likePatterns(address) {
+  const [num, ...rest] = address.split(' ');
+  const street = rest.filter(w => !/^(WEST|EAST|NORTH|SOUTH)$/.test(w));
+  const key = street[0];
+  if (!key) return [];
+  const pats = [`${num} %${key}%`];
+  if (/^\d+$/.test(key) && street[1] === 'AVENUE' && AVENUE_WORD[Number(key)]) pats.push(`${num} %${AVENUE_WORD[Number(key)]}%`);
+  if (key === '6' && street[1] === 'AVENUE') pats.push(`${num} %AMERICAS%`);
+  return pats;
+}
+
+async function gatherOffices(id, raw) {
+  const addresses = buildingAddresses(id, raw);
+  const out = { name: 'offices', ok: true, retrieved_at: new Date().toISOString(), addresses, parts: {} };
+  if (!addresses.length || isPlaceholderBIN(id.bin)) return out;
+  const nyURL = (ds, p) => `${NYS_SOCRATA}/${ds}.json?${new URLSearchParams(p)}`;
+  const likes = [...new Set(addresses.flatMap(likePatterns))];
+  const addrRec = await record('offices_addresses', nyURL(NYS_DATASETS.corpAddresses, {
+    $select: 'corpid_num,date_filed,addr_type,addr1,addr2,city,zip5',
+    $where: `addr_type in ('3','4') AND upper(city) in ('NEW YORK','NY','NEW YORK CITY','MANHATTAN','NYC') AND (${likes.map(l => `upper(addr1) like '${esc(l)}'`).join(' OR ')})`,
+    $limit: '50000',
+  }));
+  out.parts.addresses = addrRec;
+  if (!addrRec.ok) { out.ok = false; out.error = addrRec.error; return out; }
+  const ours = addresses;
+  const hits = addrRec.data.filter(r => {
+    if (/\bC\/O\b|\bCARE OF\b/i.test(`${r.addr1} ${r.addr2 || ''}`)) return false;
+    const n = normalizeAddress(r.addr1);
+    return ours.some(a => n === a || n.startsWith(a + ' '));
+  });
+  out.parts.matched = hits;
+  const ids = [...new Set(hits.map(r => r.corpid_num))];
+  const chunks = [];
+  for (let i = 0; i < ids.length; i += 100) chunks.push(ids.slice(i, i + 100));
+  const inList = c => c.map(x => `'${esc(x)}'`).join(',');
+  const active = await Promise.all(chunks.map(c => record('offices_active', nyURL(NYS_DATASETS.activeCorps, {
+    $select: 'dos_id,current_entity_name,entity_type', $where: `dos_id in (${inList(c)})`, $limit: '5000',
+  }))));
+  out.parts.active = mergeRecords('offices_active', active);
+  const activeIds = new Set((out.parts.active.data || []).map(a => a.dos_id));
+  const missing = ids.filter(x => !activeIds.has(x));
+  const mchunks = [];
+  for (let i = 0; i < missing.length; i += 100) mchunks.push(missing.slice(i, i + 100));
+  const names = await Promise.all(mchunks.map(c => record('offices_names', nyURL(NYS_DATASETS.corpFilings, {
+    $select: 'corpid_num,corp_name,max(date_filed) as date_filed', $where: `corpid_num in (${inList(c)}) AND documenttype not like '%ASSUMED NAME%'`,
+    $group: 'corpid_num,corp_name', $limit: '20000',
+  }))));
+  out.parts.names = mergeRecords('offices_names', names);
+  out.url = addrRec.url;
+  return out;
 }
 
 // NYPL photos are chosen ahead of time by scripts/nypl-photos.mjs (the API key

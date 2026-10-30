@@ -255,4 +255,32 @@ test('business names are made readable', () => {
   assert.equal(niceName('AT&T MOBILITY SUPPLY LLC'), 'AT&T Mobility Supply LLC');
   assert.equal(niceName('HANDY CANDY INC'), 'Handy Candy Inc.');
   assert.equal(niceName('Starbucks Reserve'), 'Starbucks Reserve');
+  assert.equal(niceName('SMP (1952), INC.'), 'SMP (1952), Inc.');
+  assert.equal(niceName('CATAFAGO, P.C.'), 'Catafago, P.C.');
+  assert.equal(niceName('STV INCORPORATED'), 'STV Incorporated');
+  assert.equal(niceName('JOHN OF THE WOODS'), 'John Of The Woods');
+});
+
+import { summariseOffices } from '../web/lib/profile.js';
+import { buildingAddresses } from '../web/lib/sources.js';
+
+test('office addresses: ranges expand and "aka" addresses count', () => {
+  const a = buildingAddresses({ bin: '1016278', label: null, candidates: [] }, {
+    lpc_buildings: { ok: true, data: [{ des_addres: '173-185 Fifth Avenue (aka 945-953 Broadway)' }] } });
+  for (const x of ['175 5 AVENUE', '185 5 AVENUE', '949 BROADWAY']) assert.ok(a.includes(x), `${x} in ${a}`);
+});
+
+test('offices: active + recent = now; dissolved or stale = earlier; c/o and pre-construction ignored', () => {
+  const now = new Date('2026-10-30T00:00:00Z');
+  const raw = { offices: { ok: true, parts: {
+    matched: [
+      { corpid_num: '1', date_filed: '1993-01-01T00:00:00.000' }, { corpid_num: '1', date_filed: '2014-06-01T00:00:00.000' },
+      { corpid_num: '2', date_filed: '2010-01-01T00:00:00.000' }, { corpid_num: '2', date_filed: '2025-03-01T00:00:00.000' },
+      { corpid_num: '3', date_filed: '1890-01-01T00:00:00.000' }],
+    active: { ok: true, data: [{ dos_id: '2', current_entity_name: 'STV INCORPORATED' }, { dos_id: '1', current_entity_name: 'MACMILLAN PUBLISHERS INC.' }] },
+    names: { ok: true, data: [{ corpid_num: '3', corp_name: 'OLD CO', date_filed: '1890-01-01' }] } } } };
+  const o = summariseOffices(raw, { now, builtFrom: 1902 });
+  assert.deepEqual(o.current.map(x => x.name), ['STV Incorporated']);
+  assert.deepEqual(o.past.map(x => `${x.name} ${x.from.slice(0, 4)}-${x.to.slice(0, 4)}`), ['Macmillan Publishers Inc. 1993-2014']);
+  assert.ok(o.current[0].cite[0].url.includes('corpid_num=2'));
 });

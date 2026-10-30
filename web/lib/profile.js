@@ -30,6 +30,7 @@ export const SOURCES = {
   nypl: { label: 'NYPL Digital Collections', publisher: 'The New York Public Library', url: 'https://digitalcollections.nypl.org/', license: 'Public domain (per NYPL rights statement on each item)' },
   licenses: { label: 'DCWP Issued Licenses', publisher: 'NYC Dept. of Consumer and Worker Protection', url: OD(DATASETS.licenses), license: NYC_TERMS, caution: 'Only businesses that need a City licence (shops, electronics, tobacco, etc.).' },
   restaurants: { label: 'DOHMH Restaurant Inspection Results', publisher: 'NYC Dept. of Health and Mental Hygiene', url: OD(DATASETS.restaurants), license: NYC_TERMS, caution: 'Covers recent years only.' },
+  nys_corps: { label: 'NYS company filings (office addresses)', publisher: 'New York State Department of State', url: 'https://data.ny.gov/d/2tms-hftb', license: 'Open NY data (data.ny.gov terms of use)', caution: 'Office addresses companies gave the State; a company may move without filing a new address.' },
   acris: { label: 'ACRIS property records (City Register)', publisher: 'NYC Dept. of Finance', url: OD(DATASETS.acrisMaster), license: NYC_TERMS },
 };
 
@@ -251,7 +252,8 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
 
   // ---- businesses here, now and before
   const tenants = summariseTenants(raw, ownership, { name, owner: pluto?.ownername, now });
-  gaps.push('Businesses: City records only name restaurants, businesses that need a City licence, and tenants in recorded leases. Office tenants and anything before the 1970s are not covered yet (NYPL city directories are the planned source).');
+  tenants.offices = summariseOffices(raw, { now, builtFrom: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year || null });
+  gaps.push('Businesses: office tenants come from New York State company filings, whose address records are thin before the 1990s; shops and restaurants from City records. Tenants before that (and companies that never filed this address) are not covered yet. NYPL city directories are the planned source for earlier years.');
   gaps.push('News: newspaper coverage is not gathered automatically yet. Use the newspaper links under “Dig deeper”.');
 
   // ---- sources that failed
@@ -304,6 +306,10 @@ export function niceName(s) {
     if (KEEP_UPPER.test(bare)) return w.toUpperCase().replace(/^L\.L\.C\.?/, 'LLC').replace(/^L\.P\./, 'LP');
     if (/^inc\.?,?$/i.test(w)) return 'Inc.';
     if (!upper) return w;
+    // Abbreviations stay in capitals: "P.C.", "N.Y.", "SMP", "HHC" (no vowels), short codes like "AA".
+    const letters = bare.replace(/[^A-Z]/g, '');
+    if (/^([A-Z]\.)+[A-Z]?\.?$/.test(bare) || (letters.length >= 2 && !/[AEIOUY]/.test(letters)) ||
+      (letters.length === 2 && !/^(OF|AT|IN|ON|TO|BY|AN|OR|DE|LA|LE|DU|EL|IS|IT|AS|NO|SO|UP|US|WE|MY|GO|DO|BE)$/.test(letters))) return w;
     return w.charAt(0) + w.slice(1).toLowerCase().replace(/-([a-z])/g, (m, c) => '-' + c.toUpperCase());
   }).join(' ').replace(/\.\.$/, '.');
 }
@@ -355,6 +361,47 @@ function summariseTenants(raw, ownership, { name, owner, now }) {
   for (const k of current.keys()) past.delete(k);
   const byDate = (a, b) => (b.to || b.from || '').localeCompare(a.to || a.from || '');
   return { current: [...current.values()].sort((a, b) => a.name.localeCompare(b.name)), past: [...past.values()].sort(byDate) };
+}
+
+// Companies with offices here (NYS Department of State filings). "Now" = the
+// company is still active and its latest office filing here is under four
+// years old. Sorted longest-standing first, which is the best available hint
+// of significance (the data has no company size).
+export function summariseOffices(raw, { now, builtFrom }) {
+  const o = raw.offices;
+  const empty = { current: [], past: [], earliest: null };
+  if (!o?.ok || !o.parts?.matched) return empty;
+  const active = new Map((o.parts.active?.data || []).map(a => [a.dos_id, a]));
+  const latestName = new Map();
+  for (const r of o.parts.names?.data || []) {
+    const prev = latestName.get(r.corpid_num);
+    if (r.corp_name && (!prev || r.date_filed > prev.date_filed)) latestName.set(r.corpid_num, r);
+  }
+  const span = new Map();
+  for (const r of o.parts.matched) {
+    const d = isoDate(r.date_filed);
+    if (!d || (builtFrom && Number(d.slice(0, 4)) < builtFrom)) continue;
+    const s = span.get(r.corpid_num) || { from: d, to: d };
+    if (d < s.from) s.from = d;
+    if (d > s.to) s.to = d;
+    span.set(r.corpid_num, s);
+  }
+  const cutoff = new Date(now.getTime() - 4 * 365.25 * 864e5).toISOString().slice(0, 10);
+  const current = [], past = [];
+  let earliest = null;
+  for (const [idn, s] of span) {
+    const a = active.get(idn);
+    const nm = a?.current_entity_name || latestName.get(idn)?.corp_name;
+    if (!nm) continue;
+    if (!earliest || s.from < earliest) earliest = s.from;
+    const item = { name: niceName(nm), from: s.from, to: s.to, active: !!a, dos_id: idn,
+      cite: [cite('nys_corps', `https://data.ny.gov/resource/2tms-hftb.json?corpid_num=${idn}`, `DOS ID ${idn}, office filings ${s.from.slice(0, 4)}–${s.to.slice(0, 4)}`)] };
+    (a && s.to >= cutoff ? current : past).push(item);
+  }
+  const tenure = x => Date.parse(x.to) - Date.parse(x.from);
+  current.sort((x, y) => tenure(y) - tenure(x) || x.name.localeCompare(y.name));
+  past.sort((x, y) => tenure(y) - tenure(x) || y.to.localeCompare(x.to));
+  return { current, past, earliest };
 }
 
 // Which spelling to show first: the address the user searched for, then the
@@ -503,12 +550,13 @@ function sourceStatus(raw) {
   const list = [
     ['footprint', 'footprints'], ['pluto', 'pluto'], ['lpc_buildings', 'lpc_buildings'], ['lpc_designations', 'lpc_designations'],
     ['dob_jobs_all', 'dob_jobs'], ['dob_now_jobs', 'dob_now'], ['dob_co', 'dob_co'], ['dob_violations', 'dob_violations'],
-    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['licenses', 'licenses'], ['restaurants', 'restaurants'], ['nypl_photo', 'nypl'],
+    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['offices', 'nys_corps'], ['licenses', 'licenses'], ['restaurants', 'restaurants'], ['nypl_photo', 'nypl'],
   ];
   return list.filter(([k]) => raw[k]).map(([k, src]) => {
     const r = raw[k];
     let count = Array.isArray(r.data) ? r.data.length : null;
     if (k === 'acris') count = rows(r.parts?.master).length;
+    if (k === 'offices') count = new Set((r.parts?.matched || []).map(x => x.corpid_num)).size;
     return { key: k, source: src, label: SOURCES[src].label, ok: !!r.ok, count, error: r.ok ? null : r.error, retrieved_at: r.retrieved_at };
   });
 }

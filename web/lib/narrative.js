@@ -85,13 +85,22 @@ export function writeNarrative(p) {
   // 3. Businesses here: now and before.
   const biz = [];
   const t = p.tenants || { current: [], past: [] };
+  const off = t.offices || { current: [], past: [] };
+  if (off.current.length) {
+    const top = off.current.slice(0, 5);
+    biz.push(S(`New York State company filings place ${off.current.length.toLocaleString('en-US')} compan${off.current.length === 1 ? 'y' : 'ies'}’ offices here now; the longest-standing include ${list(top.map(x => `${x.name} (since ${x.from.slice(0, 4)})`))}.`, top.flatMap(x => x.cite)));
+  }
+  if (off.past.length) {
+    const top = off.past.slice(0, 5);
+    biz.push(S(`Earlier office tenants on file include ${list(top.map(x => `${x.name} (${x.from.slice(0, 4)}–${x.to.slice(0, 4)})`))}.`, top.flatMap(x => x.cite)));
+  }
   if (t.current.length) {
     const shown = t.current.slice(0, 8);
-    biz.push(S(`Businesses here on current City records include ${list(shown.map(x => x.name))}${t.current.length > shown.length ? ` (${t.current.length} in all)` : ''}.`, shown.flatMap(x => x.cite)));
+    biz.push(S(`Shops and restaurants on current City records include ${list(shown.map(x => x.name))}${t.current.length > shown.length ? ` (${t.current.length} in all)` : ''}.`, shown.flatMap(x => x.cite)));
   }
   const earlier = t.past.filter(x => !x.lease).slice(0, 6);
   if (earlier.length) {
-    biz.push(S(`Earlier ones include ${list(earlier.map(x => `${x.name}${x.to ? ` (until ${x.to.slice(0, 4)})` : ''}`))}.`, earlier.flatMap(x => x.cite)));
+    biz.push(S(`Earlier shops and restaurants include ${list(earlier.map(x => `${x.name}${x.to ? ` (until ${x.to.slice(0, 4)})` : ''}`))}.`, earlier.flatMap(x => x.cite)));
   }
   const leases = t.past.filter(x => x.lease).slice(0, 5);
   if (leases.length) {

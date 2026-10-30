@@ -20,7 +20,7 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
 3. 🟡 **Photos**: ✅ one NYPL image for 25 pilot landmarks (2026-10-30). ⬜ 1940s tax photos via the
    Municipal Archives' official site (1940s.nyc ruled out by its terms): needs network access to
    `nycrecords.access.preservica.com` and `www.nyc.gov`, then read their reuse terms.
-4. ⬜ **NYPL city directories** (key now in hand): past occupants and businesses, the biggest gap.
+4. 🟡 **Tenants**: ✅ offices (NYS filings, 1990s on), shops/restaurants (City), leases (ACRIS). ⬜ NYPL city directories for tenants before the 1990s.
 5. ⬜ **Newspapers**: confirm browser access to loc.gov. If it works, show top matches
    automatically for landmarks, clearly labelled as keyword matches.
 6. ⬜ **Condos**: follow unit lots in ACRIS so condo sales show up (currently only the billing lot).

@@ -358,10 +358,25 @@ function renderProfile(p, raw, warning) {
     x.lease ? (x.from ? ` · ${x.from.slice(0, 4)}` : '') : x.from || x.to ? ` · ${x.from ? x.from.slice(0, 4) : '?'}–${x.to ? x.to.slice(0, 4) : 'now'}` : '',
     ' ', h('span', { class: 'src' }, '(', srcLink(x.cite[0]), ')'));
   const tn = p.tenants || { current: [], past: [] };
+  const off = tn.offices || { current: [], past: [] };
+  // Long lists show the first 15 with a "show all" button.
+  const longList = (items, render) => {
+    const ul = h('ul', { class: 'plain' }, items.slice(0, 15).map(render));
+    if (items.length <= 15) return ul;
+    const more = h('button', { class: 'chip', onclick: () => { ul.replaceChildren(...items.map(render)); more.remove(); } }, `Show all ${items.length.toLocaleString()}`);
+    return [ul, more];
+  };
+  const officeItem = x => h('li', {}, h('b', {}, x.name), ` · ${x.from.slice(0, 4)}–${x.active && x === off.current.find(c => c === x) ? 'now' : x.to.slice(0, 4)}`,
+    ' ', h('span', { class: 'src' }, '(', srcLink(x.cite[0]), ')'));
   const businesses = h('section', { class: 'block' }, h('h2', {}, 'Businesses here'),
-    tn.current.length ? [h('h3', {}, `Now (${tn.current.length})`), h('ul', { class: 'plain' }, tn.current.map(bizItem))] : h('p', {}, 'No current businesses on City records.'),
-    tn.past.length ? [h('h3', {}, `Earlier (${tn.past.length})`), h('ul', { class: 'plain' }, tn.past.map(bizItem))] : null,
-    h('p', { class: 'src' }, 'From City records of restaurants and licensed businesses, and tenants named in recorded leases. Office tenants are not in City records yet.'));
+    h('h3', {}, `Offices now (${off.current.length.toLocaleString()})`),
+    off.current.length ? longList(off.current, officeItem) : h('p', { class: 'src' }, 'No current office filings found.'),
+    off.past.length ? [h('h3', {}, `Earlier offices (${off.past.length.toLocaleString()})`), longList(off.past, officeItem)] : null,
+    h('p', { class: 'src' }, `Offices: companies whose chief-executive or principal-office address filed with New York State is this building${off.earliest ? ` (records from ${off.earliest.slice(0, 4)})` : ''}. Longest-standing first. “Now” means still active with a filing here in the last four years.`),
+    h('h3', {}, `Shops & restaurants now (${tn.current.length})`),
+    tn.current.length ? h('ul', { class: 'plain' }, tn.current.map(bizItem)) : h('p', { class: 'src' }, 'None on current City records.'),
+    tn.past.length ? [h('h3', {}, `Earlier shops, restaurants & leases (${tn.past.length})`), h('ul', { class: 'plain' }, tn.past.map(bizItem))] : null,
+    h('p', { class: 'src' }, 'From City restaurant inspections and business licences, and tenants named in recorded leases.'));
 
   // In the news
   const newsOut = h('div', {});

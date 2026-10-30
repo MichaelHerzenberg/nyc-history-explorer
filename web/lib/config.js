@@ -34,6 +34,7 @@ export const AERIAL_CREDIT = {
 
 export const GEOSEARCH = 'https://geosearch.planninglabs.nyc/v2';
 export const SOCRATA = 'https://data.cityofnewyork.us/resource';
+export const NYS_SOCRATA = 'https://data.ny.gov/resource';
 
 // NYC Open Data dataset IDs (all verified reachable 2026-10-27).
 export const DATASETS = {
@@ -53,6 +54,13 @@ export const DATASETS = {
   acrisCodes: '7isb-wh4c',     // ACRIS Document Control Codes
   licenses: 'w7w3-xahh',       // DCWP Issued Licenses (licensed businesses)
   restaurants: '43nn-pn8j',    // DOHMH Restaurant Inspection Results (recent years only)
+};
+
+// New York State Department of State company registry (data.ny.gov).
+export const NYS_DATASETS = {
+  corpAddresses: '2tms-hftb',  // Corporations and Other Entities: All Filings - Address
+  corpFilings: '63wc-4exh',    // Corporations and Other Entities: All Filings
+  activeCorps: 'n9v6-gdp6',    // Active Corporations: Beginning 1800
 };
 
 // Optional free Socrata app token (raises rate limits). Not required.
