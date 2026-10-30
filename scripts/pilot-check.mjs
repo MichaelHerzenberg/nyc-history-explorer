@@ -41,7 +41,7 @@ for (const [i, l] of sample.entries()) {
   const t0 = Date.now();
   try {
     const { identity, raw: idRaw } = await resolveBuilding({ bin: l.bin_number });
-    const raw = { ...idRaw, ...(await gatherRaw(identity, { photos: false })) };
+    const raw = { ...idRaw, ...(await gatherRaw(identity)) };
     const p = buildProfile(identity, raw);
     const f = k => p.facts.find(x => x.key === k);
     results.push({
@@ -49,7 +49,7 @@ for (const [i, l] of sample.entries()) {
       footprint: !!raw.footprint?.data?.length, address: p.address,
       built: f('built')?.value || null, architect: f('architect')?.value || null,
       lpc_survey: !!raw.lpc_buildings?.data?.length, designated: p.timeline.some(e => /^Designated/.test(e.title)),
-      deeds: p.ownership.deeds.length, dob_jobs: p.dob.totals.jobs, wikidata: !!p.identity.wikidata,
+      deeds: p.ownership.deeds.length, dob_jobs: p.dob.totals.jobs,
       events: p.timeline.length, conflicts: p.conflicts.map(c => c.field), failed_sources: p.source_status.filter(s => !s.ok).map(s => s.key),
     });
   } catch (err) {
@@ -65,7 +65,7 @@ const pct = (n, d = ok.length) => (d ? `${Math.round((100 * n) / d)}%` : '—');
 const count = fn => ok.filter(fn).length;
 const md = `# Midtown pilot reliability report
 
-Generated ${new Date().toISOString().slice(0, 10)} by \`npm run pilot\`. Sample: ${sample.length} of the ${byBin.size} designated individual-landmark buildings inside the pilot area (23rd–59th St, 3rd–9th Ave), chosen evenly across the list. Photos were skipped to stay within Wikimedia's rate limits.${placeholders.size ? ` ${placeholders.size} landmark record(s) carry a placeholder BIN (no real building number) and were skipped: ${[...placeholders].join(', ')}.` : ''}
+Generated ${new Date().toISOString().slice(0, 10)} by \`npm run pilot\`. Sample: ${sample.length} of the ${byBin.size} designated individual-landmark buildings inside the pilot area (23rd–59th St, 3rd–9th Ave), chosen evenly across the list.${placeholders.size ? ` ${placeholders.size} landmark record(s) carry a placeholder BIN (no real building number) and were skipped: ${[...placeholders].join(', ')}.` : ''}
 
 | Measure | Result |
 |---|---|
@@ -76,18 +76,17 @@ Generated ${new Date().toISOString().slice(0, 10)} by \`npm run pilot\`. Sample:
 | In LPC building survey | ${count(r => r.lpc_survey)} (${pct(count(r => r.lpc_survey))}) |
 | Designation date on timeline | ${count(r => r.designated)} (${pct(count(r => r.designated))}) |
 | At least one ACRIS deed/conveyance | ${count(r => r.deeds > 0)} (${pct(count(r => r.deeds > 0))}) |
-| Linked to Wikidata by BIN | ${count(r => r.wikidata)} (${pct(count(r => r.wikidata))}) |
 | Construction-date conflict flagged | ${count(r => r.conflicts.length)} |
 | Any source failed during the run | ${count(r => r.failed_sources.length)} |
 | Median time per building | ${ok.length ? ok.map(r => r.seconds).sort((a, b) => a - b)[Math.floor(ok.length / 2)].toFixed(1) : '—'} s |
 
 ## Buildings checked
 
-| Building | BIN | Built | Architect | Events | Deeds | Wikidata | Notes |
-|---|---|---|---|---|---|---|---|
+| Building | BIN | Built | Architect | Events | Deeds | Notes |
+|---|---|---|---|---|---|---|
 ${results.map(r => r.ok
-    ? `| ${r.name} | ${r.bin} | ${r.built ?? '—'} | ${r.architect ?? '—'} | ${r.events} | ${r.deeds} | ${r.wikidata ? 'yes' : 'no'} | ${[r.conflicts.length ? 'date conflict' : '', r.failed_sources.length ? 'failed: ' + r.failed_sources.join(', ') : '', !r.footprint ? 'no footprint' : ''].filter(Boolean).join('; ')} |`
-    : `| ${r.name} | ${r.bin} | | | | | | ERROR: ${r.error} |`).join('\n')}
+    ? `| ${r.name} | ${r.bin} | ${r.built ?? '—'} | ${r.architect ?? '—'} | ${r.events} | ${r.deeds} | ${[r.conflicts.length ? 'date conflict' : '', r.failed_sources.length ? 'failed: ' + r.failed_sources.join(', ') : '', !r.footprint ? 'no footprint' : ''].filter(Boolean).join('; ')} |`
+    : `| ${r.name} | ${r.bin} | | | | | ERROR: ${r.error} |`).join('\n')}
 `;
 await writeFile(join(root, 'docs/pilot-report.md'), md);
 console.log(`\nWrote docs/pilot-report.md — ${ok.length}/${results.length} assembled.`);

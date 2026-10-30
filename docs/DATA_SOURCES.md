@@ -18,8 +18,6 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 | **DOB Certificates of Occupancy** `bs8b-p36w` | COs (mostly recent) | BIN | ✅ | NYC Open Data terms | Historic COs exist only as scans in BIS |
 | **DOB Violations / ECB Violations / Complaints** `3h2n-5cm9`, `6bgk-3dad`, `eabe-havv` | Counts by decade | BIN | ✅ | NYC Open Data terms | |
 | **ACRIS** Legals `8h5j-fqxa`, Master `bnx9-e6tj`, Parties `636b-3b5g`, Codes `7isb-wh4c` | Deeds, leases, mortgages, landmark recordings; parties and amounts | BBL | ✅ | NYC Open Data terms | For the ESB lot the data starts in 1971, deeds from 1991. Condo units have their own lots (not yet followed). ACRIS's own website refuses automated requests, so links are for people to click |
-| **Wikidata** (`query.wikidata.org/sparql`) | Inception/opening, architect, engineer, heritage listings (NRHP, NHL) with dates, significant events, images, Wikipedia link | **BIN (P6082)** | ✅ | CC0 | Community-edited; marked "Reported". Coverage is good for famous buildings (see pilot report) |
-| **Wikimedia Commons** (`commons.wikimedia.org/w/api.php`) | Photos with author, date and licence; historical photos via "by decade" categories | Wikidata image / category | ✅ API; ⚠️ thumbnails (`thumb.wikimedia.org`) blocked by *this build server's* network policy, fine in normal browsers | Per-image (CC BY, CC BY-SA, public domain); shown with every photo | Rate-limits shared IPs; requires an identifying User-Agent (set in Node). Browsers are fine |
 | **OpenStreetMap tiles** | Base map | — | ✅ | ODbL, attribution shown | Light use only under OSM tile policy (see TODO) |
 | **Leaflet 1.9.4** (unpkg.com) | Map library | — | ✅ pinned with integrity hash | BSD-2 | |
 
@@ -32,7 +30,14 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 | **DOB Building Information System (BIS)** | Link to full DOB file incl. scanned older COs | Standard public URL; BIS refuses automated checks (403), so it wasn't machine-tested |
 | **ACRIS website** | Per-document links and BBL search | Standard public URL; redirects automated requests to its bandwidth policy page |
 | **ZoLa** (zoning map) | Lot link | Not reachable from build server (not on network allowlist); URL pattern untested |
-| **Wikipedia** | Article link from Wikidata | ✅ |
+
+## Removed (owner decision, 2026-10-30)
+
+| Source | Was used for | Why removed |
+|---|---|---|
+| Wikidata | Opening dates, heritage listings (NRHP/NHL), notable events, BIN-based matching to images | Community-edited, not dependable; pilot found wrong dates |
+| Wikimedia Commons | Photos | Wiki; images were matched through Wikidata |
+| Wikipedia | "Background" link | Wiki |
 
 ## Investigated, not yet used
 
@@ -47,6 +52,7 @@ BBL 1008350041) as the test case. "In app" means the app uses it today.
 
 - Prefer official city records. Community sources are labelled and never override them silently.
 - Link to the original record. Don't copy full texts we don't have rights to.
-- Show licence and credit on every image. Only Commons images, which are free licences by policy.
+- No wiki sources (Wikidata, Wikipedia, Wikimedia Commons): owner decision 2026-10-30.
+- When images return, show licence and credit on every one.
 - Identify ourselves to APIs (User-Agent in scripts), keep request counts modest, and back off on
   HTTP 429.

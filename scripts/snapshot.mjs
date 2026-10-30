@@ -34,7 +34,7 @@ export async function snapshot(query, { saveRaw = true, quiet = false } = {}) {
   if (!quiet) {
     console.log(`${profile.title}  (BIN ${bin}, BBL ${identity.bbl})`);
     for (const s of profile.source_status) console.log(`  ${s.ok ? '✓' : '✗'} ${s.label}${s.ok ? ` — ${s.count} record(s)` : ` — ${s.error}`}`);
-    console.log(`  timeline events: ${profile.timeline.length}, photos: ${profile.media.length}, gaps noted: ${profile.gaps.length}, conflicts: ${profile.conflicts.length}`);
+    console.log(`  timeline events: ${profile.timeline.length}, gaps noted: ${profile.gaps.length}, conflicts: ${profile.conflicts.length}`);
   }
   return { identity, raw, profile };
 }

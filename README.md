@@ -4,8 +4,9 @@ Discover the documented history of New York City buildings, one address at a tim
 
 Search an address, tap a building on the map, or press **Near me** while walking. The app gathers
 public records about that building (construction, landmark designations, Department of Buildings
-filings, property documents, archival photos) and assembles them into a sourced timeline and a short
-written history. Every statement links to the record it came from, and the page says plainly what
+filings and property documents) and assembles them into a sourced timeline and a short
+written history. Every statement carries a numbered citation naming the source, agency, record and
+access date, with a link to the record, and the page says plainly what
 is unknown or where sources disagree.
 
 **Status (October 2026): working prototype.** Pilot area is Midtown Manhattan (23rd–59th Streets,
@@ -95,5 +96,5 @@ docs/                 decisions, data sources, data model, to-do list
 
 Data: NYC Open Data (Department of Buildings, Department of Finance/ACRIS, Landmarks Preservation
 Commission, Department of City Planning, Office of Technology & Innovation), NYC GeoSearch,
-Wikidata (CC0), Wikimedia Commons (per-image licences), Library of Congress.
+Library of Congress (linked). Community-edited wiki sources are deliberately not used.
 Map: © OpenStreetMap contributors, rendered with Leaflet.

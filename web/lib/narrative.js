@@ -1,7 +1,7 @@
 // Writes the readable "story" from a profile. Every sentence is built only
 // from facts already in the profile and carries footnote numbers back to
 // their sources. No AI model is used, so it costs nothing and cannot invent
-// anything. Claims from community sources (Wikidata) are labelled as such.
+// anything. Only official and archival sources are used (no wikis).
 // A later version can hand the same cited facts to an AI model for more
 // fluent prose; the citation structure stays the same.
 
@@ -16,7 +16,11 @@ export function writeNarrative(p) {
   const ref = cs => (cs || []).map(c => {
     const url = c.url || p.sources[c.source]?.url;
     let i = citations.findIndex(x => x.source === c.source && x.url === url);
-    if (i < 0) { citations.push({ source: c.source, url, label: p.sources[c.source]?.label, note: c.note }); i = citations.length - 1; }
+    if (i < 0) {
+      const src = p.sources[c.source] || {};
+      citations.push({ source: c.source, url, label: src.label, publisher: src.publisher, note: c.note, accessed: p.generated_at?.slice(0, 10) });
+      i = citations.length - 1;
+    }
     return i + 1;
   });
   const end = s => s.replace(/\.*$/, '.');
@@ -57,21 +61,9 @@ export function writeNarrative(p) {
   const recog = [];
   const desig = p.timeline.filter(e => e.category === 'landmark' && /^Designated|^Included/.test(e.title));
   for (const e of desig) recog.push(S(`On ${e.date_label}, the Landmarks Preservation Commission ${e.title.replace(/^Designated a/, 'designated it a').replace(/^Included in/, 'included it in')}.`, e.cite));
-  const listed = p.timeline.filter(e => e.category === 'landmark' && /^Listed:/.test(e.title));
-  if (listed.length) {
-    recog.push(S(`Wikidata also records these listings: ${list(listed.map(e => `${e.title.replace('Listed: ', '').replace(/ listed place$/, '')}${e.date ? ` (${e.date_label})` : ''}`))}.`, listed.flatMap(e => e.cite)));
-  }
   if (recog.length) paragraphs.push({ heading: 'Recognition', sentences: recog });
 
-  // 3. Events reported by community sources
-  const events = p.timeline.filter(e => e.certainty === 'reported' && ['event', 'construction'].includes(e.category));
-  if (events.length) {
-    paragraphs.push({ heading: 'Notable events (community-reported)', sentences: [
-      S(`Wikidata records these events: ${list(events.map(e => `${e.title.toLowerCase()} (${e.date_label})`))}. These are leads to verify, not official records.`, events.flatMap(e => e.cite)),
-    ] });
-  }
-
-  // 4. Later life: DOB records
+  // 3. Later life: DOB and property records
   const later = [];
   const t = p.dob?.totals;
   if (t && (t.jobs || t.violations)) {
@@ -96,6 +88,6 @@ export function writeNarrative(p) {
   return {
     paragraphs,
     citations,
-    method: 'Written automatically from the records cited. No AI model was used and nothing beyond the cited sources was added. Wikidata is community-edited.',
+    method: 'Written automatically from the records cited. No AI model was used and nothing beyond the cited sources was added.',
   };
 }

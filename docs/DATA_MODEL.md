@@ -4,11 +4,10 @@
 
 | ID | Means | Example (Empire State Building) | Who uses it |
 |---|---|---|---|
-| **BIN** | Building Identification Number: one per building | `1015862` | DOB, footprints, LPC building data, Wikidata (P6082) |
+| **BIN** | Building Identification Number: one per building | `1015862` | DOB, footprints, LPC building data |
 | **BBL** | Borough-Block-Lot: one per tax lot (borough 1 digit, block 5, lot 4) | `1008350041` = Manhattan, block 835, lot 41 | PLUTO, ACRIS, LPC sites |
 | **Address** | Many per building, spelled differently everywhere | 350 Fifth Ave / 338 5 Avenue / 338-350 Fifth Ave | everyone, inconsistently |
 | **LP number** | Landmark designation | `LP-02000` (exterior), `LP-02001` (interior) | LPC |
-| **Wikidata QID** | Wikidata item | `Q9188` | Wikidata, Commons |
 
 A lot can hold several buildings (several BINs, one BBL). A large building can sit on a lot shared
 with others. Condominiums split one building into many unit lots (75xx billing lot plus unit lots).
@@ -40,24 +39,24 @@ Produced by `buildProfile(identity, raw)`. Saved copies live in `web/data/buildi
 
 ```
 title, address                      display name and best address
-identity { bin, bbl, pluto_bbl, borough, block, lot, lat, lng, condo, wikidata, wikipedia }
+identity { bin, bbl, pluto_bbl, borough, block, lot, lat, lng, condo }
 geometry                            GeoJSON footprint
 match_log [ { step, source, detail } ]
 addresses [ { address, normalized, sources[] } ]
 facts     [ { key, label, value, cite[] } ]
 timeline  [ { date (ISO or null), precision, date_label, category, certainty, title, detail, cite[] } ]
             category: construction | alteration | demolition | landmark | ownership | occupancy | event
-            certainty: documented | recorded | reported
+            certainty: documented | recorded
 conflicts [ { field, values [ { value, source } ], note } ]
 gaps      [ text ]                  what is missing or unknown, in plain English
 dob       { totals, first_filing, by_decade[] }
 ownership { deeds[], documents_by_class, earliest_document, total_documents, lot }
-media     [ { title, thumb, full, page, date, year, historic, description, artist, license, license_url } ]
 reports   [ { label, url } ]        LPC designation reports
 research_links [ { group, label, url, note } ]
 sources   { key: { label, publisher, url, license, caution } }
 source_status [ { key, ok, count, error, retrieved_at } ]
 narrative { paragraphs [ { heading, sentences [ { text, refs[] } ] } ], citations[], method }
+            citation: { source, label, publisher, note (record ID), url, accessed }
 ```
 
 `cite` = `{ source, url?, note? }`. `url` points at the specific record when one exists (an ACRIS
@@ -92,7 +91,7 @@ create index on building_address (normalized);
 -- Layer 1: raw source records, stored exactly as received
 create table source_record (
   id             bigserial primary key,
-  source         text not null,             -- 'dob_jobs', 'acris_master', 'wikidata', ...
+  source         text not null,             -- 'dob_jobs', 'acris_master', 'lpc_buildings', ...
   source_id      text,                      -- the source's own ID (job number, document_id, QID)
   bin            text,
   bbl            text,
@@ -112,7 +111,7 @@ create table event (
   date_precision text check (date_precision in ('day','month','year','range','unknown')),
   date_label     text,
   category       text not null,
-  certainty      text not null check (certainty in ('documented','recorded','reported','curated')),
+  certainty      text not null check (certainty in ('documented','recorded','curated')),
   title          text not null,
   detail         text,
   added_by       text default 'pipeline'    -- 'pipeline' or a person's name for hand research

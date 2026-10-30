@@ -22,8 +22,6 @@ export const MAP_START = { lat: 40.7527, lng: -73.9840, zoom: 15 };
 
 export const GEOSEARCH = 'https://geosearch.planninglabs.nyc/v2';
 export const SOCRATA = 'https://data.cityofnewyork.us/resource';
-export const WIKIDATA_SPARQL = 'https://query.wikidata.org/sparql';
-export const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
 
 // NYC Open Data dataset IDs (all verified reachable 2026-10-27).
 export const DATASETS = {

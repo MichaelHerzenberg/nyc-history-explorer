@@ -90,19 +90,13 @@ ol.timeline li { position: relative; padding: 0 0 14px 12px; }
 ol.timeline li::before { content: ""; position: absolute; left: -23px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--muted); }
 ol.timeline li.documented::before { border-color: var(--doc); background: var(--doc); }
 ol.timeline li.recorded::before { border-color: var(--rec); }
-ol.timeline li.reported::before { border-color: var(--rep); border-style: dashed; }
 .tl-date { font-weight: 700; font-size: 13px; }
 .tl-title { font-weight: 600; }
 .tl-detail { font-size: 13.5px; color: var(--muted); }
 .cert { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
-.cert.documented { color: var(--doc); } .cert.recorded { color: var(--rec); } .cert.reported { color: var(--rep); }
+.cert.documented { color: var(--doc); } .cert.recorded { color: var(--rec); }
 .legend { font-size: 12.5px; color: var(--muted); margin: 0 0 10px; }
 
-.photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-.photo { margin: 0; }
-.photo img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; background: var(--chip); display: block; }
-.photo figcaption { font-size: 11.5px; color: var(--muted); line-height: 1.35; margin-top: 4px; word-break: break-word; }
-.photo .old { color: var(--accent); font-weight: 700; }
 
 .notice { background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; padding: 10px 12px; margin: 8px 0; font-size: 14px; }
 ul.plain { padding-left: 18px; margin: 6px 0; }

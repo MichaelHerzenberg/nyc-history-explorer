@@ -84,7 +84,7 @@ test('every timeline event, fact and story sentence is cited', () => {
   for (const e of p.timeline) {
     assert.ok(e.cite.length > 0, `uncited event: ${e.title}`);
     for (const c of e.cite) assert.ok(SOURCES[c.source], `unknown source ${c.source}`);
-    assert.ok(['documented', 'recorded', 'reported'].includes(e.certainty));
+    assert.ok(['documented', 'recorded'].includes(e.certainty));
   }
   for (const f of p.facts) assert.ok(f.cite.length > 0, `uncited fact: ${f.label}`);
   for (const para of p.narrative.paragraphs) {
@@ -126,21 +126,24 @@ test('a building with no records at all still produces an honest page', () => {
   assert.equal(p.narrative.paragraphs.length, 1);
 });
 
-test('architect names that share a surname are not treated as a conflict', () => {
-  const { identity, raw } = fixture();
-  raw.lpc_buildings.data[0].arch_build = 'Cram, Goodhue & Ferguson';
-  const rows = raw.wikidata.parts.claims.data.results.bindings;
-  const arch = rows.find(r => r.prop.value.endsWith('/P84'));
-  arch.valLabel.value = 'Ralph Adams Cram';
-  assert.ok(!buildProfile(identity, raw).conflicts.some(c => c.field === 'Architect'));
-  arch.valLabel.value = 'Frank Lloyd Wright';
-  assert.ok(buildProfile(identity, raw).conflicts.some(c => c.field === 'Architect'));
-  arch.valLabel.value = 'Q5083246'; // no English label: ignore, don't compare
-  assert.ok(!buildProfile(identity, raw).conflicts.some(c => c.field === 'Architect'));
-});
-
 test('a year inside the LPC construction range is not a conflict', () => {
   const { identity, raw } = fixture();
   raw.pluto.data[0].yearbuilt = '1930';
   assert.equal(buildProfile(identity, raw).conflicts.length, 0);
+});
+
+test('no wiki sources are used anywhere (owner decision, Oct 2026)', () => {
+  const { identity, raw } = fixture();
+  const json = JSON.stringify(buildProfile(identity, raw)).toLowerCase();
+  for (const w of ['wikidata', 'wikipedia', 'wikimedia']) assert.ok(!json.includes(w), `found ${w}`);
+});
+
+test('citations name the source, publisher, record and access date', () => {
+  const { identity, raw } = fixture();
+  const p = buildProfile(identity, raw, { now: new Date('2026-10-30T12:00:00Z') });
+  const c = p.narrative.citations.find(x => x.url === 'https://s-media.nyc.gov/agencies/lpc/lp/2000.pdf');
+  assert.ok(c, 'LPC report cited');
+  assert.equal(c.publisher, 'NYC Landmarks Preservation Commission');
+  assert.equal(c.accessed, '2026-10-30');
+  for (const x of p.narrative.citations) assert.ok(x.label && x.publisher && x.url, JSON.stringify(x));
 });

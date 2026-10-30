@@ -1,5 +1,5 @@
 // Turns raw source records (from sources.js) into one building profile:
-// facts, a dated timeline, ownership, DOB activity, photos, conflicts and
+// facts, a dated timeline, ownership, DOB activity, conflicts and
 // gaps. Pure function: no network, so it can be tested offline against
 // saved fixtures. Every fact and event carries `cite` entries pointing at the
 // record it came from. Nothing is invented: when a source is silent, the
@@ -28,8 +28,6 @@ export const SOURCES = {
   ecb_violations: { label: 'DOB ECB Violations', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.ecbViolations), license: NYC_TERMS },
   dob_complaints: { label: 'DOB Complaints Received', publisher: 'NYC Dept. of Buildings', url: OD(DATASETS.dobComplaints), license: NYC_TERMS },
   acris: { label: 'ACRIS property records (City Register)', publisher: 'NYC Dept. of Finance', url: OD(DATASETS.acrisMaster), license: NYC_TERMS },
-  wikidata: { label: 'Wikidata', publisher: 'Wikimedia community', url: 'https://www.wikidata.org/', license: 'CC0 public domain', caution: 'Community-edited: useful leads, but not an official record.' },
-  commons: { label: 'Wikimedia Commons', publisher: 'Wikimedia community', url: 'https://commons.wikimedia.org/', license: 'Per-image licence shown with each photo' },
 };
 
 // Labels for PLUTO building-class first letters (subset; full list from DCP).
@@ -67,7 +65,6 @@ export function isoDate(v) {
 const yearOf = d => (d ? Number(String(d).slice(0, 4)) : null);
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-// Wikidata precision: 9 = year, 10 = month, 11 = day.
 export function formatDate(iso, precision = 'day') {
   if (!iso) return 'Undated';
   const [y, m, d] = iso.split('-');
@@ -75,7 +72,6 @@ export function formatDate(iso, precision = 'day') {
   if (precision === 'month') return `${MONTHS[Number(m) - 1]} ${Number(y)}`;
   return `${MONTHS[Number(m) - 1]} ${Number(d)}, ${Number(y)}`;
 }
-const wdPrecision = p => ({ 9: 'year', 10: 'month', 11: 'day' }[Number(p)] || 'day');
 
 const lpReportURL = lp => {
   const n = String(lp || '').match(/(\d+)/);
@@ -96,7 +92,6 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   const pluto = rows(raw.pluto)[0] || null;
   const lpcB = rows(raw.lpc_buildings)[0] || null;
   const desig = rows(raw.lpc_designations);
-  const wd = parseWikidata(raw.wikidata);
 
   const facts = [];
   const timeline = [];
@@ -104,7 +99,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   const gaps = [];
 
   const name = lpcB?.build_nme && !blank(lpcB.build_nme) ? lpcB.build_nme
-    : fp?.name || wd.item?.label || desig.find(d => d.bin_number === bin)?.lm_name || null;
+    : fp?.name || desig.find(d => d.bin_number === bin)?.lm_name || null;
 
   // ---- addresses: every spelling, grouped by normalised form
   const addrMap = new Map();
@@ -134,8 +129,6 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   }
   if (fp && !blank(fp.construction_year)) built.push({ source: 'footprints', value: fp.construction_year, year: Number(fp.construction_year), url: recURL(raw.footprint) });
   if (pluto && !blank(pluto.yearbuilt)) built.push({ source: 'pluto', value: pluto.yearbuilt, year: Number(pluto.yearbuilt), url: recURL(raw.pluto) });
-  for (const c of wd.claims.P1619 || []) built.push({ source: 'wikidata', value: `opened ${formatDate(c.date, c.precision)}`, year: yearOf(c.date), url: wd.item?.url });
-  for (const c of wd.claims.P571 || []) built.push({ source: 'wikidata', value: `inception ${formatDate(c.date, c.precision)}`, year: yearOf(c.date), url: wd.item?.url });
   if (built.length) {
     facts.push({ key: 'built', label: 'Built', value: built[0].value + (built[0].circa ? ' (circa)' : ''), cite: built.map(b => cite(b.source, b.url, b.value)) });
     // Agree = within a year of the LPC's researched range, or (without LPC)
@@ -163,16 +156,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   } else {
     gaps.push('No construction date was found in any source.');
   }
-  const wdConstruction = (wd.claims.P793 || []).filter(c => /construction|groundbreaking|opening/i.test(c.label));
-  for (const c of wdConstruction) {
-    const d = c.pit || c.start;
-    if (!d) continue;
-    timeline.push({ date: d.date, precision: d.precision, date_label: formatDate(d.date, d.precision),
-      category: 'construction', certainty: 'reported', title: capital(c.label) + (c.start && !c.pit ? ' began' : ''),
-      detail: '', cite: [cite('wikidata', wd.item?.url, c.label)] });
-  }
-
-  // ---- architecture and use (LPC survey is the authority; Wikidata as corroboration)
+  // ---- architecture and use (from the LPC's researched building survey)
   if (lpcB) {
     const arch = lpcB.arch_build;
     if (!blank(arch)) facts.push({ key: 'architect', label: 'Architect', value: arch, cite: [cite('lpc_buildings', recURL(raw.lpc_buildings))] });
@@ -195,18 +179,6 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   } else {
     gaps.push('Not in the Landmarks Preservation Commission’s building survey, so the city has no researched architect, style or original-owner data for it.');
   }
-  const wdArch = (wd.claims.P84 || []).map(c => c.label).filter(hasLabel);
-  const lpcArch = blank(lpcB?.arch_build) ? '' : lpcB.arch_build;
-  if (wdArch.length) {
-    // Agree when they share a surname ("Cram, Goodhue & Ferguson" vs "Ralph Adams Cram").
-    const lpcNames = nameTokens(lpcArch);
-    const agrees = wdArch.some(a => [...nameTokens(a)].some(t => lpcNames.has(t)));
-    if (!lpcArch) facts.push({ key: 'architect', label: 'Architect', value: wdArch.join(', '), cite: [cite('wikidata', wd.item?.url)] });
-    else if (agrees) facts.find(f => f.key === 'architect')?.cite.push(cite('wikidata', wd.item?.url, wdArch.join(', ')));
-    else conflicts.push({ field: 'Architect', values: [{ value: lpcArch, source: 'lpc_buildings' }, { value: wdArch.join(', '), source: 'wikidata' }] });
-  }
-  for (const c of (wd.claims.P631 || []).filter(c => hasLabel(c.label))) facts.push({ key: 'engineer', label: 'Structural engineer', value: c.label, cite: [cite('wikidata', wd.item?.url)] });
-  if (!lpcB?.style_prim) for (const c of wd.claims.P149 || []) facts.push({ key: 'style', label: 'Style', value: c.label, cite: [cite('wikidata', wd.item?.url)] });
 
   // ---- physical / tax-lot facts
   if (pluto) {
@@ -260,43 +232,14 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
   if (lotOthers.length) {
     gaps.push(`Landmark records on this tax lot also mention another building (BIN ${[...new Set(lotOthers.map(d => d.bin_number))].join(', ')}); those are not shown as this building's history.`);
   }
-  // Other heritage registers (from Wikidata). NYC designations already come from LPC.
-  for (const c of (wd.claims.P1435 || []).filter(c => hasLabel(c.label))) {
-    if (/New York City (Landmark|interior)/i.test(c.label)) {
-      const same = timeline.filter(e => e.category === 'landmark' && /Designated/.test(e.title) && c.start && e.date === c.start.date);
-      const ev = same.find(e => (/interior/i.test(c.label) ? /Interior/ : /Individual/).test(e.title)) || same[0];
-      if (ev) ev.cite.push(cite('wikidata', wd.item?.url, c.label));
-      continue;
-    }
-    const d = c.start;
-    timeline.push({ date: d?.date || null, precision: d?.precision || 'day', date_label: d ? formatDate(d.date, d.precision) : 'Date not recorded',
-      category: 'landmark', certainty: 'reported', title: `Listed: ${c.label}`, detail: '',
-      cite: [cite('wikidata', wd.item?.url, c.label)] });
-  }
-  for (const c of wd.claims.P649 || []) facts.push({ key: 'nrhp', label: 'National Register no.', value: c.label, cite: [cite('wikidata', wd.item?.url)] });
-
-  // ---- other notable events (Wikidata)
-  for (const c of (wd.claims.P793 || []).filter(c => !wdConstruction.includes(c) && hasLabel(c.label))) {
-    const d = c.pit || c.start;
-    timeline.push({ date: d?.date || null, precision: d?.precision || 'day', date_label: d ? formatDate(d.date, d.precision) : 'Date not recorded',
-      category: 'event', certainty: 'reported', title: capital(c.label),
-      detail: 'Listed as a significant event on Wikidata. Check the linked item for details and references.',
-      cite: [cite('wikidata', wd.item?.url, c.label)] });
-  }
-  for (const c of wd.claims.P576 || []) {
-    timeline.push({ date: c.date, precision: c.precision, date_label: formatDate(c.date, c.precision), category: 'demolition', certainty: 'reported',
-      title: 'Demolished or dissolved', detail: '', cite: [cite('wikidata', wd.item?.url)] });
-  }
-
   // ---- DOB
   const dob = summariseDOB(raw, timeline, gaps);
 
   // ---- ACRIS ownership
   const ownership = summariseACRIS(raw, timeline, gaps, lot, bbl);
 
-  // ---- photos
-  const media = parseCommons(raw.commons);
-  if (!media.length) gaps.push('No openly licensed photographs are linked to this building yet (via Wikidata / Wikimedia Commons). Try the NYPL and newspaper links under “Dig deeper”.');
+  // ---- photos: none gathered automatically yet (see docs/TODO.md)
+  gaps.push('Historical photographs are not gathered automatically yet. Try the NYPL and newspaper links under “Dig deeper”.');
 
   // ---- standing gaps that apply to every building
   gaps.push('Past occupants and businesses: no open city dataset lists them. City directories (NYPL) and newspapers are the likely sources; not yet automated.');
@@ -315,14 +258,13 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
     identity: {
       bin, bbl, pluto_bbl: identity.plutoBBL || bbl, borough: lot?.borough, block: lot?.block, lot: lot?.lot,
       lat: identity.lat, lng: identity.lng, condo: isCondoBillingLot(bbl) || isCondoBillingLot(identity.plutoBBL),
-      wikidata: wd.item?.url || null, wikipedia: wd.item?.article || null,
     },
     geometry: identity.geometry || fp?.the_geom || null,
     match_log: identity.match_log || [],
     addresses, facts, timeline, conflicts, gaps,
-    dob, ownership, media,
+    dob, ownership,
     reports,
-    research_links: researchLinks({ bin, lot, name, addresses, wd, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
+    research_links: researchLinks({ bin, lot, name, addresses, builtYear: built.find(b => b.source === 'lpc_buildings')?.from || built[0]?.year }),
     sources: SOURCES,
     source_status,
   };
@@ -336,39 +278,7 @@ export function buildProfile(identity, raw, { now = new Date() } = {}) {
 const ADDR_PRIORITY = { geosearch: 4, lpc_buildings: 3, dob_jobs: 1, lpc_designations: 1, pluto: 1, acris: 1 };
 const addrScore = a => a.sources.reduce((s, x) => s + (ADDR_PRIORITY[x] || 1), 0);
 
-// Wikidata returns the bare ID (e.g. "Q5083246") when an item has no English label.
-const hasLabel = l => !/^Q\d+$/.test(String(l || ''));
-const NAME_STOP = new Set(['and', 'the', 'associates', 'architect', 'architects', 'engineer', 'company', 'inc', 'firm', 'partners', 'with']);
-const nameTokens = s => new Set(String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-  .split(/[^a-z]+/).filter(t => t.length >= 4 && !NAME_STOP.has(t)));
-
 const capital = s => String(s || '').replace(/^./, c => c.toUpperCase());
-
-// ---------------------------------------------------------------- Wikidata
-
-function parseWikidata(rec) {
-  const out = { item: null, claims: {} };
-  const items = rec?.parts?.items?.data?.results?.bindings || [];
-  if (items.length) {
-    const b = items[0];
-    out.item = { qid: b.item.value.split('/').pop(), url: b.item.value.replace('http://', 'https://'), label: b.itemLabel?.value, description: b.itemDescription?.value, article: b.article?.value || null };
-  }
-  const seen = new Set();
-  for (const b of rec?.parts?.claims?.data?.results?.bindings || []) {
-    const p = b.prop.value.split('/').pop();
-    const val = b.val.value;
-    const key = `${p}|${val}|${b.pit?.value || ''}|${b.start?.value || ''}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    const date = /^\+?\d{4}-\d\d-\d\dT/.test(val) ? isoDate(val) : null;
-    const asDate = v => (v ? { date: isoDate(v.value), precision: /-01-01T/.test(v.value) ? 'year' : 'day' } : null);
-    (out.claims[p] ||= []).push({
-      value: val, label: b.valLabel?.value || val, date, precision: wdPrecision(b.prec?.value),
-      pit: asDate(b.pit), start: asDate(b.start), end: asDate(b.end),
-    });
-  }
-  return out;
-}
 
 // ---------------------------------------------------------------- DOB
 
@@ -502,58 +412,23 @@ function summariseACRIS(raw, timeline, gaps, lot, bbl) {
   return { deeds, documents_by_class: by_class, earliest_document: earliest, total_documents: seen.size, lot: lot ? `Borough ${lot.borough}, Block ${lot.block}, Lot ${lot.lot}` : bbl };
 }
 
-// ---------------------------------------------------------------- Commons
-
-function parseCommons(rec) {
-  const p = rec?.parts || {};
-  const groups = [['lead', p.lead], ...(p.historic || []).map(h => ['historic', h]), ['category', p.category]];
-  const out = [];
-  const seen = new Set();
-  for (const [group, r] of groups) {
-    const pages = Object.values(r?.data?.query?.pages || {});
-    for (const pg of pages) {
-      const ii = pg.imageinfo?.[0];
-      if (!ii?.thumburl || seen.has(pg.title)) continue;
-      if (!/\.(jpe?g|png|gif|tiff?|webp)$/i.test(pg.title)) continue;
-      const m = ii.extmetadata || {};
-      if (m.NonFree?.value === 'true') continue;
-      seen.add(pg.title);
-      const dateText = stripHTML(m.DateTimeOriginal?.value || '').replace(/\s*date QS:\S+/g, '').replace(/\s*\(according to Exif data\)/i, '').trim();
-      const year = Number(dateText.match(/\b(1[6-9]\d\d|20\d\d)\b/)?.[1]) || null;
-      out.push({
-        title: pg.title.replace(/^File:/, '').replace(/\.[a-z]+$/i, ''),
-        thumb: ii.thumburl, full: ii.url, page: ii.descriptionurl,
-        date: dateText || null, year, historic: !!year && year < 1980,
-        description: stripHTML(m.ImageDescription?.value || '').slice(0, 240),
-        artist: stripHTML(m.Artist?.value || '') || null,
-        license: m.LicenseShortName?.value || 'See file page', license_url: m.LicenseUrl?.value || null,
-        group,
-      });
-    }
-  }
-  const order = { lead: 0, historic: 1, category: 2 };
-  return out.sort((a, b) => order[a.group] - order[b.group] || (a.historic === b.historic ? (a.year || 9999) - (b.year || 9999) : a.historic ? -1 : 1)).slice(0, 18);
-}
-
 // ---------------------------------------------------------------- misc
 
 function sourceStatus(raw) {
   const list = [
     ['footprint', 'footprints'], ['pluto', 'pluto'], ['lpc_buildings', 'lpc_buildings'], ['lpc_designations', 'lpc_designations'],
     ['dob_jobs_all', 'dob_jobs'], ['dob_now_jobs', 'dob_now'], ['dob_co', 'dob_co'], ['dob_violations', 'dob_violations'],
-    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'], ['wikidata', 'wikidata'], ['commons', 'commons'],
+    ['ecb_violations', 'ecb_violations'], ['dob_complaints', 'dob_complaints'], ['acris', 'acris'],
   ];
   return list.filter(([k]) => raw[k]).map(([k, src]) => {
     const r = raw[k];
     let count = Array.isArray(r.data) ? r.data.length : null;
     if (k === 'acris') count = rows(r.parts?.master).length;
-    if (k === 'wikidata') count = r.parts?.items?.data?.results?.bindings?.length ?? 0;
-    if (k === 'commons') count = parseCommons(r).length;
     return { key: k, source: src, label: SOURCES[src].label, ok: !!r.ok, count, error: r.ok ? null : r.error, retrieved_at: r.retrieved_at };
   });
 }
 
-function researchLinks({ bin, lot, name, addresses, wd, builtYear }) {
+function researchLinks({ bin, lot, name, addresses, builtYear }) {
   const links = [];
   const addr = addresses[0]?.address;
   const from = builtYear ? Math.max(1777, builtYear - 5) : 1880;
@@ -561,10 +436,6 @@ function researchLinks({ bin, lot, name, addresses, wd, builtYear }) {
   if (name) links.push({ group: 'Newspapers', label: `Historic newspapers mentioning “${name}”`, url: loc(name), note: 'Library of Congress, Chronicling America (public domain papers to 1963)' });
   if (addr) links.push({ group: 'Newspapers', label: `Historic newspapers mentioning “${addr}”`, url: loc(addr), note: 'Address searches also catch ads and notices' });
   links.push({ group: 'Photos & documents', label: 'NYPL Digital Collections', url: `https://digitalcollections.nypl.org/search/index?${new URLSearchParams({ keywords: name || addr || '' })}`, note: 'Photographs, maps and prints; many are public domain' });
-  if (wd.item?.article) links.push({ group: 'Background', label: 'Wikipedia article', url: wd.item.article, note: 'Community-written summary with its own references' });
-  if (wd.item) links.push({ group: 'Background', label: `Wikidata item ${wd.item.qid}`, url: wd.item.url, note: 'Structured facts and identifiers' });
-  const cat = wd.claims.P373?.[0]?.value;
-  if (cat) links.push({ group: 'Photos & documents', label: 'All images on Wikimedia Commons', url: `https://commons.wikimedia.org/wiki/Category:${encodeURIComponent(cat.replace(/ /g, '_'))}`, note: 'Freely licensed images' });
   if (bin) links.push({ group: 'City records', label: 'DOB Building Information System', url: `https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=${bin}`, note: 'Full DOB file, including scanned older certificates of occupancy' });
   if (lot) {
     links.push({ group: 'City records', label: 'ACRIS document search', url: 'https://a836-acris.nyc.gov/DS/DocumentSearch/BBL', note: `Enter Borough ${lot.borough}, Block ${lot.block}, Lot ${lot.lot}` });

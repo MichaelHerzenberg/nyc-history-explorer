@@ -5,7 +5,8 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
 ## Done in v0.1 (2026-10-27)
 - ✅ Verified the core public sources from a live server (see `DATA_SOURCES.md`)
 - ✅ Address/click/near-me → BIN + BBL matching, with a visible match log
-- ✅ Empire State Building proof of concept: DOB, ACRIS, LPC, PLUTO, footprints, Wikidata, Commons
+- ✅ Empire State Building proof of concept: DOB, ACRIS, LPC, PLUTO, footprints
+- ✅ Wiki sources removed; full citations shown (2026-10-30)
 - ✅ Sourced timeline, key facts, conflicts, gaps, cited story, research links
 - ✅ Map: pilot outline, landmark dots, clickable footprints at street zoom, highlight
 - ✅ Offline tests (13), live tests (5), pilot reliability script and report
@@ -14,8 +15,8 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
 ## Next
 1. ⬜ **Publish**: create the GitHub repository, push, turn on Pages (steps in README). *Owner action needed.*
 2. ⬜ **Test on a real phone in Midtown**: "Near me" accuracy between tall buildings; whether
-   Library of Congress search works from a phone browser; photo loading.
-3. ⬜ **1940s tax photos** (NYC Municipal Archives): find a stable per-lot image or page URL and
+   Library of Congress search works from a phone browser.
+3. ⬜ **Photos (none at present)** from the 1940s tax photos (NYC Municipal Archives): find a stable per-lot image or page URL and
    confirm terms. This is likely the best single source of historic photos for every building.
 4. ⬜ **NYPL API**: request the free token; use it in the snapshot script (not the public site) for
    public-domain photos and **city directories** (past occupants and businesses, the biggest gap).
@@ -23,7 +24,7 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
    automatically for landmarks, clearly labelled as keyword matches.
 6. ⬜ **Condos**: follow unit lots in ACRIS so condo sales show up (currently only the billing lot).
 7. ⬜ **Demolished / historic buildings**: retired BINs and old addresses (e.g. the Waldorf-Astoria
-   that stood on the ESB site). Needs LPC/Wikidata "replaces" links and historic address search.
+   that stood on the ESB site). Needs LPC research links and historic address search.
 8. 🟡 **Pilot expansion**: all 250 designated landmarks in the pilot assemble (see `pilot-report.md`).
    Non-landmark buildings work live but have thinner records. Consider snapshots for the pilot
    landmarks if live loading proves slow.
@@ -36,8 +37,6 @@ In rough priority order. ✅ = done, ⬜ = not started, 🟡 = partly done.
     ready in `DATA_MODEL.md`.
 
 ## Known issues
-- Wikidata "significant event" labels are generic ("aviation accident"). The detail lives on
-  Wikidata or Wikipedia, which the page links to.
 - DOB descriptions are shown as filed (abbreviations and typos included).
 - Some LPC report URLs are inferred from the LP number. Spot-checked, but not every one has been
   tested.

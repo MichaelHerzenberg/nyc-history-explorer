@@ -238,7 +238,7 @@ function showIntro() {
   document.title = 'NYC History Explorer';
   show(h('div', { class: 'intro' },
     h('h1', {}, 'The history of New York, one building at a time'),
-    h('p', {}, 'Search an address, tap a building on the map, or use “Near me” while you walk. We gather city records, landmark reports, property documents and archival photos, and assemble them into a sourced timeline.'),
+    h('p', {}, 'Search an address, tap a building on the map, or use “Near me” while you walk. We gather official city records, landmark reports and property documents, and assemble them into a sourced timeline with full citations.'),
     h('div', { class: 'try' },
       h('button', { class: 'btn', onclick: () => go({ bin: '1015862' }) }, 'Try the Empire State Building'),
       h('button', { class: 'btn btn-quiet', onclick: () => go({ bin: '1022581' }) }, 'One Times Square')),
@@ -246,15 +246,15 @@ function showIntro() {
     h('div', { class: 'method' }, 'How to read this site: every statement links to its source. ',
       h('b', {}, 'Documented'), ' = official record or landmark research. ',
       h('b', {}, 'Recorded'), ' = administrative city data (often approximate). ',
-      h('b', {}, 'Reported'), ' = community sources such as Wikidata, to be verified.'),
+      'Community-edited sites such as Wikipedia are not used.'),
   ));
 }
 
 // ---------------------------------------------------------------- building page
-const CERT = { documented: 'Documented', recorded: 'Recorded', reported: 'Reported' };
+const CERT = { documented: 'Documented', recorded: 'Recorded' };
 const FILTERS = [
   ['all', 'All'], ['building', 'Building & alterations'], ['landmark', 'Landmark'],
-  ['ownership', 'Ownership'], ['occupancy', 'Occupancy'], ['event', 'Events'],
+  ['ownership', 'Ownership'], ['occupancy', 'Occupancy'],
 ];
 const filterOf = c => (['construction', 'alteration', 'demolition'].includes(c) ? 'building' : c);
 
@@ -281,19 +281,10 @@ function renderProfile(p, raw, warning) {
       h('p', {}, para.sentences.map(s => [s.text, s.refs.map(fnLink), ' '])),
     ]),
     h('p', { class: 'method' }, p.narrative.method),
-    h('details', {}, h('summary', {}, `Footnotes (${p.narrative.citations.length})`),
-      h('ol', { class: 'citations' }, p.narrative.citations.map((c, i) => h('li', { id: `cite-${i + 1}` },
-        ext(c.url, c.label || c.source), c.note ? ` (${c.note})` : '')))));
-
-  // Photos
-  const photos = p.media.length ? h('section', { class: 'block' }, h('h2', {}, 'Photographs'),
-    h('div', { class: 'photos' }, p.media.map(m => h('figure', { class: 'photo' },
-      ext(m.page, h('img', { src: m.thumb, alt: m.description || m.title, loading: 'lazy' })),
-      h('figcaption', {},
-        m.historic ? h('span', { class: 'old' }, `${m.year} · `) : null,
-        m.title, h('br'),
-        m.artist ? `${m.artist} · ` : '', m.license_url ? ext(m.license_url, m.license) : m.license, ' · ', ext(m.page, 'Commons'))))),
-    h('p', { class: 'src' }, 'Freely licensed images from Wikimedia Commons, matched to this building through Wikidata. Credit and licence are shown for each.')) : null;
+    h('h3', {}, `Citations (${p.narrative.citations.length})`),
+    h('ol', { class: 'citations' }, p.narrative.citations.map((c, i) => h('li', { id: `cite-${i + 1}` },
+      h('b', {}, c.label || c.source), c.publisher ? `, ${c.publisher}` : '', c.note ? `. ${c.note}` : '',
+      c.accessed ? `. Accessed ${c.accessed}. ` : '. ', ext(c.url, c.url)))));
 
   // Timeline with filters
   const tl = h('ol', { class: 'timeline' });
@@ -311,7 +302,7 @@ function renderProfile(p, raw, warning) {
     }, label)));
   renderTL('all');
   const timeline = h('section', { class: 'block' }, h('h2', {}, `Timeline (${p.timeline.length})`),
-    h('p', { class: 'legend' }, '● Documented: official record   ○ Recorded: administrative data   ◌ Reported: community source, verify'),
+    h('p', { class: 'legend' }, '● Documented: official record   ○ Recorded: administrative data (often approximate)'),
     chips, p.timeline.length ? tl : h('p', {}, 'No dated events were found in the available records.'));
 
   // Facts
@@ -380,7 +371,7 @@ function renderProfile(p, raw, warning) {
     h('h1', { class: 'bname' }, p.title),
     p.title !== p.address ? h('p', { class: 'addr' }, p.address, ', Manhattan') : null,
     h('div', { class: 'badges' }, badges),
-    story, photos, timeline, facts, unknowns, records, deeper, how,
+    story, timeline, facts, unknowns, records, deeper, how,
   );
 }
 
